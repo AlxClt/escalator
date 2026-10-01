@@ -10,7 +10,7 @@ The head articfact is one plot, at the top of the README, with at least four poi
 
 ### Objective
 
-On a pinned 200-task subset of BIRD Mini-Dev, an escalation policy that runs a self-hosted small model first and escalates to a frontier model on an uncertainty signal achieves execution accuracy within X points of frontier-only at Y× lower cost per solved task.
+On a pinned 200-task subset of Arcwise-Plat-Full (corrected version of BIRD Mini-Dev), an escalation policy that runs a self-hosted small model first and escalates to a frontier model on an uncertainty signal achieves execution accuracy within X points of frontier-only at Y× lower cost per solved task.
 
 The project succeeds if X and Y are measured with confidence intervals and the escalation signal's discriminative power is reported honestly, including the case where it turns out to be weak. A negative result, well measured, is a publishable portfolio outcome. A positive result with no CI is not.
 
