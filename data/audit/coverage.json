@@ -1,0 +1,55 @@
+{
+  "minidev_duplicate_ids": [
+    "137",
+    "138"
+  ],
+  "platfull_count": 498,
+  "difficulty_by_db": {
+    "challenging": {
+      "california_schools": 5,
+      "card_games": 6,
+      "codebase_community": 5,
+      "debit_card_specializing": 4,
+      "european_football_2": 12,
+      "financial": 7,
+      "formula_1": 12,
+      "student_club": 5,
+      "superhero": 12,
+      "thrombosis_prediction": 16,
+      "toxicology": 18
+    },
+    "moderate": {
+      "california_schools": 17,
+      "card_games": 33,
+      "codebase_community": 23,
+      "debit_card_specializing": 12,
+      "european_football_2": 25,
+      "financial": 20,
+      "formula_1": 26,
+      "student_club": 22,
+      "superhero": 26,
+      "thrombosis_prediction": 27,
+      "toxicology": 17
+    },
+    "simple": {
+      "california_schools": 8,
+      "card_games": 13,
+      "codebase_community": 21,
+      "debit_card_specializing": 14,
+      "european_football_2": 14,
+      "financial": 3,
+      "formula_1": 28,
+      "student_club": 21,
+      "superhero": 14,
+      "thrombosis_prediction": 7,
+      "toxicology": 5
+    }
+  },
+  "difficulty_totals": {
+    "challenging": 102,
+    "moderate": 248,
+    "simple": 148
+  },
+  "platfull_records_with_difficulty": 0,
+  "difficulty_disagreements": []
+}

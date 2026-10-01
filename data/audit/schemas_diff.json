@@ -1,0 +1,448 @@
+{
+  "counts": {
+    "differs": 58,
+    "identical": 17
+  },
+  "databases": {
+    "california_schools": {
+      "frpm": {
+        "class": "differs",
+        "rows_bird": 29,
+        "rows_arcwise": 29,
+        "changed_columns": [
+          "School Name"
+        ]
+      },
+      "satscores": {
+        "class": "differs",
+        "rows_bird": 11,
+        "rows_arcwise": 11,
+        "changed_columns": [
+          "rtype",
+          "sname"
+        ]
+      },
+      "schools": {
+        "class": "differs",
+        "rows_bird": 49,
+        "rows_arcwise": 49,
+        "changed_columns": [
+          "School"
+        ]
+      }
+    },
+    "card_games": {
+      "cards": {
+        "class": "differs",
+        "rows_bird": 74,
+        "rows_arcwise": 74,
+        "changed_columns": []
+      },
+      "foreign_data": {
+        "class": "differs",
+        "rows_bird": 8,
+        "rows_arcwise": 8,
+        "changed_columns": []
+      },
+      "legalities": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "rulings": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "set_translations": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": [
+          "language",
+          "translation"
+        ]
+      },
+      "sets": {
+        "class": "differs",
+        "rows_bird": 21,
+        "rows_arcwise": 21,
+        "changed_columns": []
+      }
+    },
+    "codebase_community": {
+      "badges": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "comments": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "posthistory": {
+        "class": "differs",
+        "rows_bird": 9,
+        "rows_arcwise": 9,
+        "changed_columns": []
+      },
+      "postlinks": {
+        "class": "identical"
+      },
+      "posts": {
+        "class": "differs",
+        "rows_bird": 21,
+        "rows_arcwise": 21,
+        "changed_columns": []
+      },
+      "tags": {
+        "class": "differs",
+        "rows_bird": 5,
+        "rows_arcwise": 5,
+        "changed_columns": []
+      },
+      "users": {
+        "class": "differs",
+        "rows_bird": 14,
+        "rows_arcwise": 14,
+        "changed_columns": []
+      },
+      "votes": {
+        "class": "identical"
+      }
+    },
+    "debit_card_specializing": {
+      "customers": {
+        "class": "differs",
+        "rows_bird": 3,
+        "rows_arcwise": 3,
+        "changed_columns": []
+      },
+      "gasstations": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "products": {
+        "class": "differs",
+        "rows_bird": 2,
+        "rows_arcwise": 2,
+        "changed_columns": []
+      },
+      "transactions_1k": {
+        "class": "differs",
+        "rows_bird": 9,
+        "rows_arcwise": 9,
+        "changed_columns": []
+      },
+      "yearmonth": {
+        "class": "differs",
+        "rows_bird": 3,
+        "rows_arcwise": 3,
+        "changed_columns": []
+      }
+    },
+    "european_football_2": {
+      "country": {
+        "class": "differs",
+        "rows_bird": 2,
+        "rows_arcwise": 2,
+        "changed_columns": []
+      },
+      "league": {
+        "class": "differs",
+        "rows_bird": 3,
+        "rows_arcwise": 3,
+        "changed_columns": []
+      },
+      "match": {
+        "class": "differs",
+        "rows_bird": 115,
+        "rows_arcwise": 115,
+        "changed_columns": []
+      },
+      "player": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "player_attributes": {
+        "class": "differs",
+        "rows_bird": 42,
+        "rows_arcwise": 42,
+        "changed_columns": []
+      },
+      "team": {
+        "class": "differs",
+        "rows_bird": 5,
+        "rows_arcwise": 5,
+        "changed_columns": []
+      },
+      "team_attributes": {
+        "class": "differs",
+        "rows_bird": 25,
+        "rows_arcwise": 25,
+        "changed_columns": []
+      }
+    },
+    "financial": {
+      "account": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "card": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "client": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "disp": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "district": {
+        "class": "differs",
+        "rows_bird": 16,
+        "rows_arcwise": 16,
+        "changed_columns": []
+      },
+      "loan": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "order": {
+        "class": "differs",
+        "rows_bird": 6,
+        "rows_arcwise": 6,
+        "changed_columns": []
+      },
+      "trans": {
+        "class": "differs",
+        "rows_bird": 10,
+        "rows_arcwise": 10,
+        "changed_columns": []
+      }
+    },
+    "formula_1": {
+      "circuits": {
+        "class": "differs",
+        "rows_bird": 9,
+        "rows_arcwise": 9,
+        "changed_columns": []
+      },
+      "constructorresults": {
+        "class": "differs",
+        "rows_bird": 5,
+        "rows_arcwise": 5,
+        "changed_columns": []
+      },
+      "constructors": {
+        "class": "differs",
+        "rows_bird": 6,
+        "rows_arcwise": 5,
+        "changed_columns": [
+          "url",
+          "wins"
+        ]
+      },
+      "constructorstandings": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "drivers": {
+        "class": "differs",
+        "rows_bird": 9,
+        "rows_arcwise": 9,
+        "changed_columns": []
+      },
+      "driverstandings": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "laptimes": {
+        "class": "differs",
+        "rows_bird": 6,
+        "rows_arcwise": 6,
+        "changed_columns": []
+      },
+      "pitstops": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "qualifying": {
+        "class": "differs",
+        "rows_bird": 9,
+        "rows_arcwise": 9,
+        "changed_columns": [
+          "qualifyId"
+        ]
+      },
+      "races": {
+        "class": "differs",
+        "rows_bird": 8,
+        "rows_arcwise": 8,
+        "changed_columns": []
+      },
+      "results": {
+        "class": "differs",
+        "rows_bird": 18,
+        "rows_arcwise": 18,
+        "changed_columns": []
+      },
+      "seasons": {
+        "class": "differs",
+        "rows_bird": 2,
+        "rows_arcwise": 2,
+        "changed_columns": []
+      },
+      "status": {
+        "class": "differs",
+        "rows_bird": 2,
+        "rows_arcwise": 2,
+        "changed_columns": []
+      }
+    },
+    "student_club": {
+      "attendance": {
+        "class": "differs",
+        "rows_bird": 2,
+        "rows_arcwise": 2,
+        "changed_columns": []
+      },
+      "budget": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "event": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "expense": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      },
+      "income": {
+        "class": "differs",
+        "rows_bird": 6,
+        "rows_arcwise": 6,
+        "changed_columns": []
+      },
+      "major": {
+        "class": "differs",
+        "rows_bird": 4,
+        "rows_arcwise": 4,
+        "changed_columns": []
+      },
+      "member": {
+        "class": "differs",
+        "rows_bird": 9,
+        "rows_arcwise": 9,
+        "changed_columns": []
+      },
+      "zip_code": {
+        "class": "differs",
+        "rows_bird": 6,
+        "rows_arcwise": 6,
+        "changed_columns": [
+          "type"
+        ]
+      }
+    },
+    "superhero": {
+      "alignment": {
+        "class": "identical"
+      },
+      "attribute": {
+        "class": "identical"
+      },
+      "colour": {
+        "class": "identical"
+      },
+      "gender": {
+        "class": "identical"
+      },
+      "hero_attribute": {
+        "class": "identical"
+      },
+      "hero_power": {
+        "class": "identical"
+      },
+      "publisher": {
+        "class": "identical"
+      },
+      "race": {
+        "class": "identical"
+      },
+      "superhero": {
+        "class": "identical"
+      },
+      "superpower": {
+        "class": "identical"
+      }
+    },
+    "thrombosis_prediction": {
+      "examination": {
+        "class": "differs",
+        "rows_bird": 13,
+        "rows_arcwise": 13,
+        "changed_columns": [
+          "Thrombosis"
+        ]
+      },
+      "laboratory": {
+        "class": "identical"
+      },
+      "patient": {
+        "class": "differs",
+        "rows_bird": 7,
+        "rows_arcwise": 7,
+        "changed_columns": []
+      }
+    },
+    "toxicology": {
+      "atom": {
+        "class": "identical"
+      },
+      "bond": {
+        "class": "identical"
+      },
+      "connected": {
+        "class": "identical"
+      },
+      "molecule": {
+        "class": "identical"
+      }
+    }
+  }
+}

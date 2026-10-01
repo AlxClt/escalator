@@ -18,12 +18,12 @@ Build a natural language to SQL agent, with a small to frontier model escalation
 - ALWAYS add any file starting with `.env` to the .gitignoe BEFORE commiting, EXCEPT `.env.example`
 - NEVER trigger a run calling online anthropic's models, this will always be manually triggered
 
-**Code quality**
+**Code quality:**
 
 - Use typing
 - No `Any` types without justification
 
-**Strict rules**
+**Strict rules:**
 
 - ALWAYS version prompts files, one file per version.
 - NEVER edit scorer fixtures to make a test pass
@@ -38,13 +38,13 @@ Build a natural language to SQL agent, with a small to frontier model escalation
 **Commit rule**
 Commit only through the `update-docs-and-commit` skill; never run `git commit` directly.
 
-**Git workflow for major changes**
+**Git workflow for major changes:**
 
 1. Create a new branch
 2. Develop and commit on the feature branch
 3. Run the unit test locally before pushing
 4. Push the branch
-5. Create a PR to merge into main 
+5. Create a PR to merge into main
 6. Use the `/update-docs-and-commit`slash command for commits - this ensure docs are updated alogside code changes
 
 ## Documentation

@@ -1,0 +1,24 @@
+Third-party data used by this repository
+=========================================
+
+None of these files are committed. `make data` downloads them into data/raw/
+at the versions pinned in data/sources.lock.
+
+Arcwise-Plat-Full (the benchmark)
+  Jin et al., 2026, arXiv:2601.08778.
+  https://github.com/uiuc-kang-lab/text_to_sql_benchmarks
+
+BIRD Mini-Dev (SQLite databases, base description files, difficulty labels)
+  Li et al., "Can LLM Already Serve as A Database Interface? A BIg Bench for
+  Large-Scale Database Grounded Text-to-SQLs", NeurIPS 2023, arXiv:2305.03111.
+  https://github.com/bird-bench/mini_dev
+
+Pinned sources and licenses as stated upstream:
+  - arcwise_plat_full: CC-BY-SA-4.0 (GitHub license file of uiuc-kang-lab/text_to_sql_benchmarks)
+    https://raw.githubusercontent.com/uiuc-kang-lab/text_to_sql_benchmarks/fe766045c55b6875a43b30e9ac7683df5582f8cf/data/arcwise_plat_full_with_diff.json
+  - arcwise_schemas: CC-BY-SA-4.0 (GitHub license file of uiuc-kang-lab/text_to_sql_benchmarks)
+    https://raw.githubusercontent.com/uiuc-kang-lab/text_to_sql_benchmarks/fe766045c55b6875a43b30e9ac7683df5582f8cf/data/schemas/
+  - bird_minidev_zip: CC-BY-SA-4.0 (stated in the bird-bench/mini_dev README)
+    https://bird-bench.oss-cn-beijing.aliyuncs.com/minidev.zip
+
+These datasets are redistributed under their own licenses, not this repository's.

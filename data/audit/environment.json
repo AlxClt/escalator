@@ -1,0 +1,7 @@
+{
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "lock_sha256": "b4ca4e0f2232a225d317c090a45beac70eceb117b6aa11f2bade00da0b0cb928",
+  "env_lock_sha256": "7a5bf629fea9876f03255981bfa11ca5f23ff9d2d68d9302960d8b9c92bbd7e6"
+}

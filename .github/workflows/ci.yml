@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - run: make test
+
+  data:
+    runs-on: ubuntu-latest
+    if: hashFiles('data/sources.lock') != ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - uses: actions/cache@v4
+        with:
+          path: data/raw
+          key: data-raw-${{ hashFiles('data/sources.lock') }}
+      - run: make data
