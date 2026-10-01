@@ -22,7 +22,7 @@ Commit the pending changes. Before committing, update the managed docs only if t
 
 | Doc | Content | Nature |
 |---|---|---|
-| `project_spec.md` | Requirements, tech stack | Normative: what the system must be |
+| `project_specs.md` | Requirements, tech stack | Normative: what the system must be |
 | `docs/architecture.md` | System design | Descriptive: how the system is built |
 | `docs/changelog.md` | Version history | Descriptive: what changed |
 | `docs/project_status.md` | Progress, next steps | Descriptive: where the project stands |
