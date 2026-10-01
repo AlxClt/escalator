@@ -1,11 +1,11 @@
-"""CLI: `python -m escalator.datasets {lock,fetch,verify,env,diagnose-gold}`."""
+"""CLI: `python -m escalator.datasets {lock,fetch,verify,env,diagnose-gold,manifest}`."""
 
 from __future__ import annotations
 
 import argparse
 import sys
 
-from escalator.datasets import bootstrap, fetch, verify
+from escalator.datasets import bootstrap, fetch, manifest, verify
 from escalator.datasets.config import load_config
 from escalator.datasets.lock import LockError, current_env, load_lock, write_env_lock
 
@@ -24,6 +24,7 @@ def main(argv: list[str] | None = None) -> int:
     p_diag = sub.add_parser("diagnose-gold", help="one-off: run selected gold queries with a long cap")
     p_diag.add_argument("--ids", nargs="+", required=True)
     p_diag.add_argument("--cap-s", type=float, default=1800.0)
+    sub.add_parser("manifest", help="exclude, sample and pin the task subset in data/manifest.json")
     args = parser.parse_args(argv)
     cfg = load_config()
 
@@ -38,6 +39,17 @@ def main(argv: list[str] | None = None) -> int:
         result = verify.diagnose_gold(cfg, args.ids, args.cap_s)
         print(f"all completed within cap: {result['all_completed_within_cap']}; "
               f"slowest {result['slowest_wall_s']}s; rule gold_timeout_s = {result['rule_gold_timeout_s']}")
+        return 0
+
+    if args.command == "manifest":
+        fetch.install_network_guard()
+        path = cfg.data_dir / "manifest.json"
+        try:
+            manifest.write_manifest(cfg, manifest.load_manifest_config(), path)
+        except manifest.ManifestError as exc:
+            print(f"manifest refused: {exc}", file=sys.stderr)
+            return 1
+        print(f"wrote {path}")
         return 0
 
     if args.command == "lock":

@@ -26,4 +26,5 @@ testpaths = ["tests"]
 markers = [
     "data: integration gate that needs the pinned data under data/raw (run by make data-verify)",
     "slow: executes gold SQL over every task",
+    "manifest: checks data/manifest.json against the pinned data (run by make manifest)",
 ]

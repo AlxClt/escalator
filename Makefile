@@ -9,10 +9,10 @@ REF_FLAG := $(if $(REF),--ref $(REF))
 NOCACHE_FLAG := $(if $(filter 1,$(NOCACHE)),--no-cache)
 PY := uv run --locked python
 
-.PHONY: test env-lock data data-lock data-verify
+.PHONY: test env-lock data data-lock data-verify manifest
 
 test:
-	$(PY) -m pytest -m "not data"
+	$(PY) -m pytest -m "not data and not manifest"
 
 env-lock:
 	$(PY) -m escalator.datasets env
@@ -28,3 +28,7 @@ data:
 data-verify:
 	$(PY) -m escalator.datasets verify --offline $(NOCACHE_FLAG)
 	$(PY) -m pytest tests/datasets -m data
+
+manifest: data-verify
+	$(PY) -m escalator.datasets manifest
+	$(PY) -m pytest tests/datasets -m manifest

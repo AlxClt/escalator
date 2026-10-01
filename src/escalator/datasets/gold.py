@@ -40,26 +40,45 @@ class GoldOutcome:
     error: str | None = None
 
 
-def run_gold(conn: sqlite3.Connection, sql: str, timeout_s: float) -> GoldOutcome:
+class GoldTimeout(RuntimeError):
+    pass
+
+
+class GoldError(RuntimeError):
+    pass
+
+
+def execute_with_deadline(conn: sqlite3.Connection, sql: str, timeout_s: float) -> list[tuple[object, ...]]:
     """Execute `sql` and fetch every row, interrupting once `timeout_s` has elapsed.
 
     The deadline is computed per query. An OperationalError raised after the deadline is a
-    timeout; any other error is an error. The connection stays usable afterwards.
+    timeout (GoldTimeout); any other error is GoldError. The connection stays usable afterwards.
     """
-    start = time.monotonic()
-    deadline = start + timeout_s
+    deadline = time.monotonic() + timeout_s
     conn.set_progress_handler(lambda: 1 if time.monotonic() > deadline else 0, PROGRESS_OPS)
     try:
-        rows = conn.execute(sql).fetchall()
+        rows: list[tuple[object, ...]] = conn.execute(sql).fetchall()
     except sqlite3.OperationalError as exc:
-        status: GoldStatus = "timeout" if time.monotonic() > deadline else "error"
-        return GoldOutcome(status, 0, time.monotonic() - start, str(exc))
+        if time.monotonic() > deadline:
+            raise GoldTimeout(str(exc)) from exc
+        raise GoldError(str(exc)) from exc
     except sqlite3.Error as exc:
-        return GoldOutcome("error", 0, time.monotonic() - start, str(exc))
+        raise GoldError(str(exc)) from exc
     finally:
         conn.set_progress_handler(None, 0)
-    wall = time.monotonic() - start
-    return GoldOutcome("ok" if rows else "empty", len(rows), wall)
+    return rows
+
+
+def run_gold(conn: sqlite3.Connection, sql: str, timeout_s: float) -> GoldOutcome:
+    """Gold outcome of `sql`: ok (>= 1 row), empty, error or timeout, with wall time."""
+    start = time.monotonic()
+    try:
+        rows = execute_with_deadline(conn, sql, timeout_s)
+    except GoldTimeout as exc:
+        return GoldOutcome("timeout", 0, time.monotonic() - start, str(exc))
+    except GoldError as exc:
+        return GoldOutcome("error", 0, time.monotonic() - start, str(exc))
+    return GoldOutcome("ok" if rows else "empty", len(rows), time.monotonic() - start)
 
 
 # --- cache -----------------------------------------------------------------

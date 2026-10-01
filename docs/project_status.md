@@ -13,11 +13,11 @@ Steps are direct references to steps in [project_specs.md](project_specs.md)
 
 - `make data` and its verification suite are built (spec: `docs/tasks/make-data (rev 2).md`). The benchmark is Arcwise-Plat-Full (498 tasks) on the Mini-Dev SQLite databases, pinned at Arcwise commit `fe766045c55b6875a43b30e9ac7683df5582f8cf`.
 - Every gate passes on Python 3.12.14 / SQLite 3.53.1. All 498 gold queries return rows; `gold_timeout_s` is 2089.
-- Audit findings for `make manifest`:
-  - 2 golds (518, 701) exceed the 5 s sandbox timeout;
-  - 12 golds are date-dependent;
-  - 3 effective description files are not UTF-8.
-- Next: `make manifest` (gold-result hashing, exclusions, sampling of the pinned subset).
+- 3 effective description files are not UTF-8 (`env/schema.py` must handle them).
+- `make manifest` pinned the evaluation subset in `data/manifest.json`:
+  - frame 484 = 498 minus 14 exclusions pinned in `configs/manifest.yaml` (12 date-dependent; 518 and 701, whose gold exceeds the 5 s sandbox timeout);
+  - 200 tasks: 61 simple, 100 moderate, 39 challenging (largest-remainder allocation, seed 20261001).
+- Gold timing is load-sensitive: cold-cache runs pushed golds that take about 1 s up to 6 s. That is why the exclusions are pinned instead of re-derived from A2.
 
 ## Next step (details to be added)
 
