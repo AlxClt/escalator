@@ -7,19 +7,19 @@ models:
     tier: S
     provider: ollama
     tag: gemma4:e4b-it-qat
-    digest: null
+    digest: ee665637121887cf3befff38abbb1be4ee117c7db867d97a67e29049ecd7e15f
     settings: {num_ctx: 16384, think: false}
   gemma4-12b:
     tier: S
     provider: ollama
     tag: gemma4:12b-it-qat
-    digest: null
+    digest: 38044be4f923e5a55264ed7df4eaac2676651a905f735197c504045140c02bd3
     settings: {num_ctx: 16384, think: false}
   gemma4-31b:
     tier: S
     provider: ollama
     tag: gemma4:31b-it-qat
-    digest: null
+    digest: e0812a55773bfeac846b2d605b4d93638b8dfa7119d9587f3d91475afc78185e
     settings: {num_ctx: 16384, think: false}
   sonnet-5-5:
     tier: L
