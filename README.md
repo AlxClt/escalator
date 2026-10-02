@@ -1,4 +1,4 @@
-# escalator
+# escalator (Work in progress)
 
 Cost-aware escalation routing for a data-analysis agent. A self-hosted small model writes and
 executes SQL first; an uncertainty signal decides whether to escalate to a frontier model. This

@@ -5,7 +5,7 @@
 
 ---
 
-## Current Step
+## Steps
 
 Steps are direct references to steps in [project_specs.md](project_specs.md)
 
@@ -18,8 +18,6 @@ Steps are direct references to steps in [project_specs.md](project_specs.md)
   - frame 484 = 498 minus 14 exclusions pinned in `configs/manifest.yaml` (12 date-dependent; 518 and 701, whose gold exceeds the 5 s sandbox timeout);
   - 200 tasks: 61 simple, 100 moderate, 39 challenging (largest-remainder allocation, seed 20261001).
 - Gold timing is load-sensitive: cold-cache runs pushed golds that take about 1 s up to 6 s. That is why the exclusions are pinned instead of re-derived from A2.
-
-## Next step (details to be added)
 
 ### Step 1: Infrastructure
 
@@ -70,4 +68,4 @@ Consequences to carry into week 2:
 - **QAT tags for all three sizes,** so the 4-bit scheme is the same kind across sizes. The library's `-it-q4_K_M` tags were re-pointed on 01/10/2026; pinning by digest is what protects the measurement.
 - **Tag digests to verify at pull.** The Ollama library lists `ee6656371218` (e4b), `38044be4f923` (12b) and `e0812a55773b` (31b) as of 02/10/2026. Record the full digests from `/api/tags`.
 
-Target completion date: 06/10/2026
+Target completion date for step 1: 06/10/2026
