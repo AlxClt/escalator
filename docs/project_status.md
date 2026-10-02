@@ -31,20 +31,19 @@ Part 1 (spec: `docs/tasks/week1_part_1.md`) is built and its hermetic tests pass
 - [x] trace schema
 - [x] sandbox
 
-Part 1 exit, manual work still to do:
+Part 1 exit — done (02/10/2026):
 
-- Install Ollama >= 0.20.2 and pull `gemma4:e4b-it-qat`, `gemma4:12b-it-qat`, `gemma4:31b-it-qat`.
-- Set `OLLAMA_BASE_URL` in `.env` to the machine hosting Ollama (no default; a remote server needs `OLLAMA_HOST=0.0.0.0`).
-- `uv run python -m escalator.llm pin` to write the full digests into `configs/models.yaml` and `configs/prices.yaml` (they read `UNPINNED` until then, and the adapter refuses unpinned models). Check them against the library short digests `ee6656371218` (e4b), `38044be4f923` (12b) and `e0812a55773b` (31b).
-- `uv run python -m escalator.llm ping gemma4-e4b`: the second call must show `cache_hit=True`, $0 and 0 provider calls.
-- Anthropic ping, run by hand only: `uv run python -m escalator.llm ping sonnet-5-5 --paid`.
-- Replace the hand-written payload fixtures in `tests/infra/llm/fixtures/` with the recorded bodies from those pings.
+- [x] Ollama runs on a separate host, reached through `OLLAMA_BASE_URL` in `.env`.
+- [x] Digests pinned with `python -m escalator.llm pin` in `configs/models.yaml` and `configs/prices.yaml`; they match the library short digests `ee6656371218` (e4b), `38044be4f923` (12b) and `e0812a55773b` (31b).
+- [x] `ping gemma4-e4b` twice: miss, then `cache_hit=True` at $0 with 0 provider calls.
+- [x] `ping sonnet-5-5 --paid` twice: accepted with `thinking: between_tools` and `effort: medium`, no cache usage reported, second call a cache hit.
+- [x] Usage fields of the recorded bodies match the U1 fixtures. The fixtures stay hand-written: the pings use no tools, so no recorded body has a tool call yet.
 
 To be built (part 2):
 
 - MCP server
 - scorer
-- CI
+- CI: `make smoke` from cache (the `data` job was removed: the dataset is installed locally, never in CI)
 - Create scorer unit test file with placeholder for the data. DO NOT CREATE THE DATA YOURSELF 
 
 Manual work to be done:
@@ -54,7 +53,16 @@ Manual work to be done:
 
 Step 1 IS NOT COMPLETE UNTIL THE hand made test pairs have been written.
 
-Part 2 flag: a gold result over 1000 rows can never be matched through the capped tool view. Count such tasks when the scorer lands.
+Decisions to make for part 2:
+
+| # | Decision | Why it is open | Options |
+| --- | --- | --- | --- |
+| P1 | How CI runs `make smoke` without the dataset | The spec has CI run `make smoke` from cache, but smoke executes SQL on the BIRD databases and CI no longer installs them | Commit a small fixture database plus a replay cache for CI; or keep smoke local only and have CI run `make test` alone |
+| P2 | Sandbox timeout in the spec | `project_specs.md` says 5 s (sandbox and `execute_sql`); X1 set the sandbox to a 30 s wall clock | Update the spec to 30 s; or go back to 5 s and recheck the pinned exclusions |
+| P3 | Gold results over 1000 rows | They can never be matched through the capped tool view | Count them when the scorer lands, then exclude them, raise the cap, or report them separately |
+| P4 | Ollama latency includes model load | The first e4b call took 55.5 s for a 2-token reply, most of it presumably loading the model; `latency_ms` would skew latency metrics | Warm each model up before a sweep; or record `total_duration - load_duration` from the Ollama body |
+| P5 | Recorded tool-call fixtures | U1's tool-call payloads are hand-written | Record one tool-calling body per provider once the MCP server and agent loop run, and swap them in |
+| P6 | Counting small-tier tool-call failures | Ollama returns tool arguments already parsed, so `args=None` may never occur for the small tier; a call it fails to parse may come back as plain text instead (to verify) | Count such turns as validation failures, or as `end = no_tool_call`; decide before the baseline sweep |
 
 Consequences to carry into week 2:
 
