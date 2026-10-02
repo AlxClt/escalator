@@ -10,7 +10,6 @@ import os
 import time
 
 import anthropic
-import httpx
 
 from escalator.llm.errors import ProviderError, TransientProviderError, UnsupportedParameter
 from escalator.llm.providers.base import RawResponse, load_body, raise_for_status, tool_call
@@ -101,15 +100,18 @@ class AnthropicProvider:
         body = self.body(req)
         start = time.monotonic()
         try:
-            r = self._client.post("/v1/messages", cast_to=httpx.Response, body=body)
+            # Raw response: the body is never parsed by the SDK, so the bytes are what the API sent.
+            # `body` is a plain dict built and validated by self.body(); the SDK's TypedDict params
+            # cannot express it statically.
+            r = self._client.messages.with_raw_response.create(**body)  # pyright: ignore[reportArgumentType, reportCallIssue]
         except anthropic.APIStatusError as exc:
             raise_for_status(exc.status_code, str(exc))
             raise ProviderError(str(exc)) from exc
         except (anthropic.APITimeoutError, anthropic.APIConnectionError) as exc:
             raise TransientProviderError(str(exc)) from exc
         latency_ms = round((time.monotonic() - start) * 1000)
-        raise_for_status(r.status_code, r.text)
-        return RawResponse(r.content, latency_ms)
+        raise_for_status(r.status_code, r.http_response.text)
+        return RawResponse(r.http_response.content, latency_ms)
 
     def normalize(self, body: bytes, req: Request) -> Normalized:
         obj = load_body(body)
