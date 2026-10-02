@@ -23,5 +23,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ### Changed
 
-- `.env.example`: `OLLAMA_BASE_URL` replaces `SMALL_TIER_BASE_URL` and `SMALL_TIER_API_KEY`; `ESCALATOR_CACHE_MODE` takes `readwrite`, `readonly` or `off`.
+- `.env.example`: `OLLAMA_BASE_URL` (required, no default, so Ollama can run on another machine) replaces `SMALL_TIER_BASE_URL` and `SMALL_TIER_API_KEY`; `python -m escalator.llm` loads `.env`; `ESCALATOR_CACHE_MODE` takes `readwrite`, `readonly` or `off`.
 - `traces/` is gitignored except `traces/published/`.

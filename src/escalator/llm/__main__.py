@@ -13,6 +13,9 @@ import re
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+from escalator.datasets.config import REPO_ROOT
 from escalator.llm.adapter import Adapter
 from escalator.llm.cache import DEFAULT_CACHE, Cache
 from escalator.llm.cost import DEFAULT_PRICES, PriceTable
@@ -90,6 +93,8 @@ def main(argv: list[str] | None = None) -> int:
     pp.add_argument("--paid", action="store_true", help="allow a paid frontier call")
     pp.add_argument("--cache", type=Path, default=DEFAULT_CACHE)
     args = p.parse_args(argv)
+    # Secrets and machine-local settings (ESCALATOR_ANTHROPIC_KEY, OLLAMA_BASE_URL); real env vars win.
+    load_dotenv(REPO_ROOT / ".env", override=False)
     if args.cmd == "pin":
         return pin(DEFAULT_MODELS, DEFAULT_PRICES)
     return ping(args.name, args.paid, args.cache)

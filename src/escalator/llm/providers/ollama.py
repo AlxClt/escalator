@@ -7,12 +7,18 @@ import time
 
 import httpx
 
-from escalator.llm.errors import ContextOverflow, ModelResolutionError, TransientProviderError, UnsupportedParameter
+from escalator.llm.errors import (
+    ContextOverflow,
+    ModelResolutionError,
+    ProviderError,
+    TransientProviderError,
+    UnsupportedParameter,
+)
 from escalator.llm.providers.base import RawResponse, load_body, raise_for_status, tool_call
 from escalator.llm.types import JsonDict, Message, Normalized, Request, StopReason, ToolCall, Usage
 
 PREFIX = "ollama/"
-DEFAULT_BASE_URL = "http://localhost:11434"
+BASE_URL_ENV = "OLLAMA_BASE_URL"  # no default: the server may run on another machine
 TIMEOUT_S = 600.0
 
 
@@ -51,7 +57,10 @@ class OllamaProvider:
     name = "ollama"
 
     def __init__(self, base_url: str | None = None, client: httpx.Client | None = None) -> None:
-        self.base_url = (base_url or os.environ.get("OLLAMA_BASE_URL") or DEFAULT_BASE_URL).rstrip("/")
+        base_url = base_url or os.environ.get(BASE_URL_ENV)
+        if not base_url:
+            raise ProviderError(f"{BASE_URL_ENV} is not set (see .env.example)")
+        self.base_url = base_url.rstrip("/")
         self._client = client or httpx.Client(base_url=self.base_url, timeout=TIMEOUT_S)
 
     # --- server metadata ----------------------------------------------------

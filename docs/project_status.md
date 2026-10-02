@@ -34,6 +34,7 @@ Part 1 (spec: `docs/tasks/week1_part_1.md`) is built and its hermetic tests pass
 Part 1 exit, manual work still to do:
 
 - Install Ollama >= 0.20.2 and pull `gemma4:e4b-it-qat`, `gemma4:12b-it-qat`, `gemma4:31b-it-qat`.
+- Set `OLLAMA_BASE_URL` in `.env` to the machine hosting Ollama (no default; a remote server needs `OLLAMA_HOST=0.0.0.0`).
 - `uv run python -m escalator.llm pin` to write the full digests into `configs/models.yaml` and `configs/prices.yaml` (they read `UNPINNED` until then, and the adapter refuses unpinned models). Check them against the library short digests `ee6656371218` (e4b), `38044be4f923` (12b) and `e0812a55773b` (31b).
 - `uv run python -m escalator.llm ping gemma4-e4b`: the second call must show `cache_hit=True`, $0 and 0 provider calls.
 - Anthropic ping, run by hand only: `uv run python -m escalator.llm ping sonnet-5-5 --paid`.
