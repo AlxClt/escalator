@@ -1,6 +1,6 @@
 # Project Status - Escalator
 
-**Last Updated:** 30/09/2026
+**Last Updated:** 01/10/2026
 **Project Start:** 30/09/2026
 
 ---
@@ -9,9 +9,15 @@
 
 Steps are direct references to steps in [project_specs.md](project_specs.md)
 
-### Step 0: Data
+### Step 0: Data — done
 
-TBD
+- `make data` and its verification suite are built (spec: `docs/tasks/make-data (rev 2).md`). The benchmark is Arcwise-Plat-Full (498 tasks) on the Mini-Dev SQLite databases, pinned at Arcwise commit `fe766045c55b6875a43b30e9ac7683df5582f8cf`.
+- Every gate passes on Python 3.12.14 / SQLite 3.53.1. All 498 gold queries return rows; `gold_timeout_s` is 2089.
+- 3 effective description files are not UTF-8 (`env/schema.py` must handle them).
+- `make manifest` pinned the evaluation subset in `data/manifest.json`:
+  - frame 484 = 498 minus 14 exclusions pinned in `configs/manifest.yaml` (12 date-dependent; 518 and 701, whose gold exceeds the 5 s sandbox timeout);
+  - 200 tasks: 61 simple, 100 moderate, 39 challenging (largest-remainder allocation, seed 20261001).
+- Gold timing is load-sensitive: cold-cache runs pushed golds that take about 1 s up to 6 s. That is why the exclusions are pinned instead of re-derived from A2.
 
 ## Next step (details to be added)
 

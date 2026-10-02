@@ -1,0 +1,14 @@
+seed: 20261001    # fixed on 2026-10-01; never re-drawn
+
+# Exclusions applied before sampling, pinned on 2026-10-01 and edited by hand only:
+# make manifest never recomputes them, so the frame cannot drift with machine load.
+# - date_dependent: audit A3 (gold matches now / CURRENT_DATE|TIME|TIMESTAMP).
+# - gold_too_slow: gold over sandbox_timeout_s (5 s). 518 and 701 take ~2 min and ~13-17 min.
+#   Every other gold has a warm median under 1.3 s over 5 runs; single cold-cache readings of
+#   116, 145, 347, 352, 412 and 416 reached 2.7-6.3 s and are not excluded.
+# - allowlisted: ids in data/gold_allowlist.json (none).
+# make manifest refuses if A3 or the allowlist no longer match the date_dependent / allowlisted lists.
+exclusions:
+  date_dependent: [194, 898, 1031, 1156, 1227, 1229, 1232, 1235, 1239, 1242, 1243, 1257]
+  gold_too_slow: [518, 701]
+  allowlisted: []

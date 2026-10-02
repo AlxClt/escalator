@@ -1,0 +1,713 @@
+{
+  "files": {
+    "bird/california_schools/database_description/frpm.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/california_schools/database_description/satscores.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/california_schools/database_description/schools.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/california_schools/database_description/frpm.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/california_schools/database_description/satscores.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/california_schools/database_description/schools.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/card_games/database_description/cards.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/card_games/database_description/foreign_data.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/card_games/database_description/legalities.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/card_games/database_description/rulings.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/card_games/database_description/set_translations.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/card_games/database_description/sets.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/card_games/database_description/cards.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/card_games/database_description/foreign_data.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/card_games/database_description/legalities.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/card_games/database_description/rulings.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/card_games/database_description/set_translations.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/card_games/database_description/sets.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/badges.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/comments.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/postHistory.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/postLinks.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/posts.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/tags.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/users.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/codebase_community/database_description/votes.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/badges.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/comments.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/postHistory.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/postLinks.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/posts.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/tags.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/users.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/codebase_community/database_description/votes.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/debit_card_specializing/database_description/customers.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/debit_card_specializing/database_description/gasstations.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/debit_card_specializing/database_description/products.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/debit_card_specializing/database_description/transactions_1k.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/debit_card_specializing/database_description/yearmonth.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/debit_card_specializing/database_description/customers.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/debit_card_specializing/database_description/gasstations.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/debit_card_specializing/database_description/products.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/debit_card_specializing/database_description/transactions_1k.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/debit_card_specializing/database_description/yearmonth.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/european_football_2/database_description/Country.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/european_football_2/database_description/League.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/european_football_2/database_description/Match.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/european_football_2/database_description/Player.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/european_football_2/database_description/Player_Attributes.csv": {
+      "utf8": false,
+      "utf8_bom": false
+    },
+    "bird/european_football_2/database_description/Team.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/european_football_2/database_description/Team_Attributes.csv": {
+      "utf8": false,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/european_football_2/database_description/Country.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/european_football_2/database_description/League.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/european_football_2/database_description/Match.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/european_football_2/database_description/Player.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/european_football_2/database_description/Player_Attributes.csv": {
+      "utf8": false,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/european_football_2/database_description/Team.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/european_football_2/database_description/Team_Attributes.csv": {
+      "utf8": false,
+      "utf8_bom": false
+    },
+    "bird/financial/database_description/account.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/financial/database_description/card.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/financial/database_description/client.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/financial/database_description/disp.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/financial/database_description/district.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/financial/database_description/loan.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/financial/database_description/order.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/financial/database_description/trans.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/account.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/card.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/client.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/disp.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/district.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/loan.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/order.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/financial/database_description/trans.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/formula_1/database_description/circuits.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/constructorResults.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/constructors.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/constructorStandings.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/drivers.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/driverStandings.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/lapTimes.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/pitStops.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/qualifying.csv": {
+      "utf8": false,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/races.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/results.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/seasons.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/formula_1/database_description/status.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/circuits.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/constructorResults.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/constructors.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/constructorStandings.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/drivers.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/driverStandings.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/lapTimes.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/pitStops.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/qualifying.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/races.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/results.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/seasons.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/formula_1/database_description/status.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Attendance.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Budget.csv": {
+      "utf8": false,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Event.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Expense.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Income.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Major.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Member.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/student_club/database_description/Zip_Code.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/attendance.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/budget.csv": {
+      "utf8": false,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/event.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/expense.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/income.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/major.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/member.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/student_club/database_description/zip_code.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/alignment.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/attribute.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/colour.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/gender.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/hero_attribute.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/hero_power.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/publisher.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/race.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/superhero.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/superhero/database_description/superpower.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/alignment.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/attribute.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/colour.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/gender.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/hero_attribute.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/hero_power.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/publisher.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/race.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/superhero.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/superhero/database_description/superpower.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/thrombosis_prediction/database_description/Examination.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/thrombosis_prediction/database_description/Laboratory.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/thrombosis_prediction/database_description/Patient.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/thrombosis_prediction/database_description/Examination.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/thrombosis_prediction/database_description/Laboratory.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "arcwise/schemas/thrombosis_prediction/database_description/Patient.csv": {
+      "utf8": true,
+      "utf8_bom": true
+    },
+    "bird/toxicology/database_description/atom.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/toxicology/database_description/bond.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/toxicology/database_description/connected.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "bird/toxicology/database_description/molecule.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/toxicology/database_description/atom.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/toxicology/database_description/bond.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/toxicology/database_description/connected.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    },
+    "arcwise/schemas/toxicology/database_description/molecule.csv": {
+      "utf8": true,
+      "utf8_bom": false
+    }
+  },
+  "not_utf8": [
+    "arcwise/schemas/european_football_2/database_description/Player_Attributes.csv",
+    "arcwise/schemas/european_football_2/database_description/Team_Attributes.csv",
+    "arcwise/schemas/student_club/database_description/budget.csv",
+    "bird/european_football_2/database_description/Player_Attributes.csv",
+    "bird/european_football_2/database_description/Team_Attributes.csv",
+    "bird/formula_1/database_description/qualifying.csv",
+    "bird/student_club/database_description/Budget.csv"
+  ],
+  "total": 150,
+  "effective_layer": {
+    "california_schools": {
+      "frpm": "arcwise",
+      "satscores": "arcwise",
+      "schools": "arcwise"
+    },
+    "card_games": {
+      "cards": "arcwise",
+      "foreign_data": "arcwise",
+      "legalities": "arcwise",
+      "rulings": "arcwise",
+      "set_translations": "arcwise",
+      "sets": "arcwise"
+    },
+    "codebase_community": {
+      "badges": "arcwise",
+      "comments": "arcwise",
+      "posthistory": "arcwise",
+      "postlinks": "arcwise",
+      "posts": "arcwise",
+      "tags": "arcwise",
+      "users": "arcwise",
+      "votes": "arcwise"
+    },
+    "debit_card_specializing": {
+      "customers": "arcwise",
+      "gasstations": "arcwise",
+      "products": "arcwise",
+      "transactions_1k": "arcwise",
+      "yearmonth": "arcwise"
+    },
+    "european_football_2": {
+      "country": "arcwise",
+      "league": "arcwise",
+      "match": "arcwise",
+      "player": "arcwise",
+      "player_attributes": "arcwise",
+      "team": "arcwise",
+      "team_attributes": "arcwise"
+    },
+    "financial": {
+      "account": "arcwise",
+      "card": "arcwise",
+      "client": "arcwise",
+      "disp": "arcwise",
+      "district": "arcwise",
+      "loan": "arcwise",
+      "order": "arcwise",
+      "trans": "arcwise"
+    },
+    "formula_1": {
+      "circuits": "arcwise",
+      "constructorresults": "arcwise",
+      "constructors": "arcwise",
+      "constructorstandings": "arcwise",
+      "drivers": "arcwise",
+      "driverstandings": "arcwise",
+      "laptimes": "arcwise",
+      "pitstops": "arcwise",
+      "qualifying": "arcwise",
+      "races": "arcwise",
+      "results": "arcwise",
+      "seasons": "arcwise",
+      "status": "arcwise"
+    },
+    "student_club": {
+      "attendance": "arcwise",
+      "budget": "arcwise",
+      "event": "arcwise",
+      "expense": "arcwise",
+      "income": "arcwise",
+      "major": "arcwise",
+      "member": "arcwise",
+      "zip_code": "arcwise"
+    },
+    "superhero": {
+      "alignment": "arcwise",
+      "attribute": "arcwise",
+      "colour": "arcwise",
+      "gender": "arcwise",
+      "hero_attribute": "arcwise",
+      "hero_power": "arcwise",
+      "publisher": "arcwise",
+      "race": "arcwise",
+      "superhero": "arcwise",
+      "superpower": "arcwise"
+    },
+    "thrombosis_prediction": {
+      "examination": "arcwise",
+      "laboratory": "arcwise",
+      "patient": "arcwise"
+    },
+    "toxicology": {
+      "atom": "arcwise",
+      "bond": "arcwise",
+      "connected": "arcwise",
+      "molecule": "arcwise"
+    }
+  }
+}

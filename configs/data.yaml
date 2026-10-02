@@ -1,0 +1,5 @@
+data_root: data/raw
+lock: data/sources.lock
+env_lock: data/env.lock
+gold_timeout_s: 2089    # set by the gold-timeout rule on 2026-10-01; change only by that rule
+sandbox_timeout_s: 5    # read only for audit A2

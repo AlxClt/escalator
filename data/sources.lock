@@ -1,0 +1,1009 @@
+{
+  "lock_version": 2,
+  "created_on": "2026-10-01",
+  "sources": [
+    {
+      "name": "arcwise_plat_full",
+      "url": "https://raw.githubusercontent.com/uiuc-kang-lab/text_to_sql_benchmarks/fe766045c55b6875a43b30e9ac7683df5582f8cf/data/arcwise_plat_full_with_diff.json",
+      "ref": "fe766045c55b6875a43b30e9ac7683df5582f8cf",
+      "path": "arcwise/arcwise_plat_full_with_diff.json",
+      "sha256": "baefe2ca4fbab86c000df72aad9eaa563f7d422e425af2cbff071f656ea4eea8",
+      "bytes": 332246,
+      "license": "CC-BY-SA-4.0 (GitHub license file of uiuc-kang-lab/text_to_sql_benchmarks)",
+      "retrieved_on": "2026-10-01"
+    },
+    {
+      "name": "arcwise_schemas",
+      "url": "https://raw.githubusercontent.com/uiuc-kang-lab/text_to_sql_benchmarks/fe766045c55b6875a43b30e9ac7683df5582f8cf/data/schemas/",
+      "ref": "fe766045c55b6875a43b30e9ac7683df5582f8cf",
+      "license": "CC-BY-SA-4.0 (GitHub license file of uiuc-kang-lab/text_to_sql_benchmarks)",
+      "retrieved_on": "2026-10-01",
+      "files": [
+        {
+          "upstream": "data/schemas/california_schools/database_description/frpm.csv",
+          "path": "arcwise/schemas/california_schools/database_description/frpm.csv",
+          "sha256": "e3f1d8a18059331f12e8eb0132ca2469fa0a9c9ac82eaab503606b49636797bb",
+          "bytes": 1691
+        },
+        {
+          "upstream": "data/schemas/california_schools/database_description/satscores.csv",
+          "path": "arcwise/schemas/california_schools/database_description/satscores.csv",
+          "sha256": "ee32796aee83dd53e5c1eff7dbec9c95bc4f917d59c66c42abc7ad17d0c4fe63",
+          "bytes": 1224
+        },
+        {
+          "upstream": "data/schemas/california_schools/database_description/schools.csv",
+          "path": "arcwise/schemas/california_schools/database_description/schools.csv",
+          "sha256": "7c55cf8acdd721b55e52b9e8b7e6ca26860e9536e07adf2a707d181f23852cd2",
+          "bytes": 12030
+        },
+        {
+          "upstream": "data/schemas/card_games/database_description/cards.csv",
+          "path": "arcwise/schemas/card_games/database_description/cards.csv",
+          "sha256": "f588644176ffff509ed7c800a47e7fef93fdddeaa44fdcb717251c667e3fdabe",
+          "bytes": 9027
+        },
+        {
+          "upstream": "data/schemas/card_games/database_description/foreign_data.csv",
+          "path": "arcwise/schemas/card_games/database_description/foreign_data.csv",
+          "sha256": "1116f337c671c7a2ea68bc429de13aaccdd4bf1e4735f4c4536d533196d2784d",
+          "bytes": 506
+        },
+        {
+          "upstream": "data/schemas/card_games/database_description/legalities.csv",
+          "path": "arcwise/schemas/card_games/database_description/legalities.csv",
+          "sha256": "46858a4678ab528179feb9d00f0533749bdee60ca964b249e1699ab3e80b87fd",
+          "bytes": 268
+        },
+        {
+          "upstream": "data/schemas/card_games/database_description/rulings.csv",
+          "path": "arcwise/schemas/card_games/database_description/rulings.csv",
+          "sha256": "e379ac1acabda8a11ea09bbb1b49c899f86e99f72a128aa55b62225db9405eb2",
+          "bytes": 201
+        },
+        {
+          "upstream": "data/schemas/card_games/database_description/set_translations.csv",
+          "path": "arcwise/schemas/card_games/database_description/set_translations.csv",
+          "sha256": "625fbc0f567de1db29498b01d025bd72f110db82632b0526cdc85cd04402a9fe",
+          "bytes": 264
+        },
+        {
+          "upstream": "data/schemas/card_games/database_description/sets.csv",
+          "path": "arcwise/schemas/card_games/database_description/sets.csv",
+          "sha256": "d835acfb1dba48d9152520e22048693fa7d390897ffdbf9d628301d7ff3d6e8d",
+          "bytes": 2330
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/badges.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/badges.csv",
+          "sha256": "e7ad58292cc3ef0b3da42b72198de7ce50243893d087ae94d07ee7c2559d4d51",
+          "bytes": 260
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/comments.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/comments.csv",
+          "sha256": "0b6495701d12746ae2e9fd2bbb66d24a7c1f1de578a779fd1b1dfe6f0d44bfcc",
+          "bytes": 622
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/postHistory.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/postHistory.csv",
+          "sha256": "b0dd76a7ac988d0bbc90e78d0334e744c1b1d8055c680f89a01f4224d5124488",
+          "bytes": 583
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/postLinks.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/postLinks.csv",
+          "sha256": "789fefbd5b9b8db2653f8079c78325d6e3fd23a2ceff69ed7ee8959674ff014c",
+          "bytes": 343
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/posts.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/posts.csv",
+          "sha256": "59c2e11c57c34382271c8ef4322f37108cb8df8dfb924f2215f05297bfb20de0",
+          "bytes": 1802
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/tags.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/tags.csv",
+          "sha256": "f21dcded6518b1b70a868eddf63bc4e53b115b7e0854cf312bd61d6a72dc14e5",
+          "bytes": 376
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/users.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/users.csv",
+          "sha256": "6b12531d4af867f29a636210f1baf18aa21c15d3a9a1976e145adc917834c1ae",
+          "bytes": 910
+        },
+        {
+          "upstream": "data/schemas/codebase_community/database_description/votes.csv",
+          "path": "arcwise/schemas/codebase_community/database_description/votes.csv",
+          "sha256": "9c3856469bc9fd563d86f7062bfb9d632c6e98ae42fd7c52117e0be15e9e7ccf",
+          "bytes": 389
+        },
+        {
+          "upstream": "data/schemas/debit_card_specializing/database_description/customers.csv",
+          "path": "arcwise/schemas/debit_card_specializing/database_description/customers.csv",
+          "sha256": "015623a9997e58c0074d0edf6683512f9845040c3b723c589b23d58c1ab9de4a",
+          "bytes": 205
+        },
+        {
+          "upstream": "data/schemas/debit_card_specializing/database_description/gasstations.csv",
+          "path": "arcwise/schemas/debit_card_specializing/database_description/gasstations.csv",
+          "sha256": "9fa6456cea7c20e6099081671c6fc65bb837c8a186961db091234dcfe1fbec31",
+          "bytes": 229
+        },
+        {
+          "upstream": "data/schemas/debit_card_specializing/database_description/products.csv",
+          "path": "arcwise/schemas/debit_card_specializing/database_description/products.csv",
+          "sha256": "fa751fbad536b49c1d8f960763e7e9ce1fae2ad7e7684e0e6bbe77a1f0e4c115",
+          "bytes": 156
+        },
+        {
+          "upstream": "data/schemas/debit_card_specializing/database_description/transactions_1k.csv",
+          "path": "arcwise/schemas/debit_card_specializing/database_description/transactions_1k.csv",
+          "sha256": "38fc366fd5c8fa5dcec6dcb5e6fa8a06aab7193f1b3960bed4469ced05c94183",
+          "bytes": 436
+        },
+        {
+          "upstream": "data/schemas/debit_card_specializing/database_description/yearmonth.csv",
+          "path": "arcwise/schemas/debit_card_specializing/database_description/yearmonth.csv",
+          "sha256": "0101c4ff86881d8631261850254099ff2bce2dc5211fda73c7ae0f84f1fb945f",
+          "bytes": 176
+        },
+        {
+          "upstream": "data/schemas/european_football_2/database_description/Country.csv",
+          "path": "arcwise/schemas/european_football_2/database_description/Country.csv",
+          "sha256": "74c830da5768d7fc7ecb1a8ecb47c97f81a0cd3a7dc192d799fee1d08d71e591",
+          "bytes": 147
+        },
+        {
+          "upstream": "data/schemas/european_football_2/database_description/League.csv",
+          "path": "arcwise/schemas/european_football_2/database_description/League.csv",
+          "sha256": "a3fefa1fb96a27320f889b0e7dd4d5e079f9403dc13243310cbfc3033166aec6",
+          "bytes": 203
+        },
+        {
+          "upstream": "data/schemas/european_football_2/database_description/Match.csv",
+          "path": "arcwise/schemas/european_football_2/database_description/Match.csv",
+          "sha256": "71eb75bddb0609c5d583df02d752916dbf4794ec0b5c6f84ca5608ca4aa0b438",
+          "bytes": 2847
+        },
+        {
+          "upstream": "data/schemas/european_football_2/database_description/Player.csv",
+          "path": "arcwise/schemas/european_football_2/database_description/Player.csv",
+          "sha256": "7e6410a6123f7d484bb8cd712298fac0472bcde7409834332f21097da4cf3edf",
+          "bytes": 581
+        },
+        {
+          "upstream": "data/schemas/european_football_2/database_description/Player_Attributes.csv",
+          "path": "arcwise/schemas/european_football_2/database_description/Player_Attributes.csv",
+          "sha256": "f9d6b83a468a8a1f5385a84e9b87248031dd667f0facb132d020e370e22bf309",
+          "bytes": 4766
+        },
+        {
+          "upstream": "data/schemas/european_football_2/database_description/Team.csv",
+          "path": "arcwise/schemas/european_football_2/database_description/Team.csv",
+          "sha256": "90abb432a781ab5ef08e3eadf8db0ef12a50c36a18cc7e628de01cde8da14c00",
+          "bytes": 403
+        },
+        {
+          "upstream": "data/schemas/european_football_2/database_description/Team_Attributes.csv",
+          "path": "arcwise/schemas/european_football_2/database_description/Team_Attributes.csv",
+          "sha256": "e563a447f07fc80bf6405ef13ec32528c66bdb1961ff343b00d38b02be1d3ae9",
+          "bytes": 3120
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/account.csv",
+          "path": "arcwise/schemas/financial/database_description/account.csv",
+          "sha256": "3b9978cc2fdf40b84d3e32b4197126a5a26bb43a26c094936adb14c960e4e361",
+          "bytes": 476
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/card.csv",
+          "path": "arcwise/schemas/financial/database_description/card.csv",
+          "sha256": "28fb1ebe7aaa3390b2ac0bdc1ac700a5aef54f7f50eb4855b7ade601421885b3",
+          "bytes": 411
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/client.csv",
+          "path": "arcwise/schemas/financial/database_description/client.csv",
+          "sha256": "ccfa2ae568998625180b2e09636ce9bac1ec8709590a4d7f7d400558295150b9",
+          "bytes": 248
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/disp.csv",
+          "path": "arcwise/schemas/financial/database_description/disp.csv",
+          "sha256": "d8eb6e0669f3cb8c1952c6d2f5c52b8cbb893019daf0eb76bd3e139a95d359fc",
+          "bytes": 419
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/district.csv",
+          "path": "arcwise/schemas/financial/database_description/district.csv",
+          "sha256": "dde8e7fb7ef4b293eb178303c1b0172177cb09aa796db4ed8e7a18c5e1edede2",
+          "bytes": 1079
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/loan.csv",
+          "path": "arcwise/schemas/financial/database_description/loan.csv",
+          "sha256": "f8e46cf9f8955c06905bbc6702af0a3e03ff091a06344366c39d12ead742261c",
+          "bytes": 623
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/order.csv",
+          "path": "arcwise/schemas/financial/database_description/order.csv",
+          "sha256": "186dbd250e6641b6e30f53c434529f378dfe07f0a09cac87254bb17899f6897b",
+          "bytes": 596
+        },
+        {
+          "upstream": "data/schemas/financial/database_description/trans.csv",
+          "path": "arcwise/schemas/financial/database_description/trans.csv",
+          "sha256": "5313bd7f955e8f67e9a9ee0c36904467c4c4c313c5b4a89a250e6856e5c7a021",
+          "bytes": 1145
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/circuits.csv",
+          "path": "arcwise/schemas/formula_1/database_description/circuits.csv",
+          "sha256": "6e5e4dc157ff5563cf6c0cfced777b35de0aecf9f342aea61592065a936432fa",
+          "bytes": 539
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/constructorResults.csv",
+          "path": "arcwise/schemas/formula_1/database_description/constructorResults.csv",
+          "sha256": "49ce895dd0b76928abc0bd29c60b6936223f648c9ff855d765913badb11c0a12",
+          "bytes": 284
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/constructorStandings.csv",
+          "path": "arcwise/schemas/formula_1/database_description/constructorStandings.csv",
+          "sha256": "b62bce2ee2c3b4cb94fcbc2301e0c378f271c04d139ca8e344429f57288afc93",
+          "bytes": 529
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/constructors.csv",
+          "path": "arcwise/schemas/formula_1/database_description/constructors.csv",
+          "sha256": "b411bc460b47ff27e7bf45d634762c939d9986b7b86e8c5685b084f0ba544541",
+          "bytes": 505
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/driverStandings.csv",
+          "path": "arcwise/schemas/formula_1/database_description/driverStandings.csv",
+          "sha256": "47d3223743113dddc0d2e44f9da61ffee89f90457a6cceab50bb48488aff6ec2",
+          "bytes": 534
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/drivers.csv",
+          "path": "arcwise/schemas/formula_1/database_description/drivers.csv",
+          "sha256": "bd6cb56fb4f210f02bc37b23858a5fe88a0bffb6f5284fb8eaa73439ca80bc14",
+          "bytes": 535
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/lapTimes.csv",
+          "path": "arcwise/schemas/formula_1/database_description/lapTimes.csv",
+          "sha256": "1640520cc0c1c3bf82d8497d6753f85d7a50ab847ad86abd5b8b4f41e672d2ff",
+          "bytes": 398
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/pitStops.csv",
+          "path": "arcwise/schemas/formula_1/database_description/pitStops.csv",
+          "sha256": "374bf554e7fd0f1e573964253d7c3074f783527d2257f0ea58ca75a924adb200",
+          "bytes": 396
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/qualifying.csv",
+          "path": "arcwise/schemas/formula_1/database_description/qualifying.csv",
+          "sha256": "e2151118433c685744c5790995eed8d8b79fdc29a3d88f8d4741fdd8b83b07a0",
+          "bytes": 1808
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/races.csv",
+          "path": "arcwise/schemas/formula_1/database_description/races.csv",
+          "sha256": "416d40040a33b960fee423784524e023640ba2b96aabf95e4c13aa2d49207052",
+          "bytes": 377
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/results.csv",
+          "path": "arcwise/schemas/formula_1/database_description/results.csv",
+          "sha256": "ff731a8d0206247e9ae53bbeba3a2cb059cc3d44bfd501ea5adb5654342967f6",
+          "bytes": 1713
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/seasons.csv",
+          "path": "arcwise/schemas/formula_1/database_description/seasons.csv",
+          "sha256": "279ef8adafc837c66d92017e829369a9cd730223c11762a14ded8e013902fc33",
+          "bytes": 211
+        },
+        {
+          "upstream": "data/schemas/formula_1/database_description/status.csv",
+          "path": "arcwise/schemas/formula_1/database_description/status.csv",
+          "sha256": "bc0c392ffe02e5e13cedfef1a1a8501b345ab8a386e4fae4e01c2604abcba403",
+          "bytes": 196
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/attendance.csv",
+          "path": "arcwise/schemas/student_club/database_description/attendance.csv",
+          "sha256": "82e60d4369fed99d1b128421b5c6a133980f0783eb4f441915743cc958aac375",
+          "bytes": 317
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/budget.csv",
+          "path": "arcwise/schemas/student_club/database_description/budget.csv",
+          "sha256": "23a9aa84ae6943461226aa57affd157bf6c56864198d1a1b4206fb01aba52ca6",
+          "bytes": 1300
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/event.csv",
+          "path": "arcwise/schemas/student_club/database_description/event.csv",
+          "sha256": "cfd14cee1336cf6b9d715909bafd0e2e2725a13a44ba94aef908ad089eb37190",
+          "bytes": 634
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/expense.csv",
+          "path": "arcwise/schemas/student_club/database_description/expense.csv",
+          "sha256": "75fb6f43772eb6588306983b5d045d198ce46b4356a2c9c3b1d16874f439d31a",
+          "bytes": 731
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/income.csv",
+          "path": "arcwise/schemas/student_club/database_description/income.csv",
+          "sha256": "0ccda3b63fbf790c6de4dd7634c0ca87d1b62d3a79913fdd787cfe8ebbfdd13e",
+          "bytes": 516
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/major.csv",
+          "path": "arcwise/schemas/student_club/database_description/major.csv",
+          "sha256": "a59faa174488000cda8dd768085ab52267cd5b2b91bd007d172e7044e9167b6e",
+          "bytes": 327
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/member.csv",
+          "path": "arcwise/schemas/student_club/database_description/member.csv",
+          "sha256": "b53680a668dd537da47c2a05ee9d050528664dde027d0f7138ecc2d89e83aed1",
+          "bytes": 879
+        },
+        {
+          "upstream": "data/schemas/student_club/database_description/zip_code.csv",
+          "path": "arcwise/schemas/student_club/database_description/zip_code.csv",
+          "sha256": "8be8879133f0db79253b30259dccccfe0b6b0ab1bdbec3f8ea619f98b2549520",
+          "bytes": 664
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/alignment.csv",
+          "path": "arcwise/schemas/superhero/database_description/alignment.csv",
+          "sha256": "ebff59e5832b2870c298d2bbc85607e0f6b93c4921ff4d3265803d02a8796dce",
+          "bytes": 1024
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/attribute.csv",
+          "path": "arcwise/schemas/superhero/database_description/attribute.csv",
+          "sha256": "3c6bac9176d61e05ba059e8be6a3d5c5aa6eb743f526f07a1570f172cdbf6c72",
+          "bytes": 482
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/colour.csv",
+          "path": "arcwise/schemas/superhero/database_description/colour.csv",
+          "sha256": "ba732eddb938dc077cbc3f038057f566f9f12ccb53cc131168a5da538514b9cf",
+          "bytes": 191
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/gender.csv",
+          "path": "arcwise/schemas/superhero/database_description/gender.csv",
+          "sha256": "7311f964c77b6319184bbfc9ce8cc0ef87a103106bb1d6967461a5c681a3fe08",
+          "bytes": 173
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/hero_attribute.csv",
+          "path": "arcwise/schemas/superhero/database_description/hero_attribute.csv",
+          "sha256": "65af1dfdb96e4ddaba6262f3dffe9f61ea240c31d0ea2122e974d769827f039b",
+          "bytes": 628
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/hero_power.csv",
+          "path": "arcwise/schemas/superhero/database_description/hero_power.csv",
+          "sha256": "54eb40baa6b5b726bff28c872478caa8da8500f195239f8c6c3c552797c3794f",
+          "bytes": 453
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/publisher.csv",
+          "path": "arcwise/schemas/superhero/database_description/publisher.csv",
+          "sha256": "232e8656107f426beb3c7a25f1833afb295dbfa2ae3981b2a200f08ed4f1f000",
+          "bytes": 182
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/race.csv",
+          "path": "arcwise/schemas/superhero/database_description/race.csv",
+          "sha256": "8eb79fe0d1fc7d5641eff43d34e0e10b89fa726360d913bbee31dd55191064c7",
+          "bytes": 355
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/superhero.csv",
+          "path": "arcwise/schemas/superhero/database_description/superhero.csv",
+          "sha256": "503f0a71acd1766923c571865277f81accbf79b2c9d8df4a18439dfe01ec6f44",
+          "bytes": 1438
+        },
+        {
+          "upstream": "data/schemas/superhero/database_description/superpower.csv",
+          "path": "arcwise/schemas/superhero/database_description/superpower.csv",
+          "sha256": "4edef8900f158238382843e348ff9842991c83f1d384c53bef5dd8cb1e613ee2",
+          "bytes": 183
+        },
+        {
+          "upstream": "data/schemas/thrombosis_prediction/database_description/Examination.csv",
+          "path": "arcwise/schemas/thrombosis_prediction/database_description/Examination.csv",
+          "sha256": "b6529d09942a7da4720ecee75886d02dab47c7c9af8c5b5c9bbde3a1351de916",
+          "bytes": 1171
+        },
+        {
+          "upstream": "data/schemas/thrombosis_prediction/database_description/Laboratory.csv",
+          "path": "arcwise/schemas/thrombosis_prediction/database_description/Laboratory.csv",
+          "sha256": "cf9704e56cf3aca75e38de09277c307a7f0f726301b472254ce66ff4a352ff9f",
+          "bytes": 3676
+        },
+        {
+          "upstream": "data/schemas/thrombosis_prediction/database_description/Patient.csv",
+          "path": "arcwise/schemas/thrombosis_prediction/database_description/Patient.csv",
+          "sha256": "8acdc70e206829ecadad88b79f27cdbc29541bb3e2c86da92d9b1a7fa001539d",
+          "bytes": 553
+        },
+        {
+          "upstream": "data/schemas/toxicology/database_description/atom.csv",
+          "path": "arcwise/schemas/toxicology/database_description/atom.csv",
+          "sha256": "9de75492701c77c1229242e8c3b688ced9eb9095ac59d37361dfb0ec34300245",
+          "bytes": 538
+        },
+        {
+          "upstream": "data/schemas/toxicology/database_description/bond.csv",
+          "path": "arcwise/schemas/toxicology/database_description/bond.csv",
+          "sha256": "7d200d38b0dcc07e8fe22718bd6bdb1bdf4b6522b7a84a5d0c95340b6d8cb4bc",
+          "bytes": 382
+        },
+        {
+          "upstream": "data/schemas/toxicology/database_description/connected.csv",
+          "path": "arcwise/schemas/toxicology/database_description/connected.csv",
+          "sha256": "589b24206b9f884863ca57f3e339abcb2409a15feeaff0b08afcd955cd211036",
+          "bytes": 238
+        },
+        {
+          "upstream": "data/schemas/toxicology/database_description/molecule.csv",
+          "path": "arcwise/schemas/toxicology/database_description/molecule.csv",
+          "sha256": "a6ff2966916d03b07fd3ce275823d9ec65abb0b55158e871b07c40972b292d70",
+          "bytes": 293
+        }
+      ]
+    },
+    {
+      "name": "bird_minidev_zip",
+      "url": "https://bird-bench.oss-cn-beijing.aliyuncs.com/minidev.zip",
+      "ref": null,
+      "path": "_archives/minidev.zip",
+      "sha256": "cc48ba16838204e4e214512030cb572eeb5f7bcdd999bae4b9b6ff12ec13b92f",
+      "bytes": 800943648,
+      "license": "CC-BY-SA-4.0 (stated in the bird-bench/mini_dev README)",
+      "retrieved_on": "2026-10-01",
+      "extract": [
+        {
+          "member": "minidev/MINIDEV/mini_dev_sqlite.json",
+          "path": "bird/mini_dev_sqlite.json",
+          "sha256": "4ba5fa8de55856222f484d380d2ba872b380bf79d825de70478e2120cb0fc43b",
+          "bytes": 278486
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/california_schools/california_schools.sqlite",
+          "path": "bird/california_schools/california_schools.sqlite",
+          "sha256": "c0903eec662e63068fd1d14403d3d6c1d473287fc10c4356333ea58f878db983",
+          "bytes": 11116544
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/california_schools/database_description/frpm.csv",
+          "path": "bird/california_schools/database_description/frpm.csv",
+          "sha256": "f2c3fa53a02c5d711866a192f580c6a545389192a096441767f40d72ffa41334",
+          "bytes": 1651
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/california_schools/database_description/satscores.csv",
+          "path": "bird/california_schools/database_description/satscores.csv",
+          "sha256": "a44145158100894387d05a96987c487e3c83742892b13127b486de309bb8f138",
+          "bytes": 1057
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/california_schools/database_description/schools.csv",
+          "path": "bird/california_schools/database_description/schools.csv",
+          "sha256": "f18d96abf47892e4bd8094dd47d6978ea6bbc11821eccdf91f3f54dd1685979f",
+          "bytes": 11957
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/card_games/card_games.sqlite",
+          "path": "bird/card_games/card_games.sqlite",
+          "sha256": "c98bdb57fe7474da798b407785544b9af0daaad5d61fd21e2a73309493bc1227",
+          "bytes": 261820416
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/card_games/database_description/cards.csv",
+          "path": "bird/card_games/database_description/cards.csv",
+          "sha256": "41bc566e91e165f43f7484a1d3d3f17e66094e2c0cc3092829366f6e2f019d23",
+          "bytes": 9101
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/card_games/database_description/foreign_data.csv",
+          "path": "bird/card_games/database_description/foreign_data.csv",
+          "sha256": "ac254726eeb2d0fd574ec64bac31617ac233842623f692469b7569febe9f3310",
+          "bytes": 514
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/card_games/database_description/legalities.csv",
+          "path": "bird/card_games/database_description/legalities.csv",
+          "sha256": "223def1785f0f6f277db07a7881e8938e4314382697da47c080d14b52f1253e9",
+          "bytes": 272
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/card_games/database_description/rulings.csv",
+          "path": "bird/card_games/database_description/rulings.csv",
+          "sha256": "c50c64dd4d882a17d1a8478cd48b889103a39464c78f3da5dd904fde966bd3d4",
+          "bytes": 205
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/card_games/database_description/set_translations.csv",
+          "path": "bird/card_games/database_description/set_translations.csv",
+          "sha256": "d6f172ff2add8a399176cdb9ef32a5d60c8cf11186363e6142bb48a09debb2ff",
+          "bytes": 260
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/card_games/database_description/sets.csv",
+          "path": "bird/card_games/database_description/sets.csv",
+          "sha256": "3679c8051713f1574d40ff6793eaebf590705915d20f086ffe3ee930a4ddbb0e",
+          "bytes": 2351
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/codebase_community.sqlite",
+          "path": "bird/codebase_community/codebase_community.sqlite",
+          "sha256": "92101be6d2a9f6adceea59d38f6d1c556087f9eea1432432a21268cb1348036d",
+          "bytes": 481419264
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/badges.csv",
+          "path": "bird/codebase_community/database_description/badges.csv",
+          "sha256": "a1a7fc9783f11107c6b80adc54d0404a31d7bc162a1f5ae5e246e4852dc41a09",
+          "bytes": 264
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/comments.csv",
+          "path": "bird/codebase_community/database_description/comments.csv",
+          "sha256": "bd8de09b3eab2b4a1f69d9298460b0f39d919504d5dfb34d00de302b77e520eb",
+          "bytes": 629
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/postHistory.csv",
+          "path": "bird/codebase_community/database_description/postHistory.csv",
+          "sha256": "053779c106b3bc61da71744e918b321a2436180e5c57ad2a706e9c29fef11e94",
+          "bytes": 592
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/postLinks.csv",
+          "path": "bird/codebase_community/database_description/postLinks.csv",
+          "sha256": "789fefbd5b9b8db2653f8079c78325d6e3fd23a2ceff69ed7ee8959674ff014c",
+          "bytes": 343
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/posts.csv",
+          "path": "bird/codebase_community/database_description/posts.csv",
+          "sha256": "33e6883bbadc4fe77b5f4f593f7f23d74c2bc2bc45c8f2086c328beeefeb28e2",
+          "bytes": 1823
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/tags.csv",
+          "path": "bird/codebase_community/database_description/tags.csv",
+          "sha256": "27bc5022eeb20e18dc588a1f3cb63ac2c23720670f003fdd776ae9a5aad0a0d7",
+          "bytes": 381
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/users.csv",
+          "path": "bird/codebase_community/database_description/users.csv",
+          "sha256": "69d3297922932d9b39eb56e673606ba56fb3474a650fe417ea32d4d627160014",
+          "bytes": 924
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/codebase_community/database_description/votes.csv",
+          "path": "bird/codebase_community/database_description/votes.csv",
+          "sha256": "9c3856469bc9fd563d86f7062bfb9d632c6e98ae42fd7c52117e0be15e9e7ccf",
+          "bytes": 389
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/debit_card_specializing/debit_card_specializing.sqlite",
+          "path": "bird/debit_card_specializing/debit_card_specializing.sqlite",
+          "sha256": "b3d149ad05746dbbe5116e229e17e18f09c39db43cf117d9ef3441753608b691",
+          "bytes": 34635776
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/debit_card_specializing/database_description/customers.csv",
+          "path": "bird/debit_card_specializing/database_description/customers.csv",
+          "sha256": "fd1ff06796da13f6331801dba2a24536fd0aed887cde2a8d08cd03530de88f2d",
+          "bytes": 208
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/debit_card_specializing/database_description/gasstations.csv",
+          "path": "bird/debit_card_specializing/database_description/gasstations.csv",
+          "sha256": "4e44804b860c9fe412dd8872a4f53fc0e1094035ecc027fac4d9477d05766199",
+          "bytes": 233
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/debit_card_specializing/database_description/products.csv",
+          "path": "bird/debit_card_specializing/database_description/products.csv",
+          "sha256": "b61419d9b6481b170230a302c313fd787b5f0291f9a1a15fb3a55eb6d4f5f538",
+          "bytes": 158
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/debit_card_specializing/database_description/transactions_1k.csv",
+          "path": "bird/debit_card_specializing/database_description/transactions_1k.csv",
+          "sha256": "08bed279bc784952f1e17c97b290cf869ede6f9ea0914641052546408626b0af",
+          "bytes": 445
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/debit_card_specializing/database_description/yearmonth.csv",
+          "path": "bird/debit_card_specializing/database_description/yearmonth.csv",
+          "sha256": "7faf48ff08295935610dc07b33596028483f8270dd1ace0c6a512ae65f8a2e16",
+          "bytes": 179
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/european_football_2.sqlite",
+          "path": "bird/european_football_2/european_football_2.sqlite",
+          "sha256": "f72f5c9b990371417288a67b27a02e601ef904d45525c2c9f7931fb01001c536",
+          "bytes": 597754880
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/database_description/Country.csv",
+          "path": "bird/european_football_2/database_description/Country.csv",
+          "sha256": "e74aa65527321782a69ec5fdc68c3993aa6e1e5684426724776b81d12bcbe437",
+          "bytes": 149
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/database_description/League.csv",
+          "path": "bird/european_football_2/database_description/League.csv",
+          "sha256": "d44bbef373f44c16dee4729012375c1bf901664f1097e3af4bb3dfc973067437",
+          "bytes": 206
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/database_description/Match.csv",
+          "path": "bird/european_football_2/database_description/Match.csv",
+          "sha256": "2facc86ec5e869e7bb61b67fa660591c0a4f6291da79125dc2777a2bdafdd4dd",
+          "bytes": 2962
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/database_description/Player.csv",
+          "path": "bird/european_football_2/database_description/Player.csv",
+          "sha256": "a7a3cdc5c995227bbfcddf88d789f9244ffcfe0f6aed8aa69fcbef084149b92c",
+          "bytes": 588
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/database_description/Player_Attributes.csv",
+          "path": "bird/european_football_2/database_description/Player_Attributes.csv",
+          "sha256": "d01a00206b4ec6e94435f3af7e5153abca01931c4e93a519bb86ca5bbd42b46c",
+          "bytes": 4808
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/database_description/Team.csv",
+          "path": "bird/european_football_2/database_description/Team.csv",
+          "sha256": "104e03607f09cb41deddcb24a96add08aa2e9d8fc169454c3091a792df9f81ef",
+          "bytes": 408
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/european_football_2/database_description/Team_Attributes.csv",
+          "path": "bird/european_football_2/database_description/Team_Attributes.csv",
+          "sha256": "3fbad7950903c65a467c291282ab90d773a9e517802e0fffad5c5abfa7390840",
+          "bytes": 3145
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/financial.sqlite",
+          "path": "bird/financial/financial.sqlite",
+          "sha256": "d15d89cdb068a202b6f2b99342af44dffc1d52545b39ceaf62efdc0ba570101e",
+          "bytes": 71294976
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/account.csv",
+          "path": "bird/financial/database_description/account.csv",
+          "sha256": "98f9b72619c30593fadc013efc668d081193f34f2bda1353214c48c8013f03b3",
+          "bytes": 480
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/card.csv",
+          "path": "bird/financial/database_description/card.csv",
+          "sha256": "1dd79bf48c7696a5e6c3fc4835c9994b129f58307ad75c2f874f9cd1078fe300",
+          "bytes": 415
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/client.csv",
+          "path": "bird/financial/database_description/client.csv",
+          "sha256": "d1ef6f74b4730737517307c2f3b219496af264d83fe3e34f435c078b368dd800",
+          "bytes": 252
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/disp.csv",
+          "path": "bird/financial/database_description/disp.csv",
+          "sha256": "3b7ade14650a78e7122fdf4f423c4dae241e923d73039c65e5e85b7ac7919ffe",
+          "bytes": 423
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/district.csv",
+          "path": "bird/financial/database_description/district.csv",
+          "sha256": "6da804294fe9e7f9f8285759b842e39e0c5c8cb10390a93d5e292c2cb28fdc48",
+          "bytes": 1095
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/loan.csv",
+          "path": "bird/financial/database_description/loan.csv",
+          "sha256": "e6f4c7393d3973c9647913206ec4da2b9480bca4a8fb1ed45f4d42c433112756",
+          "bytes": 630
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/order.csv",
+          "path": "bird/financial/database_description/order.csv",
+          "sha256": "d01db89f3121b96a8c5876108d835ad0ab8d8bd5e132d9d823d384ae12706476",
+          "bytes": 602
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/financial/database_description/trans.csv",
+          "path": "bird/financial/database_description/trans.csv",
+          "sha256": "59efafabbb4347853f29ebfc14fdd18633f724a669e7e26cb7b2ecd628d6c4a2",
+          "bytes": 1155
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/formula_1.sqlite",
+          "path": "bird/formula_1/formula_1.sqlite",
+          "sha256": "79770caf966707e35516fa566e24b40ae515c74ec1ec4631235245645b87b24d",
+          "bytes": 22360064
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/circuits.csv",
+          "path": "bird/formula_1/database_description/circuits.csv",
+          "sha256": "fd69591f97ae0cb3b36b2d35524f03e5ec250c52358a71b2e41d435f3b2b658d",
+          "bytes": 556
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/constructorResults.csv",
+          "path": "bird/formula_1/database_description/constructorResults.csv",
+          "sha256": "b446078a76a422e9fbbb3246acf18a36bc75a441fac5f907555ac7031834f7d5",
+          "bytes": 289
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/constructorStandings.csv",
+          "path": "bird/formula_1/database_description/constructorStandings.csv",
+          "sha256": "d7df8f78744b244375278bb092f8b6d05c9cf4964bdc9cd41eb60261678db861",
+          "bytes": 543
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/constructors.csv",
+          "path": "bird/formula_1/database_description/constructors.csv",
+          "sha256": "79eb5ffde214702c1465ffa8584d59d3fc2e6a43fd8c41db91c02402af239dd4",
+          "bytes": 542
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/driverStandings.csv",
+          "path": "bird/formula_1/database_description/driverStandings.csv",
+          "sha256": "3cc467154abbf10dfc7f8ea5fdec512b5674f0683d36b893085a04de5d9aca5e",
+          "bytes": 548
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/drivers.csv",
+          "path": "bird/formula_1/database_description/drivers.csv",
+          "sha256": "0444a1610c97dcc1cb1af25a8aed4dc3ca585a0b27f8326d1bb9ffaa6f4e8635",
+          "bytes": 553
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/lapTimes.csv",
+          "path": "bird/formula_1/database_description/lapTimes.csv",
+          "sha256": "6fc86f0867ca9fc350b8583c18a74784d7a2e78afb1bc6462f83e3b7cddf5573",
+          "bytes": 410
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/pitStops.csv",
+          "path": "bird/formula_1/database_description/pitStops.csv",
+          "sha256": "6c1c7eb14a445b617710ac286e1f5a303e8b808062fa760c2054c276b2b79fab",
+          "bytes": 410
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/qualifying.csv",
+          "path": "bird/formula_1/database_description/qualifying.csv",
+          "sha256": "35b7e1ce9def76a653407a54f2b18901768392d92d1ef2484d24c20077c77e0e",
+          "bytes": 1824
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/races.csv",
+          "path": "bird/formula_1/database_description/races.csv",
+          "sha256": "a8e61de0c7e966c5198c701475d80276065f3a1cf96c3b79051c3541d8fd60d3",
+          "bytes": 393
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/results.csv",
+          "path": "bird/formula_1/database_description/results.csv",
+          "sha256": "7f7cde75b468b8ea135c6ed0872ef30ff715fda691786ca58e70d783b0a23b5d",
+          "bytes": 1748
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/seasons.csv",
+          "path": "bird/formula_1/database_description/seasons.csv",
+          "sha256": "6a87681dcc94db3f6c81879c8569ec29a966eccc7277aa1d9ad59b16e314e5c9",
+          "bytes": 215
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/formula_1/database_description/status.csv",
+          "path": "bird/formula_1/database_description/status.csv",
+          "sha256": "78725236cee342600f862cea296e87a4ea2e047d64d365f594526363f8acde57",
+          "bytes": 200
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/student_club.sqlite",
+          "path": "bird/student_club/student_club.sqlite",
+          "sha256": "eb89bcfe97eefa386a27904ec5aa15159811a7eac894ec659a36e48fa9f76b77",
+          "bytes": 2641920
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Attendance.csv",
+          "path": "bird/student_club/database_description/Attendance.csv",
+          "sha256": "33a5d912e8fea231ecd73d1ee3847433ced7d1768b91866bd1403fb7fd88ea22",
+          "bytes": 319
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Budget.csv",
+          "path": "bird/student_club/database_description/Budget.csv",
+          "sha256": "b9000d8f18b4a1613ea3c1877a41823375c2405647756a694591722ba86e60cd",
+          "bytes": 1307
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Event.csv",
+          "path": "bird/student_club/database_description/Event.csv",
+          "sha256": "1bf99aa2ce4ae79886eb0d4204e3edd1f0c8c0e44ed427c166f3a1a1af0aec04",
+          "bytes": 641
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Expense.csv",
+          "path": "bird/student_club/database_description/Expense.csv",
+          "sha256": "b323e60df3ebfa3ec64686a1d76bece0bb94d81cfe5b642a54b6763b67be302d",
+          "bytes": 738
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Income.csv",
+          "path": "bird/student_club/database_description/Income.csv",
+          "sha256": "573755cd0f41a5dce3a053eb877a52f101bf21af745aaf83170093aa5a4d0579",
+          "bytes": 522
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Major.csv",
+          "path": "bird/student_club/database_description/Major.csv",
+          "sha256": "baca5c68fa1b1c9a427445bd60a1c8702cbdab9d27d5eb0a4304fb7f2ef32e0d",
+          "bytes": 331
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Member.csv",
+          "path": "bird/student_club/database_description/Member.csv",
+          "sha256": "1b9dda90d5fdccc4f70f057bf594a6935975e55a9f81d333714d74d1f4d9674a",
+          "bytes": 888
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/student_club/database_description/Zip_Code.csv",
+          "path": "bird/student_club/database_description/Zip_Code.csv",
+          "sha256": "1c903324ec3ff9decd6abb10ac96e3746e1c1b776a26d3a8d4bf5244c8620ecb",
+          "bytes": 673
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/superhero.sqlite",
+          "path": "bird/superhero/superhero.sqlite",
+          "sha256": "75e94a2c3236ee3bb2c01fb97a1c4b4c1c269bcefd4eab1d04be323d2d0825b1",
+          "bytes": 237568
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/alignment.csv",
+          "path": "bird/superhero/database_description/alignment.csv",
+          "sha256": "ebff59e5832b2870c298d2bbc85607e0f6b93c4921ff4d3265803d02a8796dce",
+          "bytes": 1024
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/attribute.csv",
+          "path": "bird/superhero/database_description/attribute.csv",
+          "sha256": "3c6bac9176d61e05ba059e8be6a3d5c5aa6eb743f526f07a1570f172cdbf6c72",
+          "bytes": 482
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/colour.csv",
+          "path": "bird/superhero/database_description/colour.csv",
+          "sha256": "ba732eddb938dc077cbc3f038057f566f9f12ccb53cc131168a5da538514b9cf",
+          "bytes": 191
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/gender.csv",
+          "path": "bird/superhero/database_description/gender.csv",
+          "sha256": "7311f964c77b6319184bbfc9ce8cc0ef87a103106bb1d6967461a5c681a3fe08",
+          "bytes": 173
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/hero_attribute.csv",
+          "path": "bird/superhero/database_description/hero_attribute.csv",
+          "sha256": "65af1dfdb96e4ddaba6262f3dffe9f61ea240c31d0ea2122e974d769827f039b",
+          "bytes": 628
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/hero_power.csv",
+          "path": "bird/superhero/database_description/hero_power.csv",
+          "sha256": "54eb40baa6b5b726bff28c872478caa8da8500f195239f8c6c3c552797c3794f",
+          "bytes": 453
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/publisher.csv",
+          "path": "bird/superhero/database_description/publisher.csv",
+          "sha256": "232e8656107f426beb3c7a25f1833afb295dbfa2ae3981b2a200f08ed4f1f000",
+          "bytes": 182
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/race.csv",
+          "path": "bird/superhero/database_description/race.csv",
+          "sha256": "8eb79fe0d1fc7d5641eff43d34e0e10b89fa726360d913bbee31dd55191064c7",
+          "bytes": 355
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/superhero.csv",
+          "path": "bird/superhero/database_description/superhero.csv",
+          "sha256": "503f0a71acd1766923c571865277f81accbf79b2c9d8df4a18439dfe01ec6f44",
+          "bytes": 1438
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/superhero/database_description/superpower.csv",
+          "path": "bird/superhero/database_description/superpower.csv",
+          "sha256": "4edef8900f158238382843e348ff9842991c83f1d384c53bef5dd8cb1e613ee2",
+          "bytes": 183
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/thrombosis_prediction/thrombosis_prediction.sqlite",
+          "path": "bird/thrombosis_prediction/thrombosis_prediction.sqlite",
+          "sha256": "87583183c3dc472fba04de702965560a9d7c0a548836613f242317e0eeb83f00",
+          "bytes": 7327744
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/thrombosis_prediction/database_description/Examination.csv",
+          "path": "bird/thrombosis_prediction/database_description/Examination.csv",
+          "sha256": "b563c9030159bf169236e4582b653386bd34706e309227bf5eceb63b91eb0a89",
+          "bytes": 1187
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/thrombosis_prediction/database_description/Laboratory.csv",
+          "path": "bird/thrombosis_prediction/database_description/Laboratory.csv",
+          "sha256": "cf9704e56cf3aca75e38de09277c307a7f0f726301b472254ce66ff4a352ff9f",
+          "bytes": 3676
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/thrombosis_prediction/database_description/Patient.csv",
+          "path": "bird/thrombosis_prediction/database_description/Patient.csv",
+          "sha256": "519838a9f2592760bb26d1fb4f074bc304eee4e7aeaf46d03f652c370230e175",
+          "bytes": 560
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/toxicology/toxicology.sqlite",
+          "path": "bird/toxicology/toxicology.sqlite",
+          "sha256": "35ef27ae6bdfda530e125ed369666ac0abb8bc8c0bcc0ad09407f547ecb61a93",
+          "bytes": 2678784
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/toxicology/database_description/atom.csv",
+          "path": "bird/toxicology/database_description/atom.csv",
+          "sha256": "9de75492701c77c1229242e8c3b688ced9eb9095ac59d37361dfb0ec34300245",
+          "bytes": 538
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/toxicology/database_description/bond.csv",
+          "path": "bird/toxicology/database_description/bond.csv",
+          "sha256": "7d200d38b0dcc07e8fe22718bd6bdb1bdf4b6522b7a84a5d0c95340b6d8cb4bc",
+          "bytes": 382
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/toxicology/database_description/connected.csv",
+          "path": "bird/toxicology/database_description/connected.csv",
+          "sha256": "589b24206b9f884863ca57f3e339abcb2409a15feeaff0b08afcd955cd211036",
+          "bytes": 238
+        },
+        {
+          "member": "minidev/MINIDEV/dev_databases/toxicology/database_description/molecule.csv",
+          "path": "bird/toxicology/database_description/molecule.csv",
+          "sha256": "a6ff2966916d03b07fd3ce275823d9ec65abb0b55158e871b07c40972b292d70",
+          "bytes": 293
+        }
+      ]
+    }
+  ]
+}

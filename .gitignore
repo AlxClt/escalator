@@ -219,4 +219,7 @@ __marimo__/
 .streamlit/secrets.toml
 
 # data
-data/raw/*
+data/raw/
+
+#docs
+docs/tasks/*
