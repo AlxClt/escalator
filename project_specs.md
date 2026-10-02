@@ -81,7 +81,7 @@ A stranger can run make results and reproduce your table.
 - Trace analytics: DuckDB over JSONL traces
 - MCP: mcp==2.0.x pinned, stdio, MCPServer plus the v2 Client
 - Frontier adapter: Official anthropic SDK, hand-written adapter
-- Small tier adapter: OpenAI-compatible HTTP via httpx
+- Small tier adapter: Ollama native API (`/api/chat`) via httpx
 - Schemas / config: Pydantic v2 for trace records and configs, plain YAML
 - Stats: scipy, numpy, sklearn.metrics.roc_auc_score
 - Plots: matplotlib scripts reading results/*.json
@@ -94,7 +94,7 @@ A stranger can run make results and reproduce your table.
 To be built first, before the agent. It is what makes the budget survivable: a re-run after a bug fix in the scorer costs $0 rather than $15. The cache key must include everything that changes the output. The cost table lives in configs/prices.yaml with a retrieved_on date, because prices move and an undated cost claim is meaningless.
 
 - Sandbox
-Read-only connection, statement timeout of 5s, result row cap of 1000, reject ATTACH and PRAGMA. Pin the SQLite/DuckDB version. Sort result sets before comparison, or use a set-comparison that is order-insensitive unless the question specifies ordering — getting this wrong silently destroys the accuracy numbers, so unit-test the scorer against 20 known pairs before any sweep.
+Read-only connection, statement timeout of 30s, result row cap of 1000, reject ATTACH and PRAGMA. Pin the SQLite/DuckDB version. Sort result sets before comparison, or use a set-comparison that is order-insensitive unless the question specifies ordering — getting this wrong silently destroys the accuracy numbers, so unit-test the scorer against 20 known pairs before any sweep.
 
 - Agent loop
 Max 8 steps. Tools validated against JSON schema; on validation failure, return a typed error message to the model and retry up to 2 times. Count those retries — tool-call validation failure rate is a reliability metric that will be used for step 4.
@@ -112,7 +112,7 @@ Four tools, exposed by the MCP server, with the same manifest for both tiers
 
 - inspect_schema: Output sorted by table, then column position, so it serializes identically every call
 - sample_rows: Deterministic: ORDER BY rowid LIMIT n, or by primary key for WITHOUT ROWID tables. No randomness, no stat
-- execute_sql: Read-only connection, 5 s deadline via progress handler, ATTACH/PRAGMA denied by the authorizer, 1000-row fetch cap
+- execute_sql: Read-only connection, 30s deadline via progress handler, ATTACH/PRAGMA denied by the authorizer, 1000-row fetch cap
 - submit_answer: Terminal: the loop stops on a successful submit. Compile check with EXPLAIN only; the query is not executed at submit
 
 ## Metrics

@@ -2,13 +2,19 @@ Architecture of the escalator project
 
 escalator/
 ├── src/escalator/
+│   ├── util/
+│   │   └── canon.py        # the one canonical JSON (sorted keys, UTF-8, bytes/non-finite floats tagged)
 │   ├── llm/
-│   │   ├── adapter.py      # complete(messages, tools, model) -> Response
-│   │   ├── cache.py        # sqlite, key = sha256(model|messages|tools|T|seed|max_tokens)
-│   │   ├── cost.py         # usage -> USD via configs/prices.yaml
-│   │   └── providers/      # ollama, anthropic, openai
+│   │   ├── types.py        # Request (every sent parameter), Response, Usage (4 token buckets), ToolCall
+│   │   ├── errors.py       # PriceMissing, CacheMiss, ProviderError, ContextOverflow, ...
+│   │   ├── adapter.py      # complete(req, context=...) -> Response: cache, provider + retry, normalize, price
+│   │   ├── cache.py        # sqlite .cache/llm.sqlite, key = sha256(canon({v, req, ctx})), raw bodies
+│   │   ├── cost.py         # usage -> exact Decimal USD via configs/prices.yaml
+│   │   ├── models.py       # configs/models.yaml tiers; Ollama tag -> digest check at startup
+│   │   ├── __main__.py     # python -m escalator.llm {pin,ping}
+│   │   └── providers/      # base (protocol), ollama (/api/chat, httpx), anthropic (official SDK)
 │   ├── env/
-│   │   ├── sandbox.py      # read-only conn, statement timeout, row cap
+│   │   ├── sandbox.py      # execute(db_id, sql): ro+immutable conn per call, authorizer allowlist, 30 s wall clock, row cap
 │   │   ├── schema.py       # schema card rendering, schema linking
 │   │   └── server.py       # MCP server, stdio: the four tools over the sandbox
 │   ├── agent/
@@ -19,7 +25,7 @@ escalator/
 │   │   ├── signals.py      # error / self-consistency / verifier
 │   │   └── policy.py       # threshold sweep, oracle, budget knapsack
 │   ├── trace/
-│   │   ├── schema.py       # one JSONL record per step
+│   │   ├── schema.py       # StepRecord per LLM call (steps.jsonl), RunMeta (meta.json), strict reader
 │   │   └── replay.py       # deterministic re-run from trace
 │   ├── eval/
 │   │   ├── runner.py
@@ -34,7 +40,7 @@ escalator/
 │       ├── descriptions.py # description overlay: BIRD database_description/ + Arcwise schemas/
 │       ├── verify.py       # offline gates V/D/M/T/S and audits
 │       └── manifest.py     # pinned exclusions, stratified sampling, task and gold-result hashes
-├── configs/               # model tiers, prices (date-stamped), policy params; data.yaml, manifest.yaml (seed, pinned exclusions)
+├── configs/               # models.yaml (tiers, digests), prices.yaml (date-stamped), policy params; data.yaml, manifest.yaml (seed, pinned exclusions)
 ├── data/
 │   ├── sources.lock       # pinned sources: bird_minidev_zip, arcwise_plat_full, arcwise_schemas
 │   ├── env.lock           # pinned Python and SQLite versions
@@ -45,7 +51,8 @@ escalator/
 │   └── manifest.json      # the 200 pinned tasks: ids, difficulty, task_hash, gold_result_hash
 ├── results/               # committed metrics JSON — the actual evidence
 ├── notebooks/             # plots only, generated from results/
-├── tests/                 # tests/datasets/{unit,integration}
+├── traces/                # gitignored except traces/published/ (runs behind published numbers)
+├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}
 ├── Makefile               # make test | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | results
 └── README.md
 

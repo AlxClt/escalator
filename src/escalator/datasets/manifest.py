@@ -19,6 +19,7 @@ from escalator.datasets.config import REPO_ROOT, DataConfig
 from escalator.datasets.gold import GoldError, GoldTimeout, execute_with_deadline
 from escalator.datasets.lock import current_env, load_env_lock, parse_lock
 from escalator.datasets.verify import DataContext, Record, normalize_id, sort_ids
+from escalator.util import canon
 
 DEFAULT_MANIFEST_CONFIG = REPO_ROOT / "configs" / "manifest.yaml"
 SAMPLE_SIZE = 200
@@ -65,11 +66,6 @@ def load_manifest_config(path: Path = DEFAULT_MANIFEST_CONFIG) -> ManifestConfig
 # --- hashing ---------------------------------------------------------------
 
 
-def canonical_json(obj: object) -> bytes:
-    """Sorted keys, UTF-8, no insignificant whitespace."""
-    return json.dumps(obj, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
-
-
 def sha256_hex(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -78,7 +74,7 @@ def task_hash(rec: Record) -> str:
     """sha256 of the canonical JSON of the task's inputs and gold; null evidence stays null."""
     obj = {k: rec.get(k) for k in TASK_FIELDS}
     obj["question_id"] = normalize_id(rec.get("question_id"))
-    return sha256_hex(canonical_json(obj))
+    return sha256_hex(canon.dumps(obj))
 
 
 def encode_value(value: object) -> list[object]:
@@ -100,8 +96,8 @@ def encode_value(value: object) -> list[object]:
 
 def result_hash(rows: list[tuple[object, ...]]) -> str:
     """sha256 of the result as a multiset of rows: rows encoded, then sorted by their canonical JSON."""
-    encoded = sorted(([encode_value(v) for v in row] for row in rows), key=canonical_json)
-    return sha256_hex(canonical_json(encoded))
+    encoded = sorted(([encode_value(v) for v in row] for row in rows), key=canon.dumps)
+    return sha256_hex(canon.dumps(encoded))
 
 
 # --- frame and sampling ----------------------------------------------------

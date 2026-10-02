@@ -1,0 +1,19 @@
+{
+  "model": "gemma4:e4b-it-qat",
+  "created_at": "2026-10-02T10:00:00.000000Z",
+  "message": {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+      {"function": {"name": "execute_sql", "arguments": {"sql": "SELECT COUNT(*) FROM superhero"}}}
+    ]
+  },
+  "done_reason": "stop",
+  "done": true,
+  "total_duration": 1820000000,
+  "load_duration": 12000000,
+  "prompt_eval_count": 812,
+  "prompt_eval_duration": 640000000,
+  "eval_count": 45,
+  "eval_duration": 1100000000
+}

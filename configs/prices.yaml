@@ -1,0 +1,11 @@
+# Nominal prices. Strings, parsed to Decimal; a YAML float is a load error.
+# Local models are listed explicitly at 0: a missing entry is never 0 (PriceMissing).
+# Ollama keys are ollama/<tag>@<full digest>; UNPINNED is replaced by `python -m escalator.llm pin`.
+retrieved_on: 2026-10-02
+source: https://platform.claude.com/docs/en/models/sonnet-5-5/overview
+unit: usd_per_million_tokens
+models:
+  claude-sonnet-5-5:                    {input: "2.00", output: "10.00"}
+  ollama/gemma4:e4b-it-qat@ee665637121887cf3befff38abbb1be4ee117c7db867d97a67e29049ecd7e15f:    {input: "0", output: "0"}
+  ollama/gemma4:12b-it-qat@38044be4f923e5a55264ed7df4eaac2676651a905f735197c504045140c02bd3:    {input: "0", output: "0"}
+  ollama/gemma4:31b-it-qat@e0812a55773bfeac846b2d605b4d93638b8dfa7119d9587f3d91475afc78185e:    {input: "0", output: "0"}
