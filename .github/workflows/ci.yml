@@ -15,7 +15,6 @@ jobs:
 
   data:
     runs-on: ubuntu-latest
-    if: hashFiles('data/sources.lock') != ''
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
