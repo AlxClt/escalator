@@ -1,0 +1,29 @@
+# Pinned model tiers. For Ollama the digest, not the tag, is the model id; `python -m escalator.llm pin`
+# fills `digest` from /api/tags and the adapter refuses a tag whose live digest differs.
+# Library short digests as of 2026-10-02: e4b ee6656371218, 12b 38044be4f923, 31b e0812a55773b.
+ollama_min_version: "0.20.2"
+models:
+  gemma4-e4b:
+    tier: S
+    provider: ollama
+    tag: gemma4:e4b-it-qat
+    digest: null
+    settings: {num_ctx: 16384, think: false}
+  gemma4-12b:
+    tier: S
+    provider: ollama
+    tag: gemma4:12b-it-qat
+    digest: null
+    settings: {num_ctx: 16384, think: false}
+  gemma4-31b:
+    tier: S
+    provider: ollama
+    tag: gemma4:31b-it-qat
+    digest: null
+    settings: {num_ctx: 16384, think: false}
+  sonnet-5-5:
+    tier: L
+    provider: anthropic
+    model: claude-sonnet-5-5
+    # No temperature, top_p or top_k: Sonnet 5.5 rejects non-default sampling parameters.
+    settings: {thinking: {type: between_tools}, effort: medium}

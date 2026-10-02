@@ -81,7 +81,7 @@ A stranger can run make results and reproduce your table.
 - Trace analytics: DuckDB over JSONL traces
 - MCP: mcp==2.0.x pinned, stdio, MCPServer plus the v2 Client
 - Frontier adapter: Official anthropic SDK, hand-written adapter
-- Small tier adapter: OpenAI-compatible HTTP via httpx
+- Small tier adapter: Ollama native API (`/api/chat`) via httpx
 - Schemas / config: Pydantic v2 for trace records and configs, plain YAML
 - Stats: scipy, numpy, sklearn.metrics.roc_auc_score
 - Plots: matplotlib scripts reading results/*.json

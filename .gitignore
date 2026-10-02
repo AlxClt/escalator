@@ -151,9 +151,9 @@ activemq-data/
 .env
 .envrc
 .venv
-env/
+/env/
 venv/
-ENV/
+/ENV/
 env.bak/
 venv.bak/
 .env.local
@@ -223,3 +223,6 @@ data/raw/
 
 #docs
 docs/tasks/*
+# traces: only published runs are committed (D4)
+traces/*
+!traces/published/
