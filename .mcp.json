@@ -1,0 +1,9 @@
+{
+    "mcpServers":{
+        "escalator":
+        {
+            "command":"wsl",
+            "args":["--cd","C:\\Users\\alxco\\Documents\\Code\\escalator","--","bash","-lc","uv run --locked python -m escalator.env.server --db-root data/raw/bird"]
+        }
+    }
+}
