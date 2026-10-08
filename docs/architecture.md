@@ -29,7 +29,7 @@ escalator/
 │   │   └── replay.py       # deterministic re-run from trace
 │   ├── eval/
 │   │   ├── runner.py
-│   │   ├── tasks.py        # manifest tasks (task_hash checked), ordered flag from configs/scoring.yaml; gold re-executed via the sandbox, checked against gold_result_hash
+│   │   ├── tasks.py        # manifest tasks (task_hash checked), ordered flag and tie blocks from configs/scoring.yaml; gold re-executed via the sandbox, checked against gold_result_hash
 │   │   ├── scorers.py      # EX (columns permutation-invariant, multiset rows unless the task is ordered, numeric tolerance), soft-F1 secondary
 │   │   └── metrics.py
 │   └── datasets/           # fetch-and-verify layer: python -m escalator.datasets {lock,fetch,verify,env,diagnose-gold,manifest}
@@ -41,7 +41,7 @@ escalator/
 │       ├── descriptions.py # description overlay: BIRD database_description/ + Arcwise schemas/
 │       ├── verify.py       # offline gates V/D/M/T/S and audits
 │       └── manifest.py     # pinned exclusions, stratified sampling, task and gold-result hashes
-├── configs/               # models.yaml (tiers, digests), prices.yaml (date-stamped), policy params; data.yaml, manifest.yaml (seed, pinned exclusions), scoring.yaml (hand-checked ordered tasks)
+├── configs/               # models.yaml (tiers, digests), prices.yaml (date-stamped), policy params; data.yaml, manifest.yaml (seed, pinned exclusions), scoring.yaml (hand-checked ordered tasks and their tie blocks)
 ├── data/
 │   ├── sources.lock       # pinned sources: bird_minidev_zip, arcwise_plat_full, arcwise_schemas
 │   ├── env.lock           # pinned Python and SQLite versions

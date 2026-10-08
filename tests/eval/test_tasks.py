@@ -9,8 +9,9 @@ import pytest
 
 from escalator.datasets.config import REPO_ROOT
 from escalator.datasets.manifest import result_hash
-from escalator.env.sandbox import Sandbox
-from escalator.eval.tasks import GoldMismatch, Task, gold_result, load_ordered_ids, load_tasks, score_sql
+from escalator.env.sandbox import Result, Sandbox
+from escalator.eval.scorers import score
+from escalator.eval.tasks import GoldMismatch, Task, gold_result, load_ordered_tasks, load_tasks, score_sql
 
 DB_ID = "fixture"
 GOLD_SQL = "SELECT id, name FROM t WHERE id <= 3"
@@ -33,22 +34,36 @@ def _task(sql: str = GOLD_SQL, gold_hash: str | None = None, ordered: bool = Fal
     return Task("1", DB_ID, "simple", sql, gold_hash or result_hash(GOLD_ROWS), ordered)
 
 
-def test_load_ordered_ids(tmp_path: Path) -> None:
+def test_load_ordered_tasks(tmp_path: Path) -> None:
     path = tmp_path / "scoring.yaml"
-    path.write_text("ordered_tasks:\n  - 824\n  - '1040'\n", encoding="utf-8")
-    assert load_ordered_ids(path) == {"824", "1040"}
+    path.write_text("ordered_tasks:\n  824: []\n  '1040':\n    - [4, 5]\n    - [7, 8]\n  9:\n", encoding="utf-8")
+    assert load_ordered_tasks(path) == {"824": (), "1040": ((4, 5), (7, 8)), "9": ()}
 
 
-@pytest.mark.parametrize("text", ["ordered_tasks: 824\n", "other: []\n", "- 824\n", "ordered_tasks: [x]\n"])
-def test_load_ordered_ids_rejects_malformed(tmp_path: Path, text: str) -> None:
+@pytest.mark.parametrize(
+    "text",
+    [
+        "ordered_tasks: [824]\n",
+        "other: {}\n",
+        "- 824\n",
+        "ordered_tasks: {x: []}\n",
+        "ordered_tasks: {824: [4, 5]}\n",
+        "ordered_tasks: {824: [[4, 6]]}\n",
+        "ordered_tasks: {824: [[4]]}\n",
+        "ordered_tasks: {824: [['4', '5']]}\n",
+        "ordered_tasks: {824: [[true, 2]]}\n",
+        "ordered_tasks: {824: [[1, 2], [2, 3]]}\n",
+    ],
+)
+def test_load_ordered_tasks_rejects_malformed(tmp_path: Path, text: str) -> None:
     path = tmp_path / "scoring.yaml"
     path.write_text(text, encoding="utf-8")
     with pytest.raises(ValueError):
-        load_ordered_ids(path)
+        load_ordered_tasks(path)
 
 
-def test_pinned_ordered_ids() -> None:
-    assert load_ordered_ids() == {"824", "1040"}
+def test_pinned_ordered_tasks() -> None:
+    assert load_ordered_tasks() == {"824": (), "1040": ((4, 5), (7, 8))}
 
 
 def test_gold_result_matches_hash(sandbox: Sandbox) -> None:
@@ -107,8 +122,31 @@ BIRD_ROOT = REPO_ROOT / "data" / "raw" / "bird"
 def test_pinned_gold_scores_itself() -> None:
     tasks = load_tasks()
     assert len(tasks) == 200
-    assert {t.question_id for t in tasks if t.ordered} == load_ordered_ids()
+    assert {t.question_id for t in tasks if t.ordered} == set(load_ordered_tasks())
     sandbox = Sandbox.from_config()
     for task in tasks[::20]:
         out = score_sql(sandbox, task, task.gold_sql)
         assert out.ex and out.soft_f1 == 1.0, task.question_id
+
+
+@pytest.mark.skipif(not any(BIRD_ROOT.glob("*/*.sqlite")), reason="BIRD databases not installed (run make data)")
+def test_1040_tied_players_may_swap() -> None:
+    task = next(t for t in load_tasks() if t.question_id == "1040")
+    gold = gold_result(Sandbox.from_config(), task)
+
+    def swapped(i: int, j: int) -> Result:
+        rows = list(gold.rows)
+        rows[i], rows[j] = rows[j], rows[i]
+        return Result(gold.columns, rows, False)
+
+    def ex(pred: Result) -> bool:
+        return score(pred, gold, ordered=True, tie_blocks=task.tie_blocks).ex
+
+    assert ex(swapped(4, 5)) and ex(swapped(7, 8))
+    assert not ex(swapped(3, 4)) and not ex(swapped(0, 1))
+
+
+@pytest.mark.skipif(not any(BIRD_ROOT.glob("*/*.sqlite")), reason="BIRD databases not installed (run make data)")
+def test_tie_blocks_beyond_gold_rows_raise() -> None:
+    with pytest.raises(GoldMismatch, match="exceed"):
+        load_tasks(ordered_tasks={"1040": ((9, 10),)})

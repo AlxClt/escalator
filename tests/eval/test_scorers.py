@@ -9,7 +9,7 @@ import pytest
 
 from escalator.env.sandbox import Result, SqlError, SqlValue
 from escalator.eval import scorers
-from escalator.eval.scorers import execution_match, score, soft_f1, values_equal
+from escalator.eval.scorers import check_tie_blocks, execution_match, score, soft_f1, values_equal
 
 Rows = list[list[SqlValue]]
 
@@ -141,6 +141,64 @@ def test_ex_permutation_cap(monkeypatch: pytest.MonkeyPatch) -> None:
     assert execution_match(gold, gold, ordered=False)
 
 
+# --- tie blocks --------------------------------------------------------------
+
+
+@pytest.mark.parametrize("blocks", [[], [[0, 1]], [[1, 2], [4, 5, 6]], [[4, 5], [0, 1]]])
+def test_check_tie_blocks_accepts(blocks: list[list[int]]) -> None:
+    check_tie_blocks(blocks)
+
+
+@pytest.mark.parametrize("blocks", [[[3]], [[]], [[1, 3]], [[2, 1]], [[-1, 0]], [[0, 1], [1, 2]], [[0, 1, 2], [2, 3]]])
+def test_check_tie_blocks_rejects(blocks: list[list[int]]) -> None:
+    with pytest.raises(ValueError, match="invalid tie block"):
+        check_tie_blocks(blocks)
+
+
+TIED: Rows = [["a", 9], ["b", 8], ["c", 8], ["d", 7], ["e", 6], ["f", 6]]
+TIE_BLOCKS = [[1, 2], [4, 5]]
+
+
+def test_ex_ordered_swap_inside_tie_block() -> None:
+    pred: Rows = [["a", 9], ["c", 8], ["b", 8], ["d", 7], ["f", 6], ["e", 6]]
+    assert execution_match(pred, TIED, ordered=True, tie_blocks=TIE_BLOCKS)
+    assert not execution_match(pred, TIED, ordered=True)
+
+
+def test_ex_ordered_swap_across_tie_blocks_fails() -> None:
+    pred: Rows = [["b", 8], ["a", 9], ["c", 8], ["d", 7], ["e", 6], ["f", 6]]
+    assert not execution_match(pred, TIED, ordered=True, tie_blocks=TIE_BLOCKS)
+    pred = [["a", 9], ["b", 8], ["d", 7], ["c", 8], ["e", 6], ["f", 6]]
+    assert not execution_match(pred, TIED, ordered=True, tie_blocks=TIE_BLOCKS)
+
+
+def test_ex_tie_block_with_column_permutation() -> None:
+    pred: Rows = [[9, "a"], [8, "c"], [8, "b"], [7, "d"], [6, "e"], [6, "f"]]
+    assert execution_match(pred, TIED, ordered=True, tie_blocks=TIE_BLOCKS)
+
+
+def test_ex_tie_block_still_needs_the_same_rows() -> None:
+    pred: Rows = [["a", 9], ["c", 8], ["x", 8], ["d", 7], ["e", 6], ["f", 6]]
+    assert not execution_match(pred, TIED, ordered=True, tie_blocks=TIE_BLOCKS)
+
+
+def test_tie_blocks_ignored_when_unordered() -> None:
+    pred: Rows = list(reversed(TIED))
+    assert execution_match(pred, TIED, ordered=False, tie_blocks=TIE_BLOCKS)
+
+
+def test_soft_f1_swap_inside_tie_block() -> None:
+    pred: Rows = [["a", 9], ["c", 8], ["b", 8], ["d", 7], ["f", 6], ["e", 6]]
+    assert soft_f1(pred, TIED, ordered=True, tie_blocks=TIE_BLOCKS) == 1.0
+    assert soft_f1(pred, TIED, ordered=True) < 1.0
+
+
+def test_soft_f1_tie_block_beyond_short_prediction() -> None:
+    assert soft_f1([["a", 9], ["c", 8]], TIED, ordered=True, tie_blocks=TIE_BLOCKS) == pytest.approx(
+        soft_f1([["a", 9], ["b", 8]], TIED, ordered=True, tie_blocks=TIE_BLOCKS)
+    )
+
+
 # --- soft-F1 -----------------------------------------------------------------
 
 
@@ -202,6 +260,15 @@ def test_score_sql_error() -> None:
 def test_score_ignores_column_names() -> None:
     out = score(_result([[1]], columns=["x"]), _result([[1]], columns=["count(*)"]), ordered=False)
     assert out.ex
+
+
+def test_score_tie_blocks() -> None:
+    pred = _result([["a", 9], ["c", 8], ["b", 8], ["d", 7], ["e", 6], ["f", 6]])
+    assert score(pred, _result(TIED), ordered=True, tie_blocks=TIE_BLOCKS).ex
+    with pytest.raises(ValueError, match="exceed"):
+        score(pred, _result(TIED), ordered=True, tie_blocks=[[5, 6]])
+    with pytest.raises(ValueError, match="invalid tie block"):
+        score(pred, _result(TIED), ordered=True, tie_blocks=[[1, 3]])
 
 
 def test_score_rejects_truncated() -> None:

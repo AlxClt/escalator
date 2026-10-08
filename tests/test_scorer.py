@@ -40,6 +40,7 @@ class Pair:
     ordered: bool  # True when the question asks for an output order
     expect_ex: bool
     expect_soft_f1: float | None = None  # None: soft-F1 not asserted for this pair
+    tie_blocks: tuple[tuple[int, ...], ...] = ()  # ordered pairs only: gold row positions whose order is free
 
 
 PAIRS: list[Pair] = [
@@ -59,7 +60,7 @@ PAIRS: list[Pair] = [
 def test_hand_made_pair(pair: Pair) -> None:
     pred = Result(columns=pair.pred_columns, rows=pair.pred_rows, truncated=False)
     gold = Result(columns=pair.gold_columns, rows=pair.gold_rows, truncated=False)
-    out = score(pred, gold, ordered=pair.ordered)
+    out = score(pred, gold, ordered=pair.ordered, tie_blocks=pair.tie_blocks)
     assert out.ex is pair.expect_ex
     if pair.expect_soft_f1 is not None:
         assert out.soft_f1 == pytest.approx(pair.expect_soft_f1)
