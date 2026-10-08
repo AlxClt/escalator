@@ -1,12 +1,11 @@
 """SQLite sandbox: execute(db_id, sql) -> Result | SqlError, deterministic and stateless.
 
-One fresh read-only, immutable connection per call. Enforcement is an authorizer allowlist (not
-string matching), one statement per call, a wall-clock deadline via the progress handler that stays
-active through fetch, and a row cap. No timings are returned: elapsed time never reaches the model.
+One fresh read-only, immutable connection per call. 
 """
 
 from __future__ import annotations
 
+import re
 import sqlite3
 import time
 from collections.abc import Iterable
@@ -24,6 +23,9 @@ PROGRESS_OPS = 1000
 ErrorKind = Literal["syntax", "runtime", "timeout", "denied", "multi_statement", "unknown_db"]
 
 _ALLOWED = frozenset({sqlite3.SQLITE_SELECT, sqlite3.SQLITE_READ, sqlite3.SQLITE_FUNCTION, sqlite3.SQLITE_RECURSIVE})
+# Tool output must not depend on chance or on the run date.
+_NONDETERMINISTIC_FUNCTIONS = frozenset({"random", "randomblob"})
+_NONDETERMINISTIC_SQL = re.compile(r"(?i)\bnow\b|CURRENT_(DATE|TIME|TIMESTAMP)")
 
 # SQLite values as returned, never coerced: type handling is the scorer's job.
 SqlValue = int | float | str | bytes | None
@@ -42,7 +44,9 @@ class SqlError:
     message: str  # SQLite's own message: deterministic, shown to the model as-is
 
 
-def _authorize(action: int, *_: object) -> int:
+def _authorize(action: int, _arg1: str | None, arg2: str | None, *_: object) -> int:
+    if action == sqlite3.SQLITE_FUNCTION and (arg2 or "").casefold() in _NONDETERMINISTIC_FUNCTIONS:
+        return sqlite3.SQLITE_DENY
     return sqlite3.SQLITE_OK if action in _ALLOWED else sqlite3.SQLITE_DENY
 
 
@@ -80,8 +84,7 @@ class Sandbox:
     def path(self, db_id: str) -> Path:
         return self.db_root / "bird" / db_id / f"{db_id}.sqlite"
 
-    def execute(self, db_id: str, sql: str, *, row_cap: int | None = ROW_CAP) -> Result | SqlError:
-        """`row_cap=None` returns every row (the scorer compares full result sets)."""
+    def _connect(self, db_id: str) -> sqlite3.Connection | SqlError:
         # The allowlist check also closes path traversal: db_id never reaches the filesystem unchecked.
         if db_id not in self.db_ids:
             return SqlError("unknown_db", f"unknown database: {db_id}")
@@ -89,7 +92,30 @@ class Sandbox:
         if not path.is_file():
             return SqlError("unknown_db", f"database file missing: {db_id}")
         # as_uri() percent-encodes; concatenating a raw path breaks on '?', '#' or spaces.
-        conn = sqlite3.connect(path.resolve().as_uri() + "?mode=ro&immutable=1", uri=True)
+        return sqlite3.connect(path.resolve().as_uri() + "?mode=ro&immutable=1", uri=True)
+
+    def introspect(self, db_id: str, sql: str, params: tuple[str, ...] = ()) -> list[tuple[SqlValue, ...]]:
+        """Internal schema lookups (sqlite_master, table-valued pragmas) with server-owned SQL only.
+
+        No authorizer, no deadline: never pass agent-supplied SQL here. Raises on an unknown db.
+        """
+        conn = self._connect(db_id)
+        if isinstance(conn, SqlError):
+            raise LookupError(conn.message)
+        try:
+            conn.text_factory = _text
+            return [tuple(r) for r in conn.execute(sql, params).fetchall()]
+        finally:
+            conn.close()
+
+    def execute(self, db_id: str, sql: str, *, row_cap: int | None = ROW_CAP) -> Result | SqlError:
+        """`row_cap=None` returns every row (the scorer compares full result sets)."""
+        conn = self._connect(db_id)
+        if isinstance(conn, SqlError):
+            return conn
+        if _NONDETERMINISTIC_SQL.search(sql):
+            conn.close()
+            return SqlError("denied", "not authorized: non-deterministic SQL (now, CURRENT_DATE/TIME/TIMESTAMP)")
         deadline = time.monotonic() + self.timeout_s
         try:
             conn.text_factory = _text

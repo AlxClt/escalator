@@ -1,6 +1,6 @@
 # Project Status - Escalator
 
-**Last Updated:** 02/10/2026
+**Last Updated:** 08/10/2026
 **Project Start:** 30/09/2026
 
 ---
@@ -19,7 +19,7 @@ Steps are direct references to steps in [project_specs.md](project_specs.md)
   - 200 tasks: 61 simple, 100 moderate, 39 challenging (largest-remainder allocation, seed 20261001).
 - Gold timing is load-sensitive: cold-cache runs pushed golds that take about 1 s up to 6 s. That is why the exclusions are pinned instead of re-derived from A2.
 
-### Step 1: Infrastructure
+### Step 1: Infrastructure - in progress
 
 Part 1 (spec: `docs/tasks/week1_part_1.md`) is built and its hermetic tests pass (U1–U6, I1 under `tests/infra/`):
 
@@ -37,12 +37,15 @@ Part 1 exit — done (02/10/2026):
 - [x] `ping sonnet-5-5 --paid` twice: accepted with `thinking: between_tools` and `effort: medium`, no cache usage reported, second call a cache hit.
 - [x] Usage fields of the recorded bodies match the U1 fixtures. The fixtures stay hand-written: the pings use no tools, so no recorded body has a tool call yet.
 
+Part 2 (spec: `docs/tasks/mcp-server.md`):
+
+- [x] MCP server (`env/server.py`, `mcp==2.3.0`) and schema card (`env/schema.py`); `tests/test_server.py` passes locally and is skipped in CI (no data). Measured overhead: 1.88 ms median, 2.53 ms p95 per call over a direct sandbox call.
+
 To be built (part 2):
 
-- MCP server
 - scorer
 - CI: `make smoke` from cache (the `data` job was removed: the dataset is installed locally, never in CI)
-- Create scorer unit test file with placeholder for the data. DO NOT CREATE THE DATA YOURSELF 
+- Create scorer unit test file with placeholder for the data. DO NOT CREATE THE DATA YOURSELF
 
 Manual work to be done:
 
@@ -64,8 +67,7 @@ Decisions to make for part 2:
 Consequences to carry into week 2:
 
 - **Frontier temperature cannot be set.** Sonnet 5.5 rejects non-default sampling parameters, so frontier outcomes are samples at the provider default, not T = 0. A k = 2 frontier sweep is the only way to measure their flip rate.
-- **Gemma 4 sizes differ from the requested 3B / 9B / ~30B.** Gemma 4 has no 3B or 9B; e4b and 12b are the nearest sizes with native tool calling in Ollama. Gemma 2 has 2B/9B/27B but no tool calling. `e2b` is the alternative if "~3B" should mean smaller than e4b.
-- **QAT tags for all three sizes,** so the 4-bit scheme is the same kind across sizes. The library's `-it-q4_K_M` tags were re-pointed on 01/10/2026; pinning by digest is what protects the measurement.
+- **QAT tags for all three gemma 4 sizes,** so the 4-bit scheme is the same kind across sizes. The library's `-it-q4_K_M` tags were re-pointed on 01/10/2026; pinning by digest is what protects the measurement.
 - **Tag digests to verify at pull.** The Ollama library lists `ee6656371218` (e4b), `38044be4f923` (12b) and `e0812a55773b` (31b) as of 02/10/2026. Record the full digests from `/api/tags`.
 
-Target completion date for step 1: 06/10/2026
+Target completion date for step 1: 10/10/2026
