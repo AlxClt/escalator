@@ -94,10 +94,10 @@ A stranger can run make results and reproduce your table.
 To be built first, before the agent. It is what makes the budget survivable: a re-run after a bug fix in the scorer costs $0 rather than $15. The cache key must include everything that changes the output. The cost table lives in configs/prices.yaml with a retrieved_on date, because prices move and an undated cost claim is meaningless.
 
 - Sandbox
-Read-only connection, statement timeout of 30s, result row cap of 1000, reject ATTACH and PRAGMA. Pin the SQLite/DuckDB version. Sort result sets before comparison, or use a set-comparison that is order-insensitive unless the question specifies ordering — getting this wrong silently destroys the accuracy numbers, so unit-test the scorer against 20 known pairs before any sweep.
+Read-only connection, statement timeout of 30s, result row cap of 1000, reject ATTACH and PRAGMA (authorizer allowlist: SELECT, READ, FUNCTION, RECURSIVE). Reject non-deterministic SQL (`random`, `randomblob`, `now`, `CURRENT_DATE/TIME/TIMESTAMP`) so tool output never depends on chance or the run date. Pin the SQLite/DuckDB version. Sort result sets before comparison, or use a set-comparison that is order-insensitive unless the question specifies ordering — getting this wrong silently destroys the accuracy numbers, so unit-test the scorer against 20 known pairs before any sweep.
 
 - Agent loop
-Max 8 steps. Tools validated against JSON schema; on validation failure, return a typed error message to the model and retry up to 2 times. Count those retries — tool-call validation failure rate is a reliability metric that will be used for step 4.
+Max 8 steps. Tools validated against JSON schema, in the client only (`agent/tools.py`, against the manifest from `tools/list`); the server never re-validates argument shape. On validation failure, return a typed error message to the model and retry up to 2 times. Count those retries — tool-call validation failure rate is a reliability metric that will be used for step 4.
 
 - Trace
 One JSONL line per step: {task_id, run_id, step, tier, model, tool, args, result_hash, tokens_in, tokens_out, latency_ms, usd}. Everything downstream — metrics, routing simulation, failure taxonomy — reads traces, never live API calls. This decoupling is the single most important structural decision in the repo.
@@ -108,12 +108,14 @@ Architecture is described in [docs/architecture.md](docs/architecture.md)
 
 ### Agent tools
 
-Four tools, exposed by the MCP server, with the same manifest for both tiers
+Four tools, exposed by the MCP server, with the same manifest for both tiers. The server is stateless: no scoring, no gold or manifest access. Spec: [docs/tasks/mcp-server.md](docs/tasks/mcp-server.md)
 
-- inspect_schema: Output sorted by table, then column position, so it serializes identically every call
-- sample_rows: Deterministic: ORDER BY rowid LIMIT n, or by primary key for WITHOUT ROWID tables. No randomness, no stat
-- execute_sql: Read-only connection, 30s deadline via progress handler, ATTACH/PRAGMA denied by the authorizer, 1000-row fetch cap
-- submit_answer: Terminal: the loop stops on a successful submit. Compile check with EXPLAIN only; the query is not executed at submit
+- get_schema(db_id, tables?): the schema card from `env/schema.py`, byte-identical to the one in the prompt. Tables sorted by name, columns in declaration order, with type, PK/FK markers and the effective BIRD/Arcwise descriptions
+- sample_rows(db_id, table): Deterministic: first 5 rows ORDER BY rowid, or by primary key for WITHOUT ROWID tables. No randomness, no state
+- execute_sql(db_id, sql): runs through the sandbox: read-only connection, 30s deadline via progress handler, authorizer allowlist, 1000-row fetch cap
+- submit_answer(db_id, sql): identical to execute_sql. The loop treats a successful submit as terminal; the server has no notion of termination
+
+Results are one compact JSON text: `{columns, n_rows, n_rows_is_lower_bound, rows}`, with at most 50 preview rows, `n_rows` counted up to 1000, text cells clipped at 200 characters and blobs shown as `<blob:N bytes>`. Errors are `isError` results `{error, message}` with `error` one of `sql_error | timeout | forbidden | unknown_table | unknown_db`. `SERVER_VERSION` in `env/server.py` is bumped whenever tools, output format or limits change, and is hashed into the client's LLM cache key.
 
 ## Metrics
 

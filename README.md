@@ -244,8 +244,8 @@ After `make data`, add this to `.mcp.json` (e.g. for Claude Code) to query the B
 ## Method
 
 **Agent loop.** ReAct-style, one model per tier, max 8 model steps with an explicit stop condition.
-Four tools — schema inspection, row sampling, SQL execution, answer submission — each validated
-against a JSON schema; on validation failure the model gets a typed error and up to 2 retries.
+Four tools — `get_schema`, `sample_rows`, `execute_sql`, `submit_answer` — each validated against
+its JSON schema in the client; on validation failure the model gets a typed error and up to 2 retries.
 Retries are counted and do not consume the step budget. One JSONL trace line per step:
 `{task_id, run_id, step, tier, model, tool, args, result_hash, tokens_in, tokens_out, latency_ms, usd}`.
 Everything downstream — metrics, routing simulation, failure taxonomy — reads traces, never live
@@ -275,13 +275,18 @@ error.
 
 **Environment as an MCP server.** The sandbox and its four tools run as an MCP server over stdio;
 the agent loop is its only client in the experiment. Any MCP client can query the same databases
-(see *Use the environment from any MCP client*).
+(see *Use the environment from any MCP client*). The server is a thin, stateless adapter: no
+scoring, no gold. `submit_answer` runs exactly like `execute_sql`; only the loop treats it as terminal.
 
-Sandbox: read-only connection (`file:…?mode=ro&immutable=1`), 5 s statement timeout, 1000-row cap,
-`ATTACH` and `PRAGMA` rejected. Four invariants keep the MCP boundary from perturbing the
-measurement — canonical tool manifest hashed into the cache key; both tiers calling tools through
-the same client, with no provider-side execution; deterministic stateless tools; exactly one
-validation site. Each is tested in `tests/test_mcp_invariants.py`.
+Sandbox: read-only connection (`file:…?mode=ro&immutable=1`) opened fresh per call, 30 s wall-clock
+timeout, 1000-row cap, authorizer allowlist (so `ATTACH`, `PRAGMA` and writes are rejected), and
+non-deterministic SQL (`random()`, `now`, `CURRENT_*`) rejected. Results are compact JSON with a
+50-row preview and 200-character cells. Four invariants keep the MCP boundary from perturbing the
+measurement — canonical tool manifest, with `SERVER_VERSION` hashed into the cache key; both tiers
+calling tools through the same client, with no provider-side execution; deterministic stateless
+tools; exactly one validation site, the client. The server-side invariants are tested in
+`tests/test_server.py`. Measured MCP overhead: 1.9 ms median, 2.5 ms p95 per call
+(`scripts/mcp_overhead.py`).
 
 ---
 
@@ -383,7 +388,7 @@ data/sources.lock  # URL@commit-SHA + sha256 per fetched file
 data/env.lock      # Python + SQLite versions; hard gate
 data/hard_slice/   # authored: questions, SQL, rationales
 results/           # committed metrics JSON — the evidence
-tests/             # scorer tests and MCP invariants, run before any sweep
+tests/             # scorer tests and MCP server tests, run before any sweep
 ```
 
 Traces are the interface. Nothing downstream of week 2 touches a provider.
@@ -397,7 +402,7 @@ Traces are the interface. Nothing downstream of week 2 touches a provider.
 | Benchmark, engine, pins, repo name | settled — Arcwise-Plat-Full `fe766045`, SQLite 3.53.1, Python 3.12.14 |
 | Three small models, exact tags | open |
 | Frontier model, exact version string | open |
-| MCP SDK version | open |
-| Validation site: client or server | open — must be exactly one |
+| MCP SDK version | settled — `mcp==2.3.0`, low-level `Server`, stdio |
+| Validation site: client or server | settled — client only (`agent/tools.py`); the server checks only unknown db and table |
 | Prompt caching on the frontier provider | open — moves the budget by a large factor |
 | Two pre-registered τ | set from week-2 signal distributions, before any policy is scored |
