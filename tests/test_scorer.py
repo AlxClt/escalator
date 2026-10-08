@@ -43,6 +43,20 @@ class Pair:
     tie_blocks: tuple[tuple[int, ...], ...] = ()  # ordered pairs only: gold row positions whose order is free
 
 
+# Format example only, not one of the 20 (it is not in PAIRS). Gold is `SELECT name, age FROM t`;
+# the prediction selects `age, name` and returns the rows in another order: same answer.
+EXAMPLE = Pair(
+    id="example",
+    category="column_reordering",
+    pred_columns=["age", "name"],
+    pred_rows=[[41, "Bob"], [35, "Alice"]],
+    gold_columns=["name", "age"],
+    gold_rows=[["Alice", 35], ["Bob", 41]],
+    ordered=False,
+    expect_ex=True, #set to false is supposed to fail
+    expect_soft_f1=1.0, #leave none to test ex only
+)
+
 PAIRS: list[Pair] = [
     # --- column_reordering (4) ---
     # Pair(id="col-1", category="column_reordering",
@@ -56,14 +70,22 @@ PAIRS: list[Pair] = [
 ]
 
 
-@pytest.mark.parametrize("pair", PAIRS, ids=lambda p: p.id)
-def test_hand_made_pair(pair: Pair) -> None:
+def _check(pair: Pair) -> None:
     pred = Result(columns=pair.pred_columns, rows=pair.pred_rows, truncated=False)
     gold = Result(columns=pair.gold_columns, rows=pair.gold_rows, truncated=False)
     out = score(pred, gold, ordered=pair.ordered, tie_blocks=pair.tie_blocks)
     assert out.ex is pair.expect_ex
     if pair.expect_soft_f1 is not None:
         assert out.soft_f1 == pytest.approx(pair.expect_soft_f1)
+
+
+def test_example_pair() -> None:
+    _check(EXAMPLE)
+
+
+@pytest.mark.parametrize("pair", PAIRS, ids=lambda p: p.id)
+def test_hand_made_pair(pair: Pair) -> None:
+    _check(pair)
 
 
 def test_twenty_pairs_cover_every_category() -> None:
