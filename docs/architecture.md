@@ -14,9 +14,9 @@ escalator/
 │   │   ├── __main__.py     # python -m escalator.llm {pin,ping}
 │   │   └── providers/      # base (protocol), ollama (/api/chat, httpx), anthropic (official SDK)
 │   ├── env/
-│   │   ├── sandbox.py      # execute(db_id, sql): ro+immutable conn per call, authorizer allowlist, 30 s wall clock, row cap
-│   │   ├── schema.py       # schema card rendering, schema linking
-│   │   └── server.py       # MCP server, stdio: the four tools over the sandbox
+│   │   ├── sandbox.py      # execute(db_id, sql): ro+immutable conn per call, authorizer allowlist, no random/now, 30 s wall clock, row cap; introspect() for server-owned lookups
+│   │   ├── schema.py       # schema card rendering (descriptions overlay), schema linking
+│   │   └── server.py       # MCP server (mcp low-level Server), stdio: the four tools over the sandbox, stateless
 │   ├── agent/
 │   │   ├── loop.py         # ReAct-style, max_steps, explicit stop; MCP client
 │   │   ├── tools.py        # canonical tool manifest, validation, provider translation
@@ -52,7 +52,7 @@ escalator/
 ├── results/               # committed metrics JSON — the actual evidence
 ├── notebooks/             # plots only, generated from results/
 ├── traces/                # gitignored except traces/published/ (runs behind published numbers)
-├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}
+├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}; tests/test_server.py (MCP, needs data/raw)
 ├── Makefile               # make test | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | results
 └── README.md
 

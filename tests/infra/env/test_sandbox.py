@@ -107,3 +107,29 @@ def test_sandbox_row_cap(db_root: Path, sql: str, row_cap: int | None, n_rows: i
     assert out.columns == ["id", "name"]
     assert len(out.rows) == n_rows and out.truncated is truncated
     assert out.rows[0] == [1, "n1"] and out.rows[-1] == [n_rows, f"n{n_rows}"]
+
+
+@pytest.mark.parametrize(
+    "sql",
+    [
+        "SELECT random()",
+        "SELECT RANDOMBLOB(4)",
+        "SELECT name FROM t ORDER BY random() LIMIT 1",
+        "SELECT date('now')",
+        "SELECT CURRENT_TIMESTAMP",
+        "SELECT current_date",
+    ],
+)
+def test_sandbox_denies_nondeterministic(db_root: Path, sql: str) -> None:
+    out = _sandbox(db_root).execute(DB_ID, sql)
+    assert isinstance(out, SqlError) and out.kind == "denied", out
+
+
+def test_sandbox_introspect(db_root: Path) -> None:
+    sb = _sandbox(db_root)
+    assert sb.introspect(DB_ID, "SELECT name, pk FROM pragma_table_info(?) ORDER BY cid", ("t",)) == [
+        ("id", 1),
+        ("name", 0),
+    ]
+    with pytest.raises(LookupError):
+        sb.introspect("nope", "SELECT 1")

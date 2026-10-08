@@ -79,7 +79,7 @@ A stranger can run make results and reproduce your table.
 - Runtime: Python 3.12, uv with a committed lockfile, ruff, pyright, pytest
 - Execution DB: SQLite
 - Trace analytics: DuckDB over JSONL traces
-- MCP: mcp==2.0.x pinned, stdio, MCPServer plus the v2 Client
+- MCP: mcp==2.3.0 pinned, stdio, low-level Server with hand-written input schemas, plus the v2 Client
 - Frontier adapter: Official anthropic SDK, hand-written adapter
 - Small tier adapter: Ollama native API (`/api/chat`) via httpx
 - Schemas / config: Pydantic v2 for trace records and configs, plain YAML

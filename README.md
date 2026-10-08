@@ -231,6 +231,14 @@ versions, prices, seeds. Targets run through `uv run --locked`.
 `data/raw/` is gitignored: the databases exceed GitHub's file limit and the data is CC BY-SA 4.0,
 so this repo pins and fetches rather than redistributes. Attribution in `data/NOTICE`.
 
+### Use the environment from any MCP client
+
+After `make data`, add this to `.mcp.json` (e.g. for Claude Code) to query the BIRD databases through the same four tools the agent uses:
+
+```json
+{"mcpServers":{"escalator":{"command":"uv","args":["run","--locked","python","-m","escalator.env.server","--db-root","data/raw/bird"]}}}
+```
+
 ---
 
 ## Method
@@ -266,18 +274,8 @@ they approximately are. The measured frontier flip rate (Table 7) is the size of
 error.
 
 **Environment as an MCP server.** The sandbox and its four tools run as an MCP server over stdio;
-the agent loop is its only client in the experiment. Any MCP client can query the same databases:
-
-```json
-{
-  "mcpServers": {
-    "escalator": {
-      "command": "uv",
-      "args": ["run", "--locked", "-m", "escalator.env.server", "--db-root", "data/raw/bird"]
-    }
-  }
-}
-```
+the agent loop is its only client in the experiment. Any MCP client can query the same databases
+(see *Use the environment from any MCP client*).
 
 Sandbox: read-only connection (`file:…?mode=ro&immutable=1`), 5 s statement timeout, 1000-row cap,
 `ATTACH` and `PRAGMA` rejected. Four invariants keep the MCP boundary from perturbing the
