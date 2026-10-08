@@ -1,8 +1,6 @@
-"""MCP server over stdio: the four agent tools as a thin adapter over the sandbox and schema card.
+"""Minimal MCP server over stdio
 
-Stateless and deterministic. No scoring, no gold, no manifest. Argument shape is validated by the
-client (`agent/tools.py`) against the `tools/list` manifest; the server only runs semantic checks
-(unknown db, unknown table). Nothing but protocol frames reaches stdout: logging goes to stderr.
+ Nothing but protocol frames reaches stdout: logging goes to stderr.
 
     uv run --locked python -m escalator.env.server --db-root data/raw/bird
 """

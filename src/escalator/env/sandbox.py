@@ -1,8 +1,6 @@
 """SQLite sandbox: execute(db_id, sql) -> Result | SqlError, deterministic and stateless.
 
-One fresh read-only, immutable connection per call. Enforcement is an authorizer allowlist (not
-string matching), one statement per call, a wall-clock deadline via the progress handler that stays
-active through fetch, and a row cap. No timings are returned: elapsed time never reaches the model.
+One fresh read-only, immutable connection per call. 
 """
 
 from __future__ import annotations
