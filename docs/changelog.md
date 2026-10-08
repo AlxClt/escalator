@@ -23,6 +23,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - MCP server (`python -m escalator.env.server --db-root data/raw/bird`, `mcp==2.3.0` low-level `Server`, stdio): tools `get_schema`, `sample_rows`, `execute_sql` and `submit_answer` returning compact JSON (50-row preview, 1000-row count, 200-char cells), errors `sql_error | timeout | forbidden | unknown_table | unknown_db`; `SERVER_VERSION` versions the tool contract.
 - Schema card (`escalator.env.schema.render_card`): tables sorted by name, columns in declaration order with type, PK/FK markers and the effective BIRD/Arcwise descriptions.
 - `scripts/mcp_overhead.py`: per-call MCP overhead against direct sandbox calls.
+- Scorer (`escalator.eval.scorers.score`): execution accuracy with permutation-invariant columns, rows compared as a multiset unless the gold SQL has a top-level `ORDER BY`, numeric tolerance (`REL_TOL = 1e-6`, `ABS_TOL = 1e-9`), NULL equal to NULL and no text/number coercion; BIRD Mini-Dev soft-F1 as the secondary metric.
+- Gold side of scoring (`escalator.eval.tasks`): `load_tasks` reads `data/manifest.json` and checks each `task_hash`; `score_sql` re-executes the gold query through the sandbox on every call and raises `GoldMismatch` if it no longer matches `gold_result_hash`.
 
 ### Changed
 

@@ -29,7 +29,8 @@ escalator/
 │   │   └── replay.py       # deterministic re-run from trace
 │   ├── eval/
 │   │   ├── runner.py
-│   │   ├── scorers.py      # EX, plus soft-F1 as a secondary
+│   │   ├── tasks.py        # manifest tasks (task_hash checked); gold re-executed via the sandbox, checked against gold_result_hash
+│   │   ├── scorers.py      # EX (columns permutation-invariant, multiset rows unless gold has top-level ORDER BY, numeric tolerance), soft-F1 secondary
 │   │   └── metrics.py
 │   └── datasets/           # fetch-and-verify layer: python -m escalator.datasets {lock,fetch,verify,env,diagnose-gold,manifest}
 │       ├── config.py       # configs/data.yaml and the data/raw layout
@@ -52,7 +53,7 @@ escalator/
 ├── results/               # committed metrics JSON — the actual evidence
 ├── notebooks/             # plots only, generated from results/
 ├── traces/                # gitignored except traces/published/ (runs behind published numbers)
-├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}; tests/test_server.py (MCP, needs data/raw)
+├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}; tests/eval (scorer, gold side); tests/test_scorer.py (20 hand-made pairs); tests/test_server.py (MCP, needs data/raw)
 ├── Makefile               # make test | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | results
 └── README.md
 
