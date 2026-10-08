@@ -11,13 +11,16 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+import yaml
+
 from escalator.datasets.config import REPO_ROOT, load_config
 from escalator.datasets.manifest import result_hash, task_hash
 from escalator.datasets.verify import DataContext, normalize_id
 from escalator.env.sandbox import Result, Sandbox, SqlError
-from escalator.eval.scorers import Score, has_top_level_order_by, score
+from escalator.eval.scorers import Score, score
 
 DEFAULT_MANIFEST = REPO_ROOT / "data" / "manifest.json"
+DEFAULT_SCORING_CONFIG = REPO_ROOT / "configs" / "scoring.yaml"
 
 
 class GoldMismatch(RuntimeError):
@@ -31,19 +34,29 @@ class Task:
     difficulty: str
     gold_sql: str
     gold_result_hash: str
-    ordered: bool  # gold has a top-level ORDER BY: rows are compared in order
+    ordered: bool  # the question asks for an output order: rows are compared in order
 
 
-def make_task(question_id: str, db_id: str, difficulty: str, gold_sql: str, gold_result_hash: str) -> Task:
-    return Task(question_id, db_id, difficulty, gold_sql, gold_result_hash, has_top_level_order_by(gold_sql))
+def load_ordered_ids(path: Path = DEFAULT_SCORING_CONFIG) -> frozenset[str]:
+    """`ordered_tasks` from configs/scoring.yaml: the hand-checked ids whose rows are compared in order."""
+    raw: object = yaml.safe_load(path.read_text(encoding="utf-8"))
+    ids = raw.get("ordered_tasks") if isinstance(raw, dict) else None
+    if not isinstance(ids, list):
+        raise ValueError(f"{path}: ordered_tasks must be a list of ids")
+    return frozenset(normalize_id(i) for i in ids)
 
 
-def load_tasks(manifest_path: Path = DEFAULT_MANIFEST, ctx: DataContext | None = None) -> list[Task]:
+def load_tasks(
+    manifest_path: Path = DEFAULT_MANIFEST,
+    ctx: DataContext | None = None,
+    ordered_ids: frozenset[str] | None = None,
+) -> list[Task]:
     """The manifest's tasks with their gold SQL; a task whose inputs no longer hash to the manifest's
-    `task_hash` raises GoldMismatch."""
+    `task_hash` raises GoldMismatch. `ordered_ids` defaults to configs/scoring.yaml."""
     raw: object = json.loads(manifest_path.read_text(encoding="utf-8"))
     if not isinstance(raw, dict) or not isinstance(raw.get("tasks"), list):
         raise GoldMismatch(f"{manifest_path}: expected an object with a tasks list")
+    ordered = load_ordered_ids() if ordered_ids is None else ordered_ids
     own = ctx is None
     data = DataContext(load_config()) if ctx is None else ctx
     try:
@@ -57,8 +70,11 @@ def load_tasks(manifest_path: Path = DEFAULT_MANIFEST, ctx: DataContext | None =
                 raise GoldMismatch(f"task {qid} is not in Arcwise-Plat-Full")
             if task_hash(rec) != entry.get("task_hash"):
                 raise GoldMismatch(f"task {qid}: inputs no longer match the manifest task_hash")
-            tasks.append(make_task(qid, str(entry.get("db_id")), str(entry.get("difficulty")),
-                                   str(rec.get("SQL")), str(entry.get("gold_result_hash"))))
+            tasks.append(Task(qid, str(entry.get("db_id")), str(entry.get("difficulty")),
+                              str(rec.get("SQL")), str(entry.get("gold_result_hash")), qid in ordered))
+        unknown = ordered - {t.question_id for t in tasks}
+        if unknown:
+            raise GoldMismatch(f"ordered_tasks not in the manifest: {sorted(unknown, key=int)}")
         return tasks
     finally:
         if own:

@@ -6,7 +6,8 @@ expectation is, which is a deliberate, reviewed change).
 
 Rules the pairs check (escalator.eval.scorers):
 - columns are permutation-invariant, names ignored, the column count must match;
-- rows are a multiset, unless the gold SQL has a top-level ORDER BY (`ordered=True`);
+- rows are a multiset, unless the question asks for an output order (`ordered=True`; for real
+  tasks, the hand-checked list in configs/scoring.yaml);
 - numbers compare with REL_TOL / ABS_TOL (`5 == 5.0`), NULL equals NULL, no text/number coercion;
 - two empty results match, one empty result never matches a non-empty one.
 """
@@ -36,7 +37,7 @@ class Pair:
     pred_rows: list[list[SqlValue]]
     gold_columns: list[str]
     gold_rows: list[list[SqlValue]]
-    ordered: bool  # True when the gold SQL has a top-level ORDER BY
+    ordered: bool  # True when the question asks for an output order
     expect_ex: bool
     expect_soft_f1: float | None = None  # None: soft-F1 not asserted for this pair
 

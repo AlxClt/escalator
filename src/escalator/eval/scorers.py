@@ -2,8 +2,8 @@
 
 EX rules:
 - columns are permutation-invariant: names are ignored, the column count must match;
-- rows are a multiset (order ignored, duplicate counts matter), unless the gold SQL has a top-level
-  ORDER BY, in which case rows are compared in order;
+- rows are a multiset (order ignored, duplicate counts matter), unless the task asks for an output
+  order (the hand-checked list in configs/scoring.yaml), in which case rows are compared in order;
 - numbers compare with a tolerance (`5 == 5.0`), NULL equals NULL, no text/number coercion;
 - two empty results match; one empty result never matches a non-empty one.
 """
@@ -11,7 +11,6 @@ EX rules:
 from __future__ import annotations
 
 import math
-import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 
@@ -24,9 +23,6 @@ MAX_PERMUTATIONS = 10_000  # column assignments tried before EX gives up (False)
 Row = Sequence[SqlValue]
 Rows = Sequence[Row]
 SortKey = tuple[int, int | float | str | bytes]
-
-_ORDER_BY = re.compile(r"(?i)\border\s+by\b")
-_CLOSING = {"'": "'", '"': '"', "`": "`", "[": "]"}
 
 
 def values_equal(a: SqlValue, b: SqlValue) -> bool:
@@ -54,38 +50,6 @@ def _row_key(row: Row) -> tuple[SortKey, ...]:
 
 def _seq_equal(a: Sequence[SqlValue], b: Sequence[SqlValue]) -> bool:
     return len(a) == len(b) and all(values_equal(x, y) for x, y in zip(a, b, strict=True))
-
-
-# --- ordering --------------------------------------------------------------
-
-
-def has_top_level_order_by(sql: str) -> bool:
-    """True when ORDER BY applies to the outermost result: not inside parentheses (subqueries,
-    window OVER clauses), comments, string literals or quoted identifiers."""
-    top: list[str] = []
-    depth, i, n = 0, 0, len(sql)
-    while i < n:
-        c = sql[i]
-        if sql.startswith("--", i):
-            end = sql.find("\n", i)
-            i = n if end < 0 else end
-            top.append(" ")
-        elif sql.startswith("/*", i):
-            end = sql.find("*/", i + 2)
-            i = n if end < 0 else end + 2
-            top.append(" ")
-        elif c in _CLOSING:
-            end = sql.find(_CLOSING[c], i + 1)
-            i = n if end < 0 else end + 1
-            top.append(" ")
-        else:
-            if c == "(":
-                depth += 1
-            elif c == ")":
-                depth = max(depth - 1, 0)
-            top.append(c if depth == 0 and c != ")" else " ")
-            i += 1
-    return _ORDER_BY.search("".join(top)) is not None
 
 
 # --- EX --------------------------------------------------------------------

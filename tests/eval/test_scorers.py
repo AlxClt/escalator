@@ -1,4 +1,4 @@
-"""Scorer mechanics: value equality, top-level ORDER BY detection, EX, soft-F1, score().
+"""Scorer mechanics: value equality, EX, soft-F1, score().
 
 The 20 hand-made (predicted, gold) pairs live separately in tests/test_scorer.py.
 """
@@ -9,7 +9,7 @@ import pytest
 
 from escalator.env.sandbox import Result, SqlError, SqlValue
 from escalator.eval import scorers
-from escalator.eval.scorers import execution_match, has_top_level_order_by, score, soft_f1, values_equal
+from escalator.eval.scorers import execution_match, score, soft_f1, values_equal
 
 Rows = list[list[SqlValue]]
 
@@ -46,33 +46,6 @@ def _result(rows: Rows, columns: list[str] | None = None, truncated: bool = Fals
 def test_values_equal(a: SqlValue, b: SqlValue, equal: bool) -> None:
     assert values_equal(a, b) is equal
     assert values_equal(b, a) is equal
-
-
-# --- has_top_level_order_by --------------------------------------------------
-
-
-@pytest.mark.parametrize(
-    ("sql", "ordered"),
-    [
-        ("SELECT a FROM t ORDER BY a", True),
-        ("select a from t order  by a desc limit 3", True),
-        ("SELECT a FROM t ORDER\nBY a", True),
-        ("SELECT a FROM t", False),
-        ("SELECT a FROM (SELECT a FROM t ORDER BY a LIMIT 5)", False),
-        ("SELECT a, RANK() OVER (ORDER BY b) FROM t", False),
-        ("SELECT a FROM t WHERE a IN (SELECT a FROM u ORDER BY a) ORDER BY a", True),
-        ("SELECT 'order by' FROM t", False),
-        ('SELECT "order by" FROM t', False),
-        ("SELECT [order by] FROM t", False),
-        ("SELECT `order by` FROM t", False),
-        ("SELECT a FROM t -- ORDER BY a", False),
-        ("SELECT a FROM t /* ORDER BY a */", False),
-        ("SELECT 'it''s' FROM t ORDER BY a", True),
-        ("SELECT a FROM t_order BY_x", False),
-    ],
-)
-def test_has_top_level_order_by(sql: str, ordered: bool) -> None:
-    assert has_top_level_order_by(sql) is ordered
 
 
 # --- EX ----------------------------------------------------------------------
