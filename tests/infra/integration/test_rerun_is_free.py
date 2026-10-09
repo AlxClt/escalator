@@ -17,7 +17,7 @@ from escalator.llm.cost import PriceTable
 from escalator.llm.providers.base import RawResponse
 from escalator.llm.providers.ollama import OllamaProvider
 from escalator.llm.types import Message, Normalized, Request, ToolSpec
-from escalator.trace.schema import STEPS_FILE, StepRecord, TraceWriter, preview, read_steps
+from escalator.trace.schema import STEPS_FILE, StepRecord, ToolStatus, TraceWriter, preview, read_steps
 from escalator.util import canon
 
 MODEL = "ollama/fake:tag@" + "c" * 64
@@ -74,7 +74,7 @@ def run(adapter: Adapter, sandbox: Sandbox, run_dir: Path, run_id: str) -> list[
             r = adapter.complete(req, context=CONTEXT)
             call = r.tool_calls[0]
             result: object = None
-            status = "ok"
+            status: ToolStatus = "ok"
             if call.name == "execute_sql":
                 assert call.args is not None
                 out = sandbox.execute(DB_ID, str(call.args["sql"]))
@@ -84,10 +84,10 @@ def run(adapter: Adapter, sandbox: Sandbox, run_dir: Path, run_id: str) -> list[
             submitted = call.name == "submit_answer"
             w.append(StepRecord(
                 run_id=run_id, task_id="1", tier="S", model=MODEL, step=step, request_key=r.request_key,
-                cache_hit=r.cache_hit, stop_reason=r.stop_reason, tool=call.name, args=call.args,
-                args_raw=None if call.args is not None else call.args_raw, n_tool_calls=len(r.tool_calls),
-                tool_status=status, result_hash=canon.sha256(result) if result is not None else None,
-                result_preview=preview(rendered) if result is not None else None, text=r.text,
+                cache_hit=r.cache_hit, stop_reason=r.stop_reason, tool=[call.name], args=[call.args],
+                args_raw=[None if call.args is not None else call.args_raw], n_tool_calls=len(r.tool_calls),
+                tool_status=[status], result_hash=[canon.sha256(result) if result is not None else None],
+                result_preview=[preview(rendered) if result is not None else None], text=r.text,
                 tokens_in=r.usage.uncached_in, tokens_out=r.usage.out, tokens_cache_read=r.usage.cache_read,
                 tokens_cache_write=r.usage.cache_write, latency_ms=r.latency_ms, usd=str(r.usd),
                 end="submitted" if submitted else None,
@@ -99,7 +99,7 @@ def run(adapter: Adapter, sandbox: Sandbox, run_dir: Path, run_id: str) -> list[
 
 
 def spend(steps: list[StepRecord]) -> Decimal:
-    return sum((Decimal(s.usd) for s in steps if not s.cache_hit), Decimal(0))
+    return sum((Decimal(s.usd) for s in steps if not s.cache_hit and s.usd is not None), Decimal(0))
 
 
 @pytest.fixture
@@ -122,9 +122,9 @@ def test_rerun_is_free(tmp_path: Path, sandbox: Sandbox) -> None:
     first_cache = Cache(cache_path, "readwrite")
     first = run(Adapter({"ollama": first_provider}, first_cache, prices), sandbox, tmp_path / "run1", "run1")
     first_cache.close()
-    assert [s.tool for s in first] == ["execute_sql", "submit_answer"]
+    assert [s.tool for s in first] == [["execute_sql"], ["submit_answer"]]
     assert first_provider.calls == 2 and spend(first) > 0
-    assert first[0].result_preview is not None and "[[7]]" in first[0].result_preview
+    assert first[0].result_preview[0] is not None and "[[7]]" in first[0].result_preview[0]
 
     second_provider = ScriptedProvider()
     second_adapter = Adapter({"ollama": second_provider}, Cache(cache_path, "readonly"), prices)

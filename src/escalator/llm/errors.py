@@ -31,10 +31,6 @@ class TransientProviderError(ProviderError):
     """429, 5xx or a timeout: retried by the adapter, never cached."""
 
 
-class ContextOverflow(LLMError):
-    """Ollama filled num_ctx; it truncates from the front without error."""
-
-
 class UnsupportedParameter(LLMError):
     """The request sets a parameter the target model rejects; raised before sending."""
 

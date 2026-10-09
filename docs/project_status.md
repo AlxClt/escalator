@@ -75,7 +75,13 @@ Consequences to carry into week 2:
 
 #### 1 - Agent
 
-Agent loop, tools, prompts v1.
+Spec: `docs/tasks/week2-agent-loop-task.md`; conflicts and decisions in `docs/week2-notes.md`.
+
+- [x] Agent loop (`agent/loop.py`), tool layer (`agent/tools.py`), prompts v1 (`agent/prompts/v1.yaml`, real text, `{{db_id}}` slot added)
+- [x] Trace schema v2, `trace/replay.py`, `eval/runner.py`, `make smoke`, `make baselines` (defined, not run; refused without `PAID=1`)
+- [x] `tests/agent/` (spec tests 1–15; 16 dropped with concurrency) and the full `make test` suite pass locally
+- [ ] `make smoke` twice: not run yet, the Ollama pod was down. Check the second run under 5 s at $0. Under WSL on `/mnt/c`, imports (≈ 4.9 s), server start (≈ 4.4 s) and gold re-execution (≈ 3.5 s) already exceed 5 s, so run from the WSL filesystem or natively
+- [ ] On the first smoke: check that Ollama's `prompt_eval_count` is not reduced by KV-cache reuse (overflow detection depends on it), and settle P6
 
 #### 2 - Baselines and frontier sweep
 

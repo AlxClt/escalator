@@ -38,6 +38,8 @@ class Task:
     gold_result_hash: str
     ordered: bool  # the question asks for an output order: rows are compared in order
     tie_blocks: TieBlocks = ()  # gold row positions tied on the sort key: their order is free
+    question: str = ""  # Plat-Full question text, shown to the model
+    evidence: str | None = None  # Plat-Full evidence; None when the record has none
 
 
 def _tie_blocks(value: object, where: str) -> TieBlocks:
@@ -91,8 +93,11 @@ def load_tasks(
             n_gold = entry.get("gold_row_count")
             if blocks and (not isinstance(n_gold, int) or max(b[-1] for b in blocks) >= n_gold):
                 raise GoldMismatch(f"task {qid}: tie blocks exceed its {n_gold} gold rows")
+            evidence = rec.get("evidence")
             tasks.append(Task(qid, str(entry.get("db_id")), str(entry.get("difficulty")),
-                              str(rec.get("SQL")), str(entry.get("gold_result_hash")), qid in ordered, blocks))
+                              str(rec.get("SQL")), str(entry.get("gold_result_hash")), qid in ordered, blocks,
+                              question=str(rec.get("question")),
+                              evidence=evidence if isinstance(evidence, str) else None))
         unknown = set(ordered) - {t.question_id for t in tasks}
         if unknown:
             raise GoldMismatch(f"ordered_tasks not in the manifest: {sorted(unknown, key=int)}")

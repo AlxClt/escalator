@@ -2,6 +2,10 @@
 
 Every metric, the routing simulation and the failure taxonomy read these files and nothing else.
 Nothing nondeterministic beyond latency_ms enters a record.
+
+Schema v2 (week 2): the per-call fields are lists in call order, so a response with several tool
+calls is described completely; `end` gained `validation_exhausted` and `context_overflow`, and
+`tool_status` gained `ignored` (a call the harness did not execute).
 """
 
 from __future__ import annotations
@@ -17,13 +21,15 @@ from pydantic import BaseModel, ConfigDict, ValidationError, model_validator
 from escalator.datasets.config import REPO_ROOT
 from escalator.llm.types import JsonDict, StopReason
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 STEPS_FILE = "steps.jsonl"
 META_FILE = "meta.json"
 PREVIEW_BYTES = 2048
 
-ToolStatus = Literal["ok", "validation_error", "execution_error", "timeout", "denied"]
-End = Literal["submitted", "max_steps", "no_tool_call", "provider_error"]
+ToolStatus = Literal["ok", "validation_error", "execution_error", "timeout", "denied", "ignored"]
+End = Literal["submitted", "max_steps", "no_tool_call", "validation_exhausted", "context_overflow", "provider_error"]
+# Ends that count as a failure of the model (week-3 error signal); provider_error is infra.
+FAILED_ENDS: frozenset[End] = frozenset({"no_tool_call", "max_steps", "validation_exhausted", "context_overflow"})
 
 
 class TraceError(ValueError):
@@ -37,7 +43,7 @@ class TruncatedTrace(TraceError):
 class StepRecord(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    schema_version: Literal[1] = SCHEMA_VERSION
+    schema_version: Literal[2] = SCHEMA_VERSION
     run_id: str
     task_id: str  # str(question_id)
     tier: Literal["S", "L"]
@@ -46,33 +52,50 @@ class StepRecord(BaseModel):
     step: int  # 0-based per (run_id, task_id, tier, sample_idx)
     request_key: str
     cache_hit: bool
-    stop_reason: StopReason
-    tool: str | None
-    args: JsonDict | None
-    args_raw: str | None  # set only when args is None
+    stop_reason: StopReason | None  # None only when the call failed (end = provider_error)
+    # One entry per tool call, in call order; all of length n_tool_calls.
+    tool: list[str]
+    args: list[JsonDict | None]  # None when the arguments are not a JSON object
+    args_raw: list[str | None]  # set exactly where args is None
     n_tool_calls: int
-    tool_status: ToolStatus | None
-    result_hash: str | None  # sha256 of canon.dumps(result) as the model saw it, row order kept
-    result_preview: str | None
+    tool_status: list[ToolStatus]
+    result_hash: list[str | None]  # sha256 of canon.dumps(rendered result) as the model saw it
+    result_preview: list[str | None]
     text: str
     tokens_in: int | None
     tokens_out: int | None
-    tokens_cache_read: int
-    tokens_cache_write: int
-    latency_ms: int
-    usd: str  # nominal, decimal string
+    tokens_cache_read: int | None
+    tokens_cache_write: int | None
+    latency_ms: int | None  # None only for a failed call
+    usd: str | None  # nominal, decimal string; None only for a failed call
     end: End | None = None
 
     @model_validator(mode="after")
-    def _args_raw_only_when_unparsed(self) -> StepRecord:
-        if self.args is not None and self.args_raw is not None:
-            raise ValueError("args_raw is set only when args is null")
+    def _per_call_lists(self) -> StepRecord:
+        n = self.n_tool_calls
+        for name in ("tool", "args", "args_raw", "tool_status", "result_hash", "result_preview"):
+            if len(getattr(self, name)) != n:
+                raise ValueError(f"{name} has {len(getattr(self, name))} entries, n_tool_calls is {n}")
+        for a, raw in zip(self.args, self.args_raw, strict=True):
+            if (a is None) != (raw is not None):
+                raise ValueError("args_raw is set exactly where args is null")
         return self
+
+
+class TierMeta(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    name: str  # key of configs/models.yaml
+    tier: Literal["S", "L"]
+    provider: Literal["ollama", "anthropic"]
+    model_id: str  # exact version, or ollama/<tag>@<digest>
+    settings: JsonDict  # num_ctx / think, or thinking / effort
 
 
 class RunMeta(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
+    schema_version: Literal[2] = SCHEMA_VERSION
     run_id: str
     created_at: str
     git_sha: str
@@ -80,10 +103,24 @@ class RunMeta(BaseModel):
     prices_sha256: str
     prices_retrieved_on: str
     model_digests: dict[str, str]  # tier name -> exact model id
+    tier_config: TierMeta
     prompt_version: str
+    prompt_sha256: str
+    tool_manifest_sha256: str
+    mcp_server_version: str
+    mcp_sdk_version: str
+    temperature: float | None
+    seed: int | None
+    sample_idxs: list[int]
+    max_steps: int
+    retry_cap: int
+    render_max_rows: int
+    render_max_chars: int
+    overflow_margin: int
+    max_tokens: int
     configs_sha256: str
     env_lock: dict[str, str]
-    manifest_sha256: str
+    manifest_sha256: str  # data/manifest.json
     cache_schema: int
     ollama_version: str | None
 
@@ -137,7 +174,7 @@ def read_meta(path: Path) -> RunMeta:
     return RunMeta.model_validate_json(path.read_text(encoding="utf-8"))
 
 
-# --- RunMeta construction (untested in part 1) -----------------------------
+# --- RunMeta construction ---------------------------------------------------
 
 
 def _git(*args: str) -> str:
@@ -163,7 +200,21 @@ def build_run_meta(
     prices_sha256: str,
     prices_retrieved_on: dt.date,
     model_digests: dict[str, str],
+    tier_config: TierMeta,
     prompt_version: str,
+    prompt_sha256: str,
+    tool_manifest_sha256: str,
+    mcp_server_version: str,
+    mcp_sdk_version: str,
+    temperature: float | None,
+    seed: int | None,
+    sample_idxs: list[int],
+    max_steps: int,
+    retry_cap: int,
+    render_max_rows: int,
+    render_max_chars: int,
+    overflow_margin: int,
+    max_tokens: int,
     cache_schema: int,
     ollama_version: str | None,
     env_lock: dict[str, str],
@@ -177,7 +228,21 @@ def build_run_meta(
         prices_sha256=prices_sha256,
         prices_retrieved_on=prices_retrieved_on.isoformat(),
         model_digests=model_digests,
+        tier_config=tier_config,
         prompt_version=prompt_version,
+        prompt_sha256=prompt_sha256,
+        tool_manifest_sha256=tool_manifest_sha256,
+        mcp_server_version=mcp_server_version,
+        mcp_sdk_version=mcp_sdk_version,
+        temperature=temperature,
+        seed=seed,
+        sample_idxs=sample_idxs,
+        max_steps=max_steps,
+        retry_cap=retry_cap,
+        render_max_rows=render_max_rows,
+        render_max_chars=render_max_chars,
+        overflow_margin=overflow_margin,
+        max_tokens=max_tokens,
         configs_sha256=configs_sha256(),
         env_lock=env_lock,
         manifest_sha256=_sha256_file(manifest),

@@ -7,13 +7,7 @@ import time
 
 import httpx
 
-from escalator.llm.errors import (
-    ContextOverflow,
-    ModelResolutionError,
-    ProviderError,
-    TransientProviderError,
-    UnsupportedParameter,
-)
+from escalator.llm.errors import ModelResolutionError, ProviderError, TransientProviderError, UnsupportedParameter
 from escalator.llm.providers.base import RawResponse, load_body, raise_for_status, tool_call
 from escalator.llm.types import JsonDict, Message, Normalized, Request, StopReason, ToolCall, Usage
 
@@ -133,9 +127,9 @@ class OllamaProvider:
             # Deterministic id: a uuid would enter the next prompt and miss the cache downstream.
             calls.append(tool_call(f"call_{i}", name if isinstance(name, str) else "", fn.get("arguments")))
         p, e = obj.get("prompt_eval_count"), obj.get("eval_count")
+        # Context overflow (Ollama truncates silently past num_ctx) is detected by the agent loop from
+        # these counts and recorded as an outcome; parsing never raises on model output.
         usage = Usage(uncached_in=p if isinstance(p, int) else None, out=e if isinstance(e, int) else None)
-        if req.num_ctx is not None and (usage.uncached_in or 0) + (usage.out or 0) >= req.num_ctx:
-            raise ContextOverflow(f"prompt_eval_count={p} + eval_count={e} >= num_ctx={req.num_ctx}")
         done = obj.get("done_reason")
         stop: StopReason
         if done == "length":

@@ -1,0 +1,26 @@
+# Agent loop and runner settings (escalator.agent.loop, escalator.eval.runner).
+# Every value here is recorded in each run's meta.json.
+
+prompt_version: v1          # src/escalator/agent/prompts/<version>.yaml, shared by every tier
+max_steps: 8                # one step = one LLM call; validation retries consume steps
+validation_retry_cap: 2     # consecutive validation retries; the next failure ends the task
+render:                     # what the model sees of a result set (the sandbox row cap stays 1000)
+  max_rows: 50
+  max_chars: 4000
+overflow_margin: 1024       # small tier: end with context_overflow once prompt tokens >= num_ctx - margin
+max_tokens:                 # per LLM call, by tier
+  S: 2048
+  L: 16000                  # room for between_tools thinking
+seed: 20261001              # small tier sampling seed (T = 0, sample_idx = 0 for baselines)
+
+# Presets for `python -m escalator.eval.runner <preset>`. tasks: N = the first N manifest tasks
+# (manifest order), all = the pinned 200.
+presets:
+  smoke:
+    models: [gemma4-e4b]
+    tasks: 10
+    out: results/smoke.json
+  baselines:
+    models: [gemma4-e4b, gemma4-12b, gemma4-31b, sonnet-5-5]
+    tasks: all
+    out: results/baselines.json
