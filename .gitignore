@@ -226,3 +226,4 @@ docs/tasks/*
 # traces: only published runs are committed (D4)
 traces/*
 !traces/published/
+useful.txt
