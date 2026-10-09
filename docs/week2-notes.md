@@ -11,6 +11,8 @@ Spec: `docs/tasks/week2-agent-loop-task.md`. This file lists every week-1 confli
 | A3 | No concurrency. Tasks run sequentially in task-id order through one MCP session, so traces are written in `(task_id, sample_idx, step)` order directly. Spec test 16 is dropped. | Simpler. `llm/cache.py` keeps its single-threaded connection. |
 | A4 | A `{{db_id}}` slot was added to the `system` template. | The model must pass `db_id` to every tool, and no spec slot (nor the schema card) told it which database the task is on. |
 | A5 | Context overflow is detected in the loop, not in the Ollama provider. `OllamaProvider.normalize` no longer raises, and `ContextOverflow` was removed. | A raise inside `normalize` leaves no `Response`, so the trace record would lack tokens, latency and `cache_hit`. |
+| A6 | A cached rerun needs no live provider. Providers are built, and Ollama's pinned digests checked (`check_ollama`), only at the first cache miss (`LazyProvider`). Cached bodies are parsed by the module-level `normalize` of each provider. | Hits are safe without the check: the cache key holds the exact model id, Ollama digest included, and every entry was written after a check in its process. |
+| A7 | In readonly cache mode the paid guard lets paid models through. | A readonly cache raises `CacheMiss` before any provider call, so the rerun costs $0 and needs no API key. |
 
 ## Week-1 conflicts
 
@@ -43,6 +45,9 @@ Spec: `docs/tasks/week2-agent-loop-task.md`. This file lists every week-1 confli
 - **Sampling:** the small tier runs at `T = 0` with seed 20261001. The frontier tier sends neither temperature nor seed.
 - **Run directory:** `traces/<preset>-<model>-<prompt_version>/`. An existing run is refused without `--overwrite` (`make smoke` passes it; `make baselines OVERWRITE=1`).
 - **Spend cap:** `ESCALATOR_MAX_USD_PER_RUN` (`.env.example`) stops a run once actual spend exceeds it, after the current task (exit 3).
+- **Lazy setup failures:** a failure while building a provider or in its check (missing env var, unreachable pod, stale digest) raises `ProviderSetupError`, which is not a `ProviderError`. It aborts the run (exit 4) instead of ending each task as `provider_error`. It surfaces at the first cache miss; tasks before it are valid hits and stay in the trace.
+- **`RunMeta.ollama_version`:** the version of the Ollama server that served this run's misses, `null` when every call was a hit. `meta.json` is written at the start and rewritten at the end of each model's run.
+- **Readonly cache miss:** `CacheMiss` (or a missing readonly cache file) stops the run with exit 4, naming the task.
 - **Smoke tasks:** the first 10 manifest tasks in manifest order (ids 11, 17, 25, 28, 36, 45, 48, 62, 77, 79).
 - **Fixture DB:** built from `tests/fixtures/agent_db.sql` at test time, not committed as a binary. Tests share one real MCP server subprocess through an anyio blocking portal.
 
@@ -55,6 +60,5 @@ Spec: `docs/tasks/week2-agent-loop-task.md`. This file lists every week-1 confli
   - re-running the 10 smoke golds: 3.5 s.
 
   The audit shows those golds take tens of ms, so the cost is 9P file I/O, not SQL. Running from the WSL filesystem (or natively) should remove most of it.
-- **A cached rerun still contacts Ollama:** `check_ollama` verifies the pinned digests at startup, so the pod must be up even when every call is a cache hit.
 - **Overflow under-count risk:** Ollama's `prompt_eval_count` may exclude prompt tokens reused from its KV cache. If so, overflow detection under-counts. Compare it with the expected prompt size on the first smoke.
 - **P6 (still open):** if Gemma returns malformed tool calls as plain text, they currently end the task as `no_tool_call`, not as validation failures.

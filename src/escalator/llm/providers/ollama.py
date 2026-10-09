@@ -47,6 +47,36 @@ def _wire_messages(messages: tuple[Message, ...]) -> list[JsonDict]:
     return out
 
 
+def normalize(body: bytes, req: Request) -> Normalized:
+    """Parse a stored or fresh /api/chat body. Needs no server: cached runs parse without a provider."""
+    obj = load_body(body)
+    msg = obj.get("message")
+    msg = msg if isinstance(msg, dict) else {}
+    content = msg.get("content")
+    calls: list[ToolCall] = []
+    raw_calls = msg.get("tool_calls")
+    for i, c in enumerate(raw_calls if isinstance(raw_calls, list) else []):
+        fn = c.get("function") if isinstance(c, dict) else None
+        fn = fn if isinstance(fn, dict) else {}
+        name = fn.get("name")
+        # Deterministic id: a uuid would enter the next prompt and miss the cache downstream.
+        calls.append(tool_call(f"call_{i}", name if isinstance(name, str) else "", fn.get("arguments")))
+    p, e = obj.get("prompt_eval_count"), obj.get("eval_count")
+    # Context overflow (Ollama truncates silently past num_ctx) is detected by the agent loop from
+    # these counts and recorded as an outcome; parsing never raises on model output.
+    usage = Usage(uncached_in=p if isinstance(p, int) else None, out=e if isinstance(e, int) else None)
+    done = obj.get("done_reason")
+    stop: StopReason
+    if done == "length":
+        stop = "max_tokens"
+    elif done == "stop":
+        stop = "tool_use" if calls else "end_turn"
+    else:
+        stop = "other"
+    return Normalized(text=content if isinstance(content, str) else "", tool_calls=tuple(calls),
+                      provider_blocks=(), stop_reason=stop, usage=usage)
+
+
 class OllamaProvider:
     name = "ollama"
 
@@ -114,32 +144,7 @@ class OllamaProvider:
         return RawResponse(r.content, latency_ms)
 
     def normalize(self, body: bytes, req: Request) -> Normalized:
-        obj = load_body(body)
-        msg = obj.get("message")
-        msg = msg if isinstance(msg, dict) else {}
-        content = msg.get("content")
-        calls: list[ToolCall] = []
-        raw_calls = msg.get("tool_calls")
-        for i, c in enumerate(raw_calls if isinstance(raw_calls, list) else []):
-            fn = c.get("function") if isinstance(c, dict) else None
-            fn = fn if isinstance(fn, dict) else {}
-            name = fn.get("name")
-            # Deterministic id: a uuid would enter the next prompt and miss the cache downstream.
-            calls.append(tool_call(f"call_{i}", name if isinstance(name, str) else "", fn.get("arguments")))
-        p, e = obj.get("prompt_eval_count"), obj.get("eval_count")
-        # Context overflow (Ollama truncates silently past num_ctx) is detected by the agent loop from
-        # these counts and recorded as an outcome; parsing never raises on model output.
-        usage = Usage(uncached_in=p if isinstance(p, int) else None, out=e if isinstance(e, int) else None)
-        done = obj.get("done_reason")
-        stop: StopReason
-        if done == "length":
-            stop = "max_tokens"
-        elif done == "stop":
-            stop = "tool_use" if calls else "end_turn"
-        else:
-            stop = "other"
-        return Normalized(text=content if isinstance(content, str) else "", tool_calls=tuple(calls),
-                          provider_blocks=(), stop_reason=stop, usage=usage)
+        return normalize(body, req)
 
     def close(self) -> None:
         self._client.close()

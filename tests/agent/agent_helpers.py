@@ -23,7 +23,7 @@ from escalator.llm.cost import PriceTable
 from escalator.llm.errors import TransientProviderError
 from escalator.llm.models import ModelSpec
 from escalator.llm.providers.anthropic import AnthropicProvider
-from escalator.llm.providers.base import RawResponse
+from escalator.llm.providers.base import Provider, RawResponse
 from escalator.llm.providers.ollama import OllamaProvider
 from escalator.llm.types import JsonDict, Normalized, Request
 
@@ -126,7 +126,7 @@ class ScriptedProvider:
         return self._parser.normalize(body, req)
 
 
-def make_adapter(provider: ScriptedProvider, cache: Cache, table: PriceTable | None = None) -> Adapter:
+def make_adapter(provider: Provider, cache: Cache, table: PriceTable | None = None) -> Adapter:
     return Adapter({provider.name: provider}, cache, table or prices(), sleep=lambda _s: None)
 
 

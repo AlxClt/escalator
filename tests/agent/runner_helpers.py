@@ -25,6 +25,7 @@ from escalator.eval.runner import RunReport, execute_run, load_agent_config
 from escalator.eval.scorers import Score
 from escalator.eval.tasks import Task
 from escalator.llm.cache import CacheMode
+from escalator.llm.providers.base import Provider
 from escalator.llm.types import Request
 
 PRESET = "t"
@@ -48,9 +49,9 @@ def always_right(_task: Task, _sql: str) -> Score:
     return Score(True, 1.0, None)
 
 
-def run_preset(server: Server, tmp_path: Path, provider: ScriptedProvider, *, tasks: Sequence[Task] = TASKS,
-               cache_mode: CacheMode = "readwrite", overwrite: bool = False,
-               max_usd: Decimal | None = None) -> RunReport:
+def run_preset(server: Server, tmp_path: Path, provider: Provider, *, tasks: Sequence[Task] = TASKS,
+               cache_mode: CacheMode = "readwrite", overwrite: bool = False, max_usd: Decimal | None = None,
+               ollama_version: Callable[[], str | None] = lambda: None) -> RunReport:
     cache = server.cache(tmp_path / "llm.sqlite", cache_mode)
 
     async def go() -> RunReport:
@@ -58,7 +59,7 @@ def run_preset(server: Server, tmp_path: Path, provider: ScriptedProvider, *, ta
             preset=PRESET, specs=[SMALL], tasks=tasks, llm=make_adapter(provider, cache), prices=prices(),
             prompt=load_prompt("v1"), cfg=load_agent_config(), session=server.session,
             server_version=server.version, db_ids=DB_IDS, traces_root=tmp_path / "traces", overwrite=overwrite,
-            score=always_right, ollama_version=None, max_usd=max_usd,
+            score=always_right, ollama_version=ollama_version, max_usd=max_usd,
         )
 
     try:

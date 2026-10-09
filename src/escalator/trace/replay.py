@@ -7,7 +7,7 @@ reported as a mismatch at that step.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -21,9 +21,10 @@ from escalator.llm.cache import Cache
 from escalator.llm.cost import PriceTable
 from escalator.llm.errors import CacheMiss, LLMError
 from escalator.llm.models import ModelSpec
-from escalator.llm.providers.base import Provider, RawResponse
+from escalator.llm.providers import anthropic, ollama
+from escalator.llm.providers.base import LazyProvider, Provider
 from escalator.llm.providers.ollama import split_model_id
-from escalator.llm.types import Normalized, Request, Response
+from escalator.llm.types import Request, Response
 from escalator.trace.schema import META_FILE, STEPS_FILE, RunMeta, read_meta, read_steps
 
 
@@ -38,29 +39,18 @@ class KeyMismatch:
     got: str | None  # None: the replay stopped before this step
 
 
-class _ParseOnly:
-    """A provider that can normalize stored bodies but never calls out."""
-
-    def __init__(self, inner: Provider) -> None:
-        self.name = inner.name
-        self._inner = inner
-
-    def call(self, req: Request) -> RawResponse:
-        raise LLMError("replay never calls a provider")
-
-    def normalize(self, body: bytes, req: Request) -> Normalized:
-        return self._inner.normalize(body, req)
-
-
 def _parsers() -> dict[str, Provider]:
-    import anthropic
+    """Providers that parse stored bodies but never build a client or call out."""
 
-    from escalator.llm.providers.anthropic import AnthropicProvider
-    from escalator.llm.providers.ollama import OllamaProvider
+    def never(name: str) -> Callable[[], Provider]:
+        def build() -> Provider:
+            raise LLMError(f"replay never calls a provider ({name})")
+
+        return build
 
     return {
-        "ollama": _ParseOnly(OllamaProvider(base_url="http://replay.invalid")),
-        "anthropic": _ParseOnly(AnthropicProvider(client=anthropic.Anthropic(api_key="replay-unused", max_retries=0))),
+        "ollama": LazyProvider("ollama", never("ollama"), ollama.normalize),
+        "anthropic": LazyProvider("anthropic", never("anthropic"), anthropic.normalize),
     }
 
 

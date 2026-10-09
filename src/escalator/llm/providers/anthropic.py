@@ -65,6 +65,33 @@ def wire_messages(messages: tuple[Message, ...]) -> tuple[str | None, list[JsonD
     return ("\n\n".join(system) if system else None), out
 
 
+def normalize(body: bytes, req: Request) -> Normalized:
+    """Parse a stored or fresh Messages API body. Needs no client: cached runs parse without a key."""
+    obj = load_body(body)
+    content = obj.get("content")
+    blocks: list[JsonDict] = [b for b in content if isinstance(b, dict)] if isinstance(content, list) else []
+    texts: list[str] = []
+    calls: list[ToolCall] = []
+    for b in blocks:
+        if b.get("type") == "text" and isinstance(b.get("text"), str):
+            texts.append(str(b["text"]))
+        elif b.get("type") == "tool_use":
+            name = b.get("name")
+            calls.append(tool_call(str(b.get("id", "")), name if isinstance(name, str) else "", b.get("input")))
+    u = obj.get("usage")
+    u = u if isinstance(u, dict) else {}
+
+    def count(k: str) -> int | None:
+        v = u.get(k)
+        return v if isinstance(v, int) else None
+
+    usage = Usage(uncached_in=count("input_tokens"), cache_read=count("cache_read_input_tokens") or 0,
+                  cache_write=count("cache_creation_input_tokens") or 0, out=count("output_tokens"))
+    stop = obj.get("stop_reason")
+    return Normalized(text="".join(texts), tool_calls=tuple(calls), provider_blocks=tuple(blocks),
+                      stop_reason=_STOP.get(stop, "other") if isinstance(stop, str) else "other", usage=usage)
+
+
 class AnthropicProvider:
     name = "anthropic"
 
@@ -114,26 +141,4 @@ class AnthropicProvider:
         return RawResponse(r.http_response.content, latency_ms)
 
     def normalize(self, body: bytes, req: Request) -> Normalized:
-        obj = load_body(body)
-        content = obj.get("content")
-        blocks: list[JsonDict] = [b for b in content if isinstance(b, dict)] if isinstance(content, list) else []
-        texts: list[str] = []
-        calls: list[ToolCall] = []
-        for b in blocks:
-            if b.get("type") == "text" and isinstance(b.get("text"), str):
-                texts.append(str(b["text"]))
-            elif b.get("type") == "tool_use":
-                name = b.get("name")
-                calls.append(tool_call(str(b.get("id", "")), name if isinstance(name, str) else "", b.get("input")))
-        u = obj.get("usage")
-        u = u if isinstance(u, dict) else {}
-
-        def count(k: str) -> int | None:
-            v = u.get(k)
-            return v if isinstance(v, int) else None
-
-        usage = Usage(uncached_in=count("input_tokens"), cache_read=count("cache_read_input_tokens") or 0,
-                      cache_write=count("cache_creation_input_tokens") or 0, out=count("output_tokens"))
-        stop = obj.get("stop_reason")
-        return Normalized(text="".join(texts), tool_calls=tuple(calls), provider_blocks=tuple(blocks),
-                          stop_reason=_STOP.get(stop, "other") if isinstance(stop, str) else "other", usage=usage)
+        return normalize(body, req)

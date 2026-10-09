@@ -6,13 +6,13 @@ escalator/
 │   │   └── canon.py        # the one canonical JSON (sorted keys, UTF-8, bytes/non-finite floats tagged)
 │   ├── llm/
 │   │   ├── types.py        # Request (every sent parameter), Response, Usage (4 token buckets), ToolCall
-│   │   ├── errors.py       # PriceMissing, CacheMiss, ProviderError, UnsupportedParameter, ...
+│   │   ├── errors.py       # PriceMissing, CacheMiss, ProviderError, ProviderSetupError, UnsupportedParameter, ...
 │   │   ├── adapter.py      # complete(req, context=...) -> Response: cache, provider + retry, normalize, price
 │   │   ├── cache.py        # sqlite .cache/llm.sqlite, key = sha256(canon({v, req, ctx})), raw bodies
 │   │   ├── cost.py         # usage -> exact Decimal USD via configs/prices.yaml
-│   │   ├── models.py       # configs/models.yaml tiers; Ollama tag -> digest check at startup
+│   │   ├── models.py       # configs/models.yaml tiers; Ollama tag -> digest check before the first provider call (cache hits skip it)
 │   │   ├── __main__.py     # python -m escalator.llm {pin,ping}
-│   │   └── providers/      # base (protocol), ollama (/api/chat, httpx), anthropic (official SDK)
+│   │   └── providers/      # base (protocol, LazyProvider: built and checked at the first cache miss), ollama (/api/chat, httpx), anthropic (official SDK); module-level normalize parses cached bodies without a client
 │   ├── env/
 │   │   ├── sandbox.py      # execute(db_id, sql): ro+immutable conn per call, authorizer allowlist, no random/now, 30 s wall clock, row cap; introspect() for server-owned lookups
 │   │   ├── schema.py       # schema card rendering (descriptions overlay), schema linking

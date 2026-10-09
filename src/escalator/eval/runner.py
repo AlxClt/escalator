@@ -5,8 +5,11 @@ across tasks; tasks run sequentially in task-id order. Writes traces/<run_id>/{m
 per model and results/<preset>.json, scored with eval.tasks.
 
 Paid models (a non-zero price in configs/prices.yaml) are refused without --paid: frontier runs are
-only ever triggered by hand (`make baselines PAID=1`). Tasks that end in provider_error are
+only ever triggered by hand (`make baselines PAID=1`); with ESCALATOR_CACHE_MODE=readonly no provider
+can be reached, so they run from the cache. Providers are built, and Ollama's pinned digests checked,
+only at the first cache miss: a cached rerun needs no live provider. Tasks that end in provider_error are
 excluded from scoring and listed, and the runner exits 1; a re-run resumes through the cache.
+Exit codes: 2 refused, 3 spend cap, 4 provider setup failed or cache miss in readonly mode.
 """
 
 from __future__ import annotations
@@ -45,6 +48,7 @@ from escalator.eval.scorers import Score
 from escalator.eval.tasks import Task
 from escalator.llm.cache import CACHE_SCHEMA, DEFAULT_CACHE, Cache, CacheMode
 from escalator.llm.cost import DEFAULT_PRICES, PriceTable
+from escalator.llm.errors import CacheMiss, ProviderSetupError
 from escalator.llm.models import ModelSpec, load_models
 from escalator.trace.schema import META_FILE, STEPS_FILE, TierMeta, TraceWriter, build_run_meta
 
@@ -135,10 +139,11 @@ def paid_models(specs: Sequence[ModelSpec], prices: PriceTable) -> list[str]:
     return out
 
 
-def check_paid(specs: Sequence[ModelSpec], prices: PriceTable, *, paid: bool) -> None:
-    """Refuse paid models unless the run was explicitly marked paid."""
+def check_paid(specs: Sequence[ModelSpec], prices: PriceTable, *, paid: bool, cache_mode: CacheMode) -> None:
+    """Refuse paid models unless the run was explicitly marked paid. A readonly cache can never reach a
+    provider (a miss raises CacheMiss first), so a cached rerun of a paid model is allowed: it costs $0."""
     names = paid_models(specs, prices)
-    if names and not paid:
+    if names and not paid and cache_mode != "readonly":
         raise RunRefused(f"paid model(s) {', '.join(names)} need --paid (make baselines PAID=1); "
                          "frontier runs are only triggered by hand")
 
@@ -257,8 +262,12 @@ async def run_model(tasks: Sequence[Task], spec: ModelSpec, *, cfg: AgentConfig,
     spent = Decimal(0)
     for task in sorted(tasks, key=lambda t: int(t.question_id)):
         for idx in sample_idxs:
-            o = await run_task(task, spec, sample_idx=idx, temperature=temperature, seed=seed, session=session,
-                               run_ctx=run_ctx)
+            try:
+                o = await run_task(task, spec, sample_idx=idx, temperature=temperature, seed=seed,
+                                   session=session, run_ctx=run_ctx)
+            except CacheMiss as exc:
+                raise CacheMiss(f"task {task.question_id} (sample {idx}): no cache entry {exc} "
+                                "in readonly mode") from exc
             for rec in o.records:
                 writer.append(rec)
             outcomes.append(o)
@@ -271,7 +280,10 @@ async def run_model(tasks: Sequence[Task], spec: ModelSpec, *, cfg: AgentConfig,
 async def execute_run(*, preset: str, specs: Sequence[ModelSpec], tasks: Sequence[Task], llm: LLM,
                       prices: PriceTable, prompt: Prompt, cfg: AgentConfig, session: ToolSession,
                       server_version: str, db_ids: Sequence[str], traces_root: Path, overwrite: bool,
-                      score: Scorer, ollama_version: str | None, max_usd: Decimal | None = None) -> RunReport:
+                      score: Scorer, ollama_version: Callable[[], str | None],
+                      max_usd: Decimal | None = None) -> RunReport:
+    """`ollama_version` is read after each model's tasks: the Ollama server is contacted only at the
+    first cache miss, so its version is known only then (None for a fully cached run)."""
     tools = build_manifest(db_ids, prompt)
     tool_sha = manifest_sha256(tools)
     cache_context = {"tool_manifest_sha": tool_sha, "mcp_server_version": server_version}
@@ -293,7 +305,7 @@ async def execute_run(*, preset: str, specs: Sequence[ModelSpec], tasks: Sequenc
             temperature=temperature, seed=seed, sample_idxs=[0], max_steps=cfg.loop.max_steps,
             retry_cap=cfg.loop.retry_cap, render_max_rows=cfg.loop.render.max_rows,
             render_max_chars=cfg.loop.render.max_chars, overflow_margin=cfg.loop.overflow_margin,
-            max_tokens=cfg.loop.max_tokens[spec.tier], cache_schema=CACHE_SCHEMA, ollama_version=ollama_version,
+            max_tokens=cfg.loop.max_tokens[spec.tier], cache_schema=CACHE_SCHEMA, ollama_version=None,
             env_lock=env_lock,
         )
         run_ctx = RunContext(run_id=run_id, llm=llm, prompt=prompt, tools=tools, schemas=input_schemas(db_ids),
@@ -302,6 +314,9 @@ async def execute_run(*, preset: str, specs: Sequence[ModelSpec], tasks: Sequenc
             writer.write_meta(meta)
             outcomes = await run_model(tasks, spec, cfg=cfg, session=session, run_ctx=run_ctx, writer=writer,
                                        max_usd=max_usd)
+            fresh = any(not r.cache_hit for o in outcomes for r in o.records)
+            if spec.provider == "ollama" and fresh:
+                writer.write_meta(meta.model_copy(update={"ollama_version": ollama_version()}))
         rows: list[dict[str, object]] = []
         for o in outcomes:
             task = by_id[o.task_id]
@@ -345,8 +360,13 @@ def _main(args: argparse.Namespace) -> int:
         return 2
     specs = [models_cfg.models[n] for n in names]
     prices = PriceTable.load(DEFAULT_PRICES)
+    modes: dict[str, CacheMode] = {"readwrite": "readwrite", "readonly": "readonly", "off": "off"}
+    mode = os.environ.get("ESCALATOR_CACHE_MODE", "readwrite")
+    if mode not in modes:
+        print(f"ESCALATOR_CACHE_MODE={mode!r}: expected one of {sorted(modes)}", file=sys.stderr)
+        return 2
     try:
-        check_paid(specs, prices, paid=args.paid)
+        check_paid(specs, prices, paid=args.paid, cache_mode=modes[mode])
     except RunRefused as exc:
         print(f"refused: {exc}", file=sys.stderr)
         return 2
@@ -357,28 +377,25 @@ def _main(args: argparse.Namespace) -> int:
     from escalator.eval.tasks import load_tasks, score_sql
     from escalator.llm.adapter import Adapter
     from escalator.llm.models import check_ollama
-    from escalator.llm.providers.base import Provider
+    from escalator.llm.providers import ollama
+    from escalator.llm.providers.base import LazyProvider, Provider
 
     all_tasks = load_tasks()
     tasks = all_tasks if preset.tasks is None else all_tasks[: preset.tasks]
-    providers: dict[str, Provider] = {}
-    ollama_version: str | None = None
-    if any(s.provider == "ollama" for s in specs):
-        from escalator.llm.providers.ollama import OllamaProvider
-
-        ollama = OllamaProvider()
-        ollama_version = check_ollama(models_cfg, ollama)
-        providers["ollama"] = ollama
+    # Built, and the Ollama digests checked, only at the first cache miss: a cached rerun needs no
+    # live provider, no OLLAMA_BASE_URL and no API key.
+    lazy_ollama = LazyProvider("ollama", ollama.OllamaProvider, ollama.normalize,
+                               check=lambda p: check_ollama(models_cfg, p))
+    providers: dict[str, Provider] = {"ollama": lazy_ollama}
     if any(s.provider == "anthropic" for s in specs):
-        from escalator.llm.providers.anthropic import AnthropicProvider
+        from escalator.llm.providers import anthropic  # the SDK import is slow: only when needed
 
-        providers["anthropic"] = AnthropicProvider()
-    modes: dict[str, CacheMode] = {"readwrite": "readwrite", "readonly": "readonly", "off": "off"}
-    mode = os.environ.get("ESCALATOR_CACHE_MODE", "readwrite")
-    if mode not in modes:
-        print(f"ESCALATOR_CACHE_MODE={mode!r}: expected one of {sorted(modes)}", file=sys.stderr)
-        return 2
-    cache = Cache(_env_path("ESCALATOR_CACHE_PATH", DEFAULT_CACHE), modes[mode])
+        providers["anthropic"] = LazyProvider("anthropic", anthropic.AnthropicProvider, anthropic.normalize)
+    try:
+        cache = Cache(_env_path("ESCALATOR_CACHE_PATH", DEFAULT_CACHE), modes[mode])
+    except CacheMiss as exc:  # readonly, and the cache file does not exist
+        print(f"stopped: {exc}", file=sys.stderr)
+        return 4
     cap = os.environ.get("ESCALATOR_MAX_USD_PER_RUN")
     max_usd = Decimal(cap) if cap else None
     sandbox = Sandbox.from_config()
@@ -391,7 +408,7 @@ def _main(args: argparse.Namespace) -> int:
                 preset=args.preset, specs=specs, tasks=tasks, llm=Adapter(providers, cache, prices), prices=prices,
                 prompt=prompt, cfg=cfg, session=session, server_version=server_version,
                 db_ids=db_ids_under(db_root), traces_root=traces_root, overwrite=args.overwrite,
-                score=lambda task, sql: score_sql(sandbox, task, sql), ollama_version=ollama_version,
+                score=lambda task, sql: score_sql(sandbox, task, sql), ollama_version=lambda: lazy_ollama.server_version,
                 max_usd=max_usd,
             )
 
@@ -402,6 +419,9 @@ def _main(args: argparse.Namespace) -> int:
         if isinstance(leaf, (RunRefused, SpendCapExceeded)):
             print(f"stopped: {leaf}", file=sys.stderr)
             return 2 if isinstance(leaf, RunRefused) else 3
+        if isinstance(leaf, (ProviderSetupError, CacheMiss)):
+            print(f"stopped: {leaf}", file=sys.stderr)
+            return 4
         if leaf is not exc:
             raise leaf from exc
         raise
