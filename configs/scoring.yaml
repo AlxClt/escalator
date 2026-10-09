@@ -1,0 +1,14 @@
+# Scoring configuration (escalator.eval.tasks).
+#
+# ordered_tasks: the tasks whose question asks for an output order, hand-checked against all 200
+# questions of data/manifest.json on 08/10/2026. EX compares their rows in order; every other task
+# compares rows as a multiset. An ORDER BY in the gold SQL is not enough: it mostly selects the
+# top-N rows ("highest", "latest 10") without asking for them in order.
+#
+# Each id maps to its tie blocks: runs of consecutive 0-based gold row positions tied on the sort
+# key, so their order is arbitrary. Order is enforced between blocks and ignored within one.
+ordered_tasks:
+  824: []   # "list their names in alphabetical order"; no duplicate names
+  1040:     # "in descending order of average heading accuracy"
+    - [4, 5]  # Luca Toni, Per Mertesacker: 90.2647
+    - [7, 8]  # Miroslav Klose, Daniel van Buyten: 90.1765

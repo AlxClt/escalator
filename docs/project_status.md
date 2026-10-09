@@ -1,6 +1,6 @@
 # Project Status - Escalator
 
-**Last Updated:** 08/10/2026
+**Last Updated:** 09/10/2026
 **Project Start:** 30/09/2026
 
 ---
@@ -19,7 +19,7 @@ Steps are direct references to steps in [project_specs.md](project_specs.md)
   - 200 tasks: 61 simple, 100 moderate, 39 challenging (largest-remainder allocation, seed 20261001).
 - Gold timing is load-sensitive: cold-cache runs pushed golds that take about 1 s up to 6 s. That is why the exclusions are pinned instead of re-derived from A2.
 
-### Step 1: Infrastructure - in progress
+### Step 1: Infrastructure - done
 
 Part 1 (spec: `docs/tasks/week1_part_1.md`) is built and its hermetic tests pass (U1–U6, I1 under `tests/infra/`):
 
@@ -41,28 +41,31 @@ Part 2 (spec: `docs/tasks/mcp-server.md`):
 
 - [x] MCP server (`env/server.py`, `mcp==2.3.0`) and schema card (`env/schema.py`); `tests/test_server.py` passes locally and is skipped in CI (no data). Measured overhead: 1.88 ms median, 2.53 ms p95 per call over a direct sandbox call.
 
-To be built (part 2):
+- [x] Scorer (`eval/scorers.py`) and gold side (`eval/tasks.py`); mechanics tests in `tests/eval/` pass. EX: columns permutation-invariant, rows a multiset except for the tasks listed in `configs/scoring.yaml` `ordered_tasks`, numeric tolerance 1e-6 relative / 1e-9 absolute. All 200 manifest golds reproduce their `gold_result_hash` through the sandbox.
+- [x] Ordered tasks hand-checked against all 200 questions (08/10/2026): only 824 ("in alphabetical order") and 1040 ("in descending order of average heading accuracy") ask for an output order. The other 35 golds with a top-level `ORDER BY` use it to select the top N rows, so it no longer decides ordering.
+- [x] Tie audit of the 38 golds with a `LIMIT` (36 top-level, plus subqueries in 138 and 967):
+  - 1040: the only tie that affects scoring. Its top 10 holds two tied pairs at 0-based positions 4–5 (Luca Toni, Per Mertesacker: 90.2647) and 7–8 (Miroslav Klose, Daniel van Buyten: 90.1765), Both pairs are pinned as tie blocks in `configs/scoring.yaml`, so a prediction may list either pair in either order (decision P8).
+  - 1002: the gold picks one of Lance Stroll's 13 `driverStandings` races by scan order, not by date. Its value, Chinese Grand Prix, is still his earliest race by date, which is what the question asks.
+  - 1003 and 1238: the tied rows have identical output. 1135: the tie at potential 42 lies entirely inside the top 4. No tie in any other `LIMIT` gold.
+- [x] Scorer pair file `tests/test_scorer.py`: structure and checks only, `PAIRS` empty (its tests skip until filled).
+- [x] CI: unchanged, runs `make test` (decision P1).
 
-- scorer
-- CI: `make smoke` from cache (the `data` job was removed: the dataset is installed locally, never in CI)
-- Create scorer unit test file with placeholder for the data. DO NOT CREATE THE DATA YOURSELF
+Target completion date for step 1: 10/10/2026 - Completed 09/10/2026
 
-Manual work to be done:
+### Step 2: Agent and baselines
 
-- Create scorer unit test with 20 hand-made (predicted, gold) pairs covering column reordering, row reordering, NULL handling, float tolerance, empty results.
-- Add those tests in tests/test_scorer.py
-
-Step 1 IS NOT COMPLETE UNTIL THE hand made test pairs have been written.
+#### 0 - Decisions carried from step 1 (keep in mind if not already decided)
 
 Decisions to make for part 2:
 
 | # | Decision | Why it is open | Options |
 | --- | --- | --- | --- |
-| P1 | How CI runs `make smoke` without the dataset | The spec has CI run `make smoke` from cache, but smoke executes SQL on the BIRD databases and CI no longer installs them | Commit a small fixture database plus a replay cache for CI; or keep smoke local only and have CI run `make test` alone |
+| P1 | How CI runs `make smoke` without the dataset | The spec has CI run `make smoke` from cache, but smoke executes SQL on the BIRD databases and CI no longer installs them | **Decided (08/10/2026):** `make smoke` stays local only; CI runs `make test` alone |
 | P4 | Ollama latency includes model load | The first e4b call took 55.5 s for a 2-token reply, most of it presumably loading the model; `latency_ms` would skew latency metrics | Warm each model up before a sweep; or record `total_duration - load_duration` from the Ollama body |
 | P5 | Recorded tool-call fixtures | U1's tool-call payloads are hand-written | Record one tool-calling body per provider once the MCP server and agent loop run, and swap them in |
 | P6 | Counting small-tier tool-call failures | Ollama returns tool arguments already parsed, so `args=None` may never occur for the small tier; a call it fails to parse may come back as plain text instead (to verify) | Count such turns as validation failures, or as `end = no_tool_call`; decide before the baseline sweep |
-| P7 | Gold side of scoring: stored hash or gold rows | The scorer runs the submitted SQL through the sandbox (`row_cap=None`) and compares it with gold. `data/manifest.json` holds only `gold_result_hash` (order-insensitive, exact values, fixed column order), which cannot express column reordering, float tolerance or soft-F1, all required by the spec and the 20 hand-made scorer pairs. So the scorer needs gold rows, i.e. re-executed gold queries | (1) Hash only: no data needed, but fails the scorer requirements, so ruled out; (2) re-execute gold on every scoring: simple, but pays gold runtime each time; (3) execute each gold once and cache its rows under `data/raw/_cache/`, keyed on task and pinned engine, checked against `gold_result_hash` on load so data or engine drift fails loudly (recommended). Runner for (2)/(3): `datasets/gold.py` (the Step 0 path) or the sandbox with `row_cap=None`, which shares the model side's code path and text decoding (leaning sandbox; included golds run in about 5 s or less, within the 30 s limit) |
+| P7 | Gold side of scoring: stored hash or gold rows | The scorer runs the submitted SQL through the sandbox (`row_cap=None`) and compares it with gold. `data/manifest.json` holds only `gold_result_hash` (order-insensitive, exact values, fixed column order), which cannot express column reordering, float tolerance or soft-F1, all required by the spec and the 20 hand-made scorer pairs. So the scorer needs gold rows, i.e. re-executed gold queries | (1) Hash only: no data needed, but fails the scorer requirements, so ruled out; (2) re-execute gold on every scoring: simple, but pays gold runtime each time; (3) execute each gold once and cache its rows under `data/raw/_cache/`, keyed on task and pinned engine, checked against `gold_result_hash` on load so data or engine drift fails loudly (recommended). Runner for (2)/(3): `datasets/gold.py` (the Step 0 path) or the sandbox with `row_cap=None`, which shares the model side's code path and text decoding (leaning sandbox; included golds run in about 5 s or less, within the 30 s limit). **Decided (08/10/2026):** (2), gold re-executed through the sandbox (`row_cap=None`) on every scoring call and checked against `gold_result_hash` |
+| P8 | Tied rows in ordered task 1040 | Gold rows 4–5 and 7–8 tie on the sort key, so their order in gold is arbitrary, but the ordered comparison enforces it | (1) Pin tie blocks per ordered task in `configs/scoring.yaml` (e.g. `1040: [[4, 5], [7, 8]]`): order enforced between blocks, multiset within a block (recommended); (2) drop 1040 from `ordered_tasks`, losing its order check; (3) keep as is and count 1040 under "correct but scored wrong". **Decided (08/10/2026):** (1); soft-F1 also lines gold tie blocks up with the prediction |
 
 Consequences to carry into week 2:
 
@@ -70,4 +73,17 @@ Consequences to carry into week 2:
 - **QAT tags for all three gemma 4 sizes,** so the 4-bit scheme is the same kind across sizes. The library's `-it-q4_K_M` tags were re-pointed on 01/10/2026; pinning by digest is what protects the measurement.
 - **Tag digests to verify at pull.** The Ollama library lists `ee6656371218` (e4b), `38044be4f923` (12b) and `e0812a55773b` (31b) as of 02/10/2026. Record the full digests from `/api/tags`.
 
-Target completion date for step 1: 10/10/2026
+#### 1 - Agent
+
+Agent loop, tools, prompts v1.
+
+#### 2 - Baselines and frontier sweep
+
+ALL THOSE TESTS ARE TRIGGERED MANUALLY, DO NOT TRIGGER ANY OF IT YOURSELF
+
+Local-only baseline across 3 small models on the pinned 200.
+
+Manual trigger only: One frontier sweep.
+
+**Exit criterion**
+`results/baselines.json` committed, containing per-task outcomes and costs for all four model configurations. Two or more points on the accuracy/cost plane. Traces for every failed task stored.
