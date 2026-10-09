@@ -1,6 +1,4 @@
 """Scorer mechanics: value equality, EX, soft-F1, score().
-
-The 20 hand-made (predicted, gold) pairs live separately in tests/test_scorer.py.
 """
 
 from __future__ import annotations

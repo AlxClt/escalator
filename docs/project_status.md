@@ -1,6 +1,6 @@
 # Project Status - Escalator
 
-**Last Updated:** 08/10/2026
+**Last Updated:** 09/10/2026
 **Project Start:** 30/09/2026
 
 ---
@@ -19,7 +19,7 @@ Steps are direct references to steps in [project_specs.md](project_specs.md)
   - 200 tasks: 61 simple, 100 moderate, 39 challenging (largest-remainder allocation, seed 20261001).
 - Gold timing is load-sensitive: cold-cache runs pushed golds that take about 1 s up to 6 s. That is why the exclusions are pinned instead of re-derived from A2.
 
-### Step 1: Infrastructure - in progress
+### Step 1: Infrastructure - done
 
 Part 1 (spec: `docs/tasks/week1_part_1.md`) is built and its hermetic tests pass (U1–U6, I1 under `tests/infra/`):
 
@@ -50,11 +50,11 @@ Part 2 (spec: `docs/tasks/mcp-server.md`):
 - [x] Scorer pair file `tests/test_scorer.py`: structure and checks only, `PAIRS` empty (its tests skip until filled).
 - [x] CI: unchanged, runs `make test` (decision P1).
 
-Manual work to be done:
+Target completion date for step 1: 10/10/2026 - Completed 09/10/2026
 
-- Write the 20 hand-made (predicted, gold) pairs, 4 each for column reordering, row reordering, NULL handling, float tolerance and empty results, in `PAIRS` of `tests/test_scorer.py`.
+### Step 2: Agent and baselines
 
-Step 1 IS NOT COMPLETE UNTIL THE hand made test pairs have been written.
+#### 0 - Decisions carried from step 1 (keep in mind if not already decided)
 
 Decisions to make for part 2:
 
@@ -73,4 +73,17 @@ Consequences to carry into week 2:
 - **QAT tags for all three gemma 4 sizes,** so the 4-bit scheme is the same kind across sizes. The library's `-it-q4_K_M` tags were re-pointed on 01/10/2026; pinning by digest is what protects the measurement.
 - **Tag digests to verify at pull.** The Ollama library lists `ee6656371218` (e4b), `38044be4f923` (12b) and `e0812a55773b` (31b) as of 02/10/2026. Record the full digests from `/api/tags`.
 
-Target completion date for step 1: 10/10/2026
+#### 1 - Agent
+
+Agent loop, tools, prompts v1.
+
+#### 2 - Baselines and frontier sweep
+
+ALL THOSE TESTS ARE TRIGGERED MANUALLY, DO NOT TRIGGER ANY OF IT YOURSELF
+
+Local-only baseline across 3 small models on the pinned 200.
+
+Manual trigger only: One frontier sweep.
+
+**Exit criterion**
+`results/baselines.json` committed, containing per-task outcomes and costs for all four model configurations. Two or more points on the accuracy/cost plane. Traces for every failed task stored.
