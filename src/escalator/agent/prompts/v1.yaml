@@ -9,10 +9,16 @@ system: |-
   - Explore with the tools when it helps: sample_rows shows example values and formats, execute_sql runs a query so you can check its result before submitting.
   - Every reply must call exactly one tool. A reply without a tool call ends the task without an answer.
   - Queries are read-only: a single SELECT statement (WITH ... SELECT is fine). Writes, PRAGMA, ATTACH, random() and current date or time functions are rejected.
-  - Use the table and column names exactly as in the schema. Quote names that contain spaces or special characters with backticks or double quotes.
+  - Use the table and column names exactly as in the schema. Quote names that contain spaces or special characters with double quotes. Example, column name `School Name` must be used with double quotes: `"School Name"`
   - Use the external knowledge given with the question: it defines the terms, values and formulas the question relies on.
+  - Before using a column, check which table it belongs to in the schema and qualify it with that table's alias.
   - Return exactly the columns the question asks for, in the order it asks for them, and no others.
   - When your query is ready, call submit_answer with it. The submitted query is executed and graded on its result; you will not see that result, and the task ends there.
+
+  Hard rules - never bypass them:
+  - the submit_answer tool is the only way to answer, a final answer written as text is discarded and counts as failure.
+  - When a query's result answers the question, your next call is submit_answer with that same query.
+  - Never resend a query that failed: read the error message, find the right table or column in the schema, and change the query
 
   Schema of `{{db_id}}` (tables, columns with types, primary and foreign keys, descriptions):
 
