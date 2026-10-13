@@ -256,12 +256,14 @@ def summarize(rows: list[dict[str, object]], outcomes: list[TaskOutcome]) -> dic
 async def run_model(tasks: Sequence[Task], spec: ModelSpec, *, cfg: AgentConfig, session: ToolSession,
                     run_ctx: RunContext, writer: TraceWriter, sample_idxs: Sequence[int] = (0,),
                     max_usd: Decimal | None = None) -> list[TaskOutcome]:
-    """Tasks in task-id order, each written to the trace as soon as it ends."""
+    """Tasks in task-id order, each written to the trace as soon as it ends, with a progress line."""
     temperature, seed = sampling(spec, cfg.seed)
     outcomes: list[TaskOutcome] = []
     spent = Decimal(0)
+    total = len(tasks) * len(sample_idxs)
     for task in sorted(tasks, key=lambda t: int(t.question_id)):
         for idx in sample_idxs:
+            t0 = time.monotonic()
             try:
                 o = await run_task(task, spec, sample_idx=idx, temperature=temperature, seed=seed,
                                    session=session, run_ctx=run_ctx)
@@ -272,6 +274,9 @@ async def run_model(tasks: Sequence[Task], spec: ModelSpec, *, cfg: AgentConfig,
                 writer.append(rec)
             outcomes.append(o)
             spent += o.usd_spent
+            hits = sum(r.cache_hit for r in o.records)
+            print(f"{run_ctx.run_id} [{len(outcomes)}/{total}] task {task.question_id}: {o.end}, "
+                  f"{len(o.records)} steps ({hits} cached), {time.monotonic() - t0:.1f} s", flush=True)
             if max_usd is not None and spent > max_usd:
                 raise SpendCapExceeded(f"{run_ctx.run_id}: spent ${spent} > cap ${max_usd} after task {task.question_id}")
     return outcomes
