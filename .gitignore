@@ -227,4 +227,5 @@ docs/tasks/*
 traces/*
 !traces/published/
 useful.txt
+to_document.txt
 Readme_result_template_uncommited.md
