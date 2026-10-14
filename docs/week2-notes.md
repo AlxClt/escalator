@@ -101,3 +101,46 @@ Run `smoke-gemma4-e4b-v1`: `gemma4:e4b-it-qat` on RunPod (Ollama 0.40.2), prompt
 - **Soft-F1 near misses.** Task 11 scores 0.755 for 7,806 predicted rows against 7,804 gold rows. Pairing rows by position after sorting makes the metric harsh on a few extra rows. That's the specified behaviour, not a bug; keep it in mind when reading soft-F1.
 - **Benchmark label, for the week-4 review.** Task 25's evidence refers to `"District Name"` (a `frpm` column), while its gold query filters `schools.District`.
 - **Publishing runs.** This run's `meta.json` has `git_dirty: true` (an uncommitted `.gitignore` edit). Commit before a run whose numbers will be published, so `git_sha` identifies the code exactly.
+
+## Router signal candidates (three-model smoke, 13/10/2026)
+
+Runs `smoke-gemma4-{e4b,12b,31b}-v1`: the same 10 smoke tasks, one shared prompt (`prompt_sha256` `88b4227d…`), Ollama 0.40.3, `git_sha` `da0fa27` (dirty). `results/smoke.json` keeps only the last run (12b), so e4b and 31b were rescored from their traces with `score_sql`. 10 tasks on one database: enough to find candidate signals, not to measure them.
+
+**Outcomes** (✓/✗ = EX of the submitted query; an end name = nothing submitted):
+
+| Task | e4b | 12b | 31b | Failure |
+|---|---|---|---|---|
+| 11 | ✗ | ✗ | ✗ | All three gave the same answer; gold also filters `School IS NOT NULL` |
+| 17 | max_steps | ✓ | ✓ | e4b resent the same failing query 6 times |
+| 25 | no_tool_call | max_steps | ✓ | 12b resent the same successful query 6 times, never submitted |
+| 28 | ✓ | max_steps | ✗ | 12b: `"FundingType"` on `frpm` (no such column) read as a string literal; 31b: untested subquery without the funding filter |
+| 36 | no_tool_call | ✗ | ✗ | 12b: extra all-NULL columns; 31b: no `rtype` filter |
+| 45 | no_tool_call | ✓ | ✓ | e4b ran the correct query, then answered in text |
+| 48 | no_tool_call | ✗ | ✗ | Hidden `school IS NOT NULL` in gold |
+| 62 | no_tool_call | ✓ | ✓ | e4b ignored the evidence formula |
+| 77 | max_steps | ✗ | ✗ | 12b: `frpm."School Name"` instead of `schools.School`; 31b: stored percent column instead of the evidence formula |
+| 79 | no_tool_call | ✓ | ✓ | e4b ran the correct query, then gave an empty reply |
+| **EX** | **1/10** | **4/10** | **5/10** | |
+
+e4b still ends 6/10 tasks with `no_tool_call` under this prompt: as is, it is not a usable small tier.
+
+**Signal candidates.** The README's three signals (`error`, `self_consistency`, `verifier`) are computed on the cheap tier only. "Flag" = the signal says escalate; "wrong" = EX false or nothing submitted.
+
+1. **A graded `error` signal.** Every feature below comes from fields already in the trace (`tool`, `args`, `tool_status`, `result_hash`, `result_preview`), at zero extra cost. A weighted sum gives a score to threshold with τ, instead of a single bit, which makes the AUC meaningful.
+
+   | Feature | Detection | Smoke evidence |
+   |---|---|---|
+   | No submission (current definition) | `end ≠ submitted` | Always wrong (e4b 9/9, 12b 2/2). Misses the 9 wrong answers 12b and 31b submitted. |
+   | **Untested submission** | The `submit_answer` result hash matches no earlier `execute_sql` result hash | Strongest candidate. 12b and 31b: 5 of 6 untested submissions wrong (12b 36, 48, 77; 31b 28, 36), against 4 of 12 tested ones. |
+   | Repeated call | Two consecutive steps with the same SQL, or the same error | Present in every looping 12b or e4b task that never submitted. Visible by step 3, so it could also stop a run early and save the remaining steps (12b task 25 spent 27 s). |
+   | Anomalous submitted result | 0 rows, an entirely NULL column, `n_rows_is_lower_bound`, values equal to a column name | 12b task 36 (all-NULL columns); task 11 (over 1,000 rows, wrong for all three models). Rare but cheap. |
+   | Evidence columns missing from the SQL | A quoted identifier in the evidence absent from the submitted SQL | Caught 31b task 77. Would also flag 12b task 62, a correct answer that used `"Charter School (Y/N)"` for `Charter`. Needs exact quoted-identifier matching; weak so far. |
+
+2. **`self_consistency` looks promising.** As a rough stand-in for k samples, 12b and 31b's submitted results were compared: where they agreed, 4 of 5 were correct; where they disagreed, 1 of 5. Two different models are not k samples of one model at T = 0.7, and task 11 shows a shared mistake passes agreement.
+3. **`verifier` will not catch hidden-condition failures.** Tasks 11 and 48 fail on a filter the question never states. A reworded query to the same small model is unlikely to recover it, and the frontier model may miss it too. Count these toward the benchmark label-error tally, not as router misses.
+
+**Before the baselines:**
+
+- **Pre-register the signal definitions** (this feature list and its weights) before looking at baseline results, as the README requires for τ, so they are not tuned on the smoke tasks.
+- **Decide on salvaging `no_tool_call`** after a successful query (e4b 45 and 79): auto-submitting the last successful query would change e4b's EX. Tied to P6; it changes scored outcomes, so settle it first.
+- **SQLite double-quoted string literals.** A double-quoted name that is not a column silently becomes a string literal (12b task 28 lost 6 steps, getting rows of `"FundingType"`). The sandbox could disable it with `Connection.setconfig(sqlite3.SQLITE_DBCONFIG_DQS_DML, False)`. Check first that no gold query relies on it, or gold results change.
