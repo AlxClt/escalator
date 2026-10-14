@@ -3,7 +3,7 @@
 pin   resolve each Ollama tag to its full digest via /api/tags and write it into configs/models.yaml
       and configs/prices.yaml.
 ping  one fixed prompt through the adapter, twice; the second call must be a cache hit at $0.
-      The frontier tier needs --paid: frontier runs are only ever triggered by hand.
+      Anthropic models need --paid: paid runs are only ever triggered by hand.
 """
 
 from __future__ import annotations
@@ -64,7 +64,7 @@ def ping(name: str, paid: bool, cache_path: Path) -> int:
     providers: dict[str, Provider] = {}
     if spec.provider == "anthropic":
         if not paid:
-            print("frontier ping costs money: pass --paid to run it", file=sys.stderr)
+            print("an Anthropic ping costs money: pass --paid to run it", file=sys.stderr)
             return 2
         from escalator.llm.providers.anthropic import AnthropicProvider
 

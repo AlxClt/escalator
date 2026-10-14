@@ -27,3 +27,10 @@ models:
     model: claude-sonnet-5-5
     # No temperature, top_p or top_k: Sonnet 5.5 rejects non-default sampling parameters.
     settings: {thinking: {type: between_tools}, effort: medium}
+  haiku-5-5:
+    tier: S
+    provider: anthropic
+    model: claude-haiku-5-5
+    # No sampling parameters (non-default values are rejected), so no T = 0 for this tier-S model.
+    max_tokens: 16000           # the tier-S default (2048) is sized for Gemma without thinking
+    settings: {thinking: {type: adaptive}, effort: medium}

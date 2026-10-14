@@ -33,7 +33,7 @@ from dotenv import load_dotenv
 from mcp.client.session import ClientSession
 from mcp.client.stdio import StdioServerParameters, stdio_client
 
-from escalator.agent.loop import LLM, LoopConfig, RunContext, TaskOutcome, ToolSession, run_task
+from escalator.agent.loop import LLM, LoopConfig, RunContext, TaskOutcome, ToolSession, max_tokens_for, run_task
 from escalator.agent.prompts import Prompt, load_prompt
 from escalator.agent.tools import (
     RenderCaps,
@@ -149,8 +149,9 @@ def check_paid(specs: Sequence[ModelSpec], prices: PriceTable, *, paid: bool, ca
 
 
 def sampling(spec: ModelSpec, seed: int) -> tuple[float | None, int | None]:
-    """Small tier: T = 0 with a fixed seed. Frontier: provider defaults (Sonnet 5.5 rejects sampling params)."""
-    return (0.0, seed) if spec.tier == "S" else (None, None)
+    """Ollama: T = 0 with a fixed seed. Anthropic: provider defaults, at any tier (the 5.5 models reject
+    non-default sampling parameters)."""
+    return (0.0, seed) if spec.provider == "ollama" else (None, None)
 
 
 def _env_path(name: str, default: Path) -> Path:
@@ -310,7 +311,7 @@ async def execute_run(*, preset: str, specs: Sequence[ModelSpec], tasks: Sequenc
             temperature=temperature, seed=seed, sample_idxs=[0], max_steps=cfg.loop.max_steps,
             retry_cap=cfg.loop.retry_cap, render_max_rows=cfg.loop.render.max_rows,
             render_max_chars=cfg.loop.render.max_chars, overflow_margin=cfg.loop.overflow_margin,
-            max_tokens=cfg.loop.max_tokens[spec.tier], cache_schema=CACHE_SCHEMA, ollama_version=None,
+            max_tokens=max_tokens_for(spec, cfg.loop), cache_schema=CACHE_SCHEMA, ollama_version=None,
             env_lock=env_lock,
         )
         run_ctx = RunContext(run_id=run_id, llm=llm, prompt=prompt, tools=tools, schemas=input_schemas(db_ids),

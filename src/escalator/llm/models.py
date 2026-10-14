@@ -26,6 +26,7 @@ class ModelSpec:
     digest: str | None  # Ollama, full
     model: str | None  # Anthropic exact version
     settings: JsonDict
+    max_tokens: int | None = None  # overrides the tier's max_tokens in configs/agent.yaml
 
     @property
     def model_id(self) -> str:
@@ -62,10 +63,13 @@ def load_models(path: Path = DEFAULT_MODELS) -> ModelsConfig:
             raise ModelResolutionError(f"{path}: models.{name} needs a tag")
         if e["provider"] == "anthropic" and not isinstance(model, str):
             raise ModelResolutionError(f"{path}: models.{name} needs an exact model version")
+        max_tokens = e.get("max_tokens")
+        if max_tokens is not None and (type(max_tokens) is not int or max_tokens <= 0):
+            raise ModelResolutionError(f"{path}: models.{name}.max_tokens must be a positive integer")
         specs[str(name)] = ModelSpec(str(name), e["tier"], e["provider"], tag if isinstance(tag, str) else None,
                                      digest if isinstance(digest, str) else None,
                                      model if isinstance(model, str) else None,
-                                     {str(k): v for k, v in settings.items()})
+                                     {str(k): v for k, v in settings.items()}, max_tokens)
     return ModelsConfig(min_v, specs)
 
 

@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - Cost meter (`escalator.llm.cost`, `configs/prices.yaml`): normalized usage in four token buckets to exact `Decimal` USD; unknown models raise `PriceMissing`, prices must be quoted strings, and any provider prompt-cache usage raises `UnexpectedCacheUsage`.
 - Response cache (`escalator.llm.cache`): SQLite at `.cache/llm.sqlite` keyed by the hash of the whole request plus context, storing raw provider bodies; modes `readwrite`, `readonly` (a miss raises `CacheMiss`) and `off`.
 - LLM adapter (`escalator.llm.adapter.Adapter.complete`) with Ollama (native `/api/chat`) and Anthropic (official SDK) providers, retries with backoff on 429/5xx/timeouts, and pinned tiers in `configs/models.yaml`.
-- `python -m escalator.llm pin` writes the full Ollama digests into `configs/models.yaml` and `configs/prices.yaml`; `python -m escalator.llm ping <model>` runs one prompt twice to show the cache hit (the frontier tier requires `--paid`).
+- `python -m escalator.llm pin` writes the full Ollama digests into `configs/models.yaml` and `configs/prices.yaml`; `python -m escalator.llm ping <model>` runs one prompt twice to show the cache hit (Anthropic models require `--paid`).
 - Trace schema (`escalator.trace.schema`): `StepRecord` lines in `traces/<run_id>/steps.jsonl` and a `RunMeta` header; the reader is strict and reports a crashed run as `TruncatedTrace`.
 - SQLite sandbox (`escalator.env.sandbox.Sandbox.execute`): read-only immutable connection per call, authorizer allowlist, one statement, 30 s wall-clock limit, 1000-row cap.
 - MCP server (`python -m escalator.env.server --db-root data/raw/bird`, `mcp==2.3.0` low-level `Server`, stdio): tools `get_schema`, `sample_rows`, `execute_sql` and `submit_answer` returning compact JSON (50-row preview, 1000-row count, 200-char cells), errors `sql_error | timeout | forbidden | unknown_table | unknown_db`; `SERVER_VERSION` versions the tool contract.
@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - Runner (`python -m escalator.eval.runner {smoke,baselines}`, `make smoke`, `make baselines`): one MCP server per run, sequential tasks, traces under `traces/<preset>-<model>-<prompt_version>/`, scored results in `results/<preset>.json`; paid models are refused without `--paid` (`PAID=1`) unless `ESCALATOR_CACHE_MODE=readonly`, `provider_error` tasks are excluded from scoring and exit 1, and `ESCALATOR_MAX_USD_PER_RUN` stops a run. Providers are built, and the Ollama digests checked, only at the first cache miss (`LazyProvider`), so a cached rerun needs no live provider, no `OLLAMA_BASE_URL` and no API key; a setup failure (`ProviderSetupError`) or a readonly cache miss exits 4.
 - Trace replay (`escalator.trace.replay.replay_task`): re-runs a task from its trace against a readonly cache and reports any request key that does not reproduce.
 - `configs/agent.yaml`: prompt version, step budget, retry cap, display caps, overflow margin, per-tier `max_tokens`, seed and run presets.
+- Claude Haiku 5.5 (`haiku-5-5`, tier S, adaptive thinking, effort medium) in `configs/models.yaml`, `configs/prices.yaml` (retrieved 2026-10-14) and the `baselines` preset; a model's optional `max_tokens` in `configs/models.yaml` overrides its tier's value (Haiku: 16000).
 
 ### Changed
 
@@ -39,4 +40,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - `traces/` is gitignored except `traces/published/`.
 - **BREAKING:** trace `SCHEMA_VERSION` 2: `tool`, `args`, `args_raw`, `tool_status`, `result_hash` and `result_preview` are lists in call order (one entry per tool call); `end` adds `validation_exhausted` and `context_overflow`, `tool_status` adds `ignored`; response fields are nullable for `provider_error`; `RunMeta` records the tier config, prompt and tool-manifest hashes, MCP server and SDK versions, sampling and loop settings.
 - `Task` carries the question and evidence text.
+- Sampling parameters follow the provider, not the tier: Ollama models run at T = 0 with the fixed seed, Anthropic models send none at any tier.
 - Context overflow is detected by the agent loop (`prompt tokens ≥ num_ctx − overflow_margin`) and recorded as an outcome; the Ollama provider no longer raises `ContextOverflow`, which is removed.

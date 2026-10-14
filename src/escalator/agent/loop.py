@@ -6,7 +6,7 @@ tool calls through the MCP session after client-side validation, and returns one
 LLM call. Execution is sequential.
 
 Termination (`end`, set on the final record only), checked in this order after each call:
-provider_error (the call failed), context_overflow (small tier filled num_ctx; the turn's calls
+provider_error (the call failed), context_overflow (an Ollama model filled num_ctx; the turn's calls
 are not executed), no_tool_call, submitted, validation_exhausted, max_steps.
 """
 
@@ -60,6 +60,11 @@ class LoopConfig:
     render: RenderCaps = field(default_factory=RenderCaps)
     overflow_margin: int = 1024
     max_tokens: Mapping[str, int] = field(default_factory=lambda: {"S": 2048, "L": 16000})  # by tier
+
+
+def max_tokens_for(tier: ModelSpec, config: LoopConfig) -> int:
+    """The model's own max_tokens (configs/models.yaml) if set, else its tier's."""
+    return tier.max_tokens if tier.max_tokens is not None else config.max_tokens[tier.tier]
 
 
 @dataclass(frozen=True)
@@ -157,14 +162,14 @@ def build_request(tier: ModelSpec, messages: list[Message], run_ctx: RunContext,
         "temperature": temperature,
         "seed": seed,
         "sample_idx": sample_idx,
-        "max_tokens": run_ctx.config.max_tokens[tier.tier],
+        "max_tokens": max_tokens_for(tier, run_ctx.config),
     }
     return Request.model_validate(fields)
 
 
 async def run_task(task: Task, tier: ModelSpec, *, sample_idx: int, temperature: float | None, seed: int | None,
                    session: ToolSession, run_ctx: RunContext) -> TaskOutcome:
-    """Run one task to termination. `temperature=None` sends no sampling parameter (frontier tier)."""
+    """Run one task to termination. `temperature=None` sends no sampling parameter (Anthropic models)."""
     cfg, prompt = run_ctx.config, run_ctx.prompt
     context = dict(run_ctx.cache_context)
     card = await schema_card(session, task.db_id)

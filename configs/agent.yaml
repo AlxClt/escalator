@@ -8,10 +8,10 @@ render:                     # what the model sees of a result set (the sandbox r
   max_rows: 50
   max_chars: 4000
 overflow_margin: 1024       # small tier: end with context_overflow once prompt tokens >= num_ctx - margin
-max_tokens:                 # per LLM call, by tier
+max_tokens:                 # per LLM call, by tier; a model's own max_tokens in models.yaml wins
   S: 2048
   L: 16000                  # room for between_tools thinking
-seed: 20261001              # small tier sampling seed (T = 0, sample_idx = 0 for baselines)
+seed: 20261001              # Ollama models' sampling seed (T = 0, sample_idx = 0 for baselines)
 
 # Presets for `python -m escalator.eval.runner <preset>`. tasks: N = the first N manifest tasks
 # (manifest order), all = the pinned 200.
@@ -21,6 +21,6 @@ presets:
     tasks: 10
     out: results/smoke.json
   baselines:
-    models: [gemma4-e4b, gemma4-12b, gemma4-31b, sonnet-5-5]
+    models: [gemma4-e4b, gemma4-12b, gemma4-31b, sonnet-5-5, haiku-5-5]
     tasks: all
     out: results/baselines.json
