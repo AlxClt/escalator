@@ -31,8 +31,9 @@ class TransientProviderError(ProviderError):
     """429, 5xx or a timeout: retried by the adapter, never cached."""
 
 
-class ContextOverflow(LLMError):
-    """Ollama filled num_ctx; it truncates from the front without error."""
+class ProviderSetupError(LLMError):
+    """A provider could not be built or failed its startup check (built lazily, at the first cache
+    miss). Configuration, not an outage: it aborts the run instead of ending tasks as provider_error."""
 
 
 class UnsupportedParameter(LLMError):

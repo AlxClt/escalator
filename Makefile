@@ -7,9 +7,11 @@ export NOCACHE
 FORCE_FLAG := $(if $(filter 1,$(FORCE)),--force)
 REF_FLAG := $(if $(REF),--ref $(REF))
 NOCACHE_FLAG := $(if $(filter 1,$(NOCACHE)),--no-cache)
+PAID_FLAG := $(if $(filter 1,$(PAID)),--paid)
+OVERWRITE_FLAG := $(if $(filter 1,$(OVERWRITE)),--overwrite)
 PY := uv run --locked python
 
-.PHONY: test env-lock data data-lock data-verify manifest
+.PHONY: test env-lock data data-lock data-verify manifest smoke baselines
 
 test:
 	$(PY) -m pytest -m "not data and not manifest"
@@ -32,3 +34,12 @@ data-verify:
 manifest: data-verify
 	$(PY) -m escalator.datasets manifest
 	$(PY) -m pytest tests/datasets -m manifest
+
+# 10 tasks, local model, through the MCP server -> results/smoke.json. Local only (decision P1).
+smoke:
+	$(PY) -m escalator.eval.runner smoke --overwrite
+
+# 3 small models + the frontier model on the pinned 200 -> results/baselines.json. Manual trigger only:
+# the frontier model is refused without PAID=1.
+baselines:
+	$(PY) -m escalator.eval.runner baselines $(PAID_FLAG) $(OVERWRITE_FLAG)

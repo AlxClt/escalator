@@ -26,8 +26,6 @@ Write and execute the `make data`
 
 Build in this order: cost meter → cache → adapter → trace schema → sandbox → MCP server → scorer → CI.
 
-Manual work to be added: scorer unit test with 20 hand-made (predicted, gold) pairs covering column reordering, row reordering, NULL handling, float tolerance, empty results.
-
 **Exit criterion**
 `make smoke` runs 10 tasks end-to-end on a local model through the MCP server, emits results/smoke.json, and a second invocation completes in under 5 seconds at $0 from cache. CI runs `make smoke` from cache on push.
 

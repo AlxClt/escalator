@@ -70,7 +70,8 @@ def load_models(path: Path = DEFAULT_MODELS) -> ModelsConfig:
 
 
 def check_ollama(cfg: ModelsConfig, provider: OllamaProvider) -> str:
-    """At startup: server version >= minimum and every pinned tag still points at its digest.
+    """Before the first provider call: server version >= minimum and every pinned tag still points at
+    its digest. Cache hits skip it (the runner calls it at the first miss): their key holds the digest.
 
     Returns the server version, recorded in RunMeta.
     """
