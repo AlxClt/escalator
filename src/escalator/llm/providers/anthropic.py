@@ -23,7 +23,8 @@ _STOP: dict[str, StopReason] = {"end_turn": "end_turn", "tool_use": "tool_use", 
 
 
 def validate(req: Request) -> None:
-    """Sonnet 5.5 returns 400 for these; fail before sending. `seed` stays in the key, never sent."""
+    """Sonnet and Haiku 5.5 return 400 for these; fail before sending. `seed` stays in the key,
+    never sent."""
     for field in ("temperature", "top_p", "num_ctx", "think"):
         if getattr(req, field) is not None:
             raise UnsupportedParameter(f"{req.model} does not accept {field}")

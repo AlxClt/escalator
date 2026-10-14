@@ -1,6 +1,6 @@
 # Project Status - Escalator
 
-**Last Updated:** 09/10/2026
+**Last Updated:** 14/10/2026
 **Project Start:** 30/09/2026
 
 ---
@@ -91,6 +91,10 @@ ALL THOSE TESTS ARE TRIGGERED MANUALLY, DO NOT TRIGGER ANY OF IT YOURSELF
 Local-only baseline across 3 small models on the pinned 200.
 
 Manual trigger only: One frontier sweep.
+
+- [x] `results/baselines.json` (prompt v1, 200 tasks): e4b 21, 12b 138, 31b 163, Sonnet 5.5 172 ($3.83 nominal), Haiku 5.5 159 ($0.26 nominal). Haiku 5.5 added as a tier-S API model; Opus 5.5 was tried on the 10 smoke tasks only and removed from the configs.
+- [ ] Decide the frontier model for escalation, and whether to add a Haiku-first escalation policy
+- [ ] Frontier flip rate: a k = 2 resample of a subsample (paid; the runner only supports `sample_idx = 0` so far)
 
 **Exit criterion**
 `results/baselines.json` committed, containing per-task outcomes and costs for all four model configurations. Two or more points on the accuracy/cost plane. Traces for every failed task stored.
