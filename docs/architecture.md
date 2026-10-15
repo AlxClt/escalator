@@ -35,7 +35,7 @@ escalator/
 │   │   ├── compat.py       # compatibility gate: RunMeta fields that must match the baseline vs may differ
 │   │   ├── tasks.py        # manifest tasks (task_hash checked), ordered flag and tie blocks from configs/scoring.yaml; gold re-executed via the sandbox, checked against gold_result_hash
 │   │   ├── scorers.py      # EX (columns permutation-invariant, multiset rows unless the task is ordered, numeric tolerance), soft-F1 secondary
-│   │   └── metrics.py
+│   │   └── metrics.py      # Wilson, exact McNemar, Holm, AUC (ties 1/2), shared-matrix percentile bootstrap; stdlib only
 │   └── datasets/           # fetch-and-verify layer: python -m escalator.datasets {lock,fetch,verify,env,diagnose-gold,manifest}
 │       ├── config.py       # configs/data.yaml and the data/raw layout
 │       ├── lock.py         # sources.lock (3 sources) and env.lock: schema, validate, write

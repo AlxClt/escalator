@@ -51,7 +51,26 @@ Spec: `docs/tasks/week3-router-task.md`. This file lists:
 
 ## Measured wall-clock
 
-To be filled after checkpoints A and B.
+**Checkpoint A (15/10/2026):** smoke runs by the owner, `git_sha` `ca36d4f`, dirty (`verifier_v1.yaml` was not yet committed; the run's `prompt_sha256` `4e1111f5…` equals the committed file, `d034aa6`). Ollama 0.40.4 (the week-2 runs recorded 0.40.3; the version is not gated). The Modelfile parameters of `gemma4:e4b-it-qat` are `temperature 1, top_k 64, top_p 0.95`; only `temperature` and `seed` are sent.
+
+| Smoke run | Runs | Ends | LLM latency | Steps / run | Median ms / call | Output tokens / call |
+|---|---|---|---|---|---|---|
+| baseline e4b, same 10 tasks (week 2) | 10 | — | 0.025 h | 3.50 | 2,017 | 138 |
+| `sc-smoke-gemma4-e4b-v1` | 30 | 20 no_tool_call, 7 submitted, 3 max_steps | 0.256 h | 3.27 | 4,954 | 245 |
+| `verifier-smoke-gemma4-e4b-verifier_v1` | 10 | 4 no_tool_call, 3 submitted, 3 max_steps | 0.072 h | 4.40 | 5,156 | 147 |
+
+Both reruns from a readonly cache are all hits and give traces identical except for `cache_hit`.
+
+Ratios `r` (smoke latency per sample ÷ baseline latency, same tasks): SC 3.399, verifier 2.853. The slowdown is per call, not in the number of steps. The median call latency is 2.5× the baseline's; at T = 0.7 the model writes about 1.8× more output tokens; and the first call paid a 58 s model load. Projected wall-clock (`samples × Σ baseline latency × r`, with e4b's `r` applied to every model):
+
+| Model | SC (3 samples) | Verifier |
+|---|---|---|
+| gemma4-e4b | 3.26 h | 0.91 h |
+| gemma4-12b | 5.80 h | 1.62 h |
+| gemma4-31b | 7.72 h | 2.16 h |
+| haiku-5-5 (paid, by hand) | 1.89 h, $0.77 | 0.53 h |
+
+**Checkpoint B:** started by the owner on 15/10/2026 at about 08:35 UTC: `sc-gemma4-{e4b,12b,31b}-v1` in sequence, and `sc-haiku-5-5-v1` in parallel (paid). The runs record `git_sha` `d034aa6` with `git_dirty: true`. The uncommitted files were `eval/metrics.py`, its tests and this file; collection does not use any of them. Measured wall-clock: to be filled.
 
 ## Results
 

@@ -101,14 +101,14 @@ Manual trigger only: One frontier sweep.
 
 ### Step 3: The router
 
-Spec: `docs/tasks/week3-router-task.md`; conflicts and decisions in `docs/week3-notes.md`. Four (small, frontier) pairs: gemma4-e4b, gemma4-12b, gemma4-31b and haiku-5-5, each with sonnet-5-5.
+Spec: `docs/tasks/week3-router-task.md`; working plan and resume checklist in `docs/week3-plan.md`; conflicts, decisions and measurements in `docs/week3-notes.md`. Four (small, frontier) pairs: gemma4-e4b, gemma4-12b, gemma4-31b and haiku-5-5, each with sonnet-5-5.
 
 - [x] Collection infrastructure: `make sc-samples`, `make verifier-runs`, `make frontier-repeat` (paid, refused without `PAID=1`; projected $3.83), `make sc-estimate`, `make publish-traces`; RunMeta v3; compatibility gate (`CHECK=1` passes for all four SC runs and the frontier repeat against the week-2 baselines)
 - [x] Cache keys unchanged: `sample_idx` was already hashed; `make test-local` replays the week-2 baselines' keys
-- [ ] Checkpoint A: the owner writes `verifier_v1.yaml`; then `make sc-samples SMOKE=1`, `make verifier-runs SMOKE=1`, `make sc-estimate`; wait for a go
-- [ ] Metrics primitives (`eval/metrics.py`): Wilson, exact McNemar, Holm, AUC, shared-matrix bootstrap
+- [x] Checkpoint A: `verifier_v1.yaml` written by the owner; SC and verifier smoke runs on gemma4-e4b validated (cache rerun identical); projected full collection 16.8 h (SC) + 4.7 h (verifier) for the Gemma models
+- [x] Metrics primitives (`eval/metrics.py`): Wilson, exact McNemar, Holm, AUC, shared-matrix bootstrap
 - [ ] Signals (`router/signals.py`), label-free execution cache, run inventory loader
 - [ ] Policy simulation (`router/policy.py`), `make router` → `results/signals.json`, `results/router.json` (integrity check against `results/baselines.json`)
 - [ ] `make plots` (matplotlib in a `plots` dependency group); headline once `headline_small_tier` is set
-- [ ] Checkpoint B: full SC and verifier collection for the Gemma models (haiku only with `PAID=1`, by hand); publish; `make results`
+- [ ] Checkpoint B: full collection. Running since 15/10: `sc-gemma4-{e4b,12b,31b}-v1` and `sc-haiku-5-5-v1`; verifier runs not started. Then publish, fill the inventory, `make results`
 - [ ] `docs/week3-notes.md` result tables
