@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - `configs/router.yaml`: self-consistency and verifier settings, the explicit run inventory (baseline, self-consistency and verifier run ids per small model; frontier baseline and repeat), bootstrap settings. `headline_small_tier` has no default.
 - `make test-local` (pytest marker `local`): checks that need the local traces, LLM cache and data, such as replaying the week-2 baselines' request keys; `make test` excludes them.
 - `OLLAMA_NUM_PARALLEL` in `.env.example`, recorded in collection runs' `meta.json`.
+- Routing statistics (`escalator.eval.metrics`): Wilson score interval, exact McNemar, Holm-Bonferroni, Mann-Whitney AUC with ties counted 1/2, and a percentile bootstrap that shares one seeded B × n index matrix across every statistic (quantiles by numpy's default linear rule, stdlib only).
 
 ### Changed
 
