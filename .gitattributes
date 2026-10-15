@@ -1,0 +1,7 @@
+# Files identified by the sha256 of their exact bytes (meta.json, router.json inputs, prompt_sha256):
+# git must never rewrite their line endings on checkout (core.autocrlf would turn LF into CRLF).
+traces/published/** -text
+results/router.json -text
+results/signals.json -text
+results/figures/** -text
+src/escalator/agent/prompts/verifier_v1.yaml -text

@@ -34,4 +34,4 @@ bootstrap:
   B: 2000
   seed: 20261015
 
-# headline_small_tier: <model name>   # deliberately unset: chosen by the project owner, no default
+headline_small_tier: gemma4-12b 

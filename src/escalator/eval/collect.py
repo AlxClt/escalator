@@ -54,7 +54,7 @@ from escalator.eval.tasks import Task
 from escalator.llm.cache import CACHE_SCHEMA, DEFAULT_CACHE, Cache, CacheMode
 from escalator.llm.cost import DEFAULT_PRICES, PriceTable
 from escalator.llm.errors import CacheMiss, ProviderSetupError
-from escalator.llm.models import ModelSpec, load_models
+from escalator.llm.models import ModelsConfig, ModelSpec, load_models
 from escalator.llm.types import Request, Response
 from escalator.router.config import RouterConfig, load_router_config
 from escalator.trace.published import DEFAULT_TRACES, RunNotFound, load_meta, load_steps
@@ -380,6 +380,13 @@ def plan_jobs(kind: RunKind, args: argparse.Namespace, rcfg: RouterConfig, cfg: 
     return [plan_job(kind, models_cfg.models[n], rcfg=rcfg, cfg=cfg, prompt=prompt, smoke=args.smoke) for n in names]
 
 
+def used_models(models_cfg: ModelsConfig, jobs: Sequence[Job]) -> ModelsConfig:
+    """The pinned models a collection actually calls: the Ollama digest check covers these only, so
+    resuming one model does not need every pinned tag pulled on the server."""
+    names = {j.spec.name for j in jobs}
+    return ModelsConfig(models_cfg.ollama_min_version, {n: s for n, s in models_cfg.models.items() if n in names})
+
+
 def _smoke_task_ids() -> set[str]:
     raw = json.loads((REPO_ROOT / "data" / "manifest.json").read_text(encoding="utf-8"))
     return {str(e["question_id"]) for e in raw["tasks"][:SMOKE_TASKS]}
@@ -498,8 +505,10 @@ def _main(command: str, args: argparse.Namespace) -> int:
     info = OllamaInfo()
     tags = sorted({j.spec.tag for j in jobs if j.spec.provider == "ollama" and j.spec.tag is not None})
 
+    used = used_models(models_cfg, jobs)
+
     def check(p: ollama.OllamaProvider) -> str:
-        version = check_ollama(models_cfg, p)
+        version = check_ollama(used, p)
         for tag in tags:
             info.params[tag] = p.show(tag)
         return version

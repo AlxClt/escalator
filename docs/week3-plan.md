@@ -6,7 +6,7 @@ measurements live in `docs/week3-notes.md`.
 
 Branch: `feature/week3-router`. Commit only through `/update-docs-and-commit`, at each completed step.
 
-## Status (15/10/2026, evening)
+## Status (15/10/2026, done)
 
 | Step | State |
 |---|---|
@@ -15,10 +15,10 @@ Branch: `feature/week3-router`. Commit only through `/update-docs-and-commit`, a
 | 3. Metrics primitives (`eval/metrics.py`) | Done, 31 tests pass |
 | 4. Inventory, execution cache, signals | Done (`router/inventory.py`, `execcache.py`, `signals.py`; tests 5–8) |
 | 5. Policy simulation | Done (`router/policy.py`; tests 9–11) |
-| 6. `make router` end to end | Done (`router/outcomes.py`, `report.py`, `__main__.py`; tests 14–15). Integrity check passes on the real runs; n = 199 until task 1068 is resumed |
-| 7. Plots | Done (`router/plots.py`, matplotlib 3.11.2; test 16). Headline waits for `headline_small_tier` |
-| 8. Checkpoint B: full collection | Done 15/10, except one `provider_error` (e4b verifier, task 1068) to resume with `make verifier-runs MODELS=gemma4-e4b OVERWRITE=1` (owner's call). Runs not yet published |
-| 9. Notes tables, docs, PR | Notes decisions written; result tables after the resume; then publish runs, PR |
+| 6. `make router` end to end | Done (`router/outcomes.py`, `report.py`, `__main__.py`; tests 14–15). Integrity check passes on the real runs; n = 200; byte-identical reruns |
+| 7. Plots | Done (`router/plots.py`, matplotlib 3.11.2; test 16). Headline: gemma4-12b, chosen by the owner |
+| 8. Checkpoint B: full collection | Done 15/10; task 1068 resumed; the 13 runs behind the results published in `traces/published/` |
+| 9. Notes tables, docs, PR | Done: result tables in `week3-notes.md`, `results/` committed, PR opened |
 
 ### Collection in flight (step 8)
 

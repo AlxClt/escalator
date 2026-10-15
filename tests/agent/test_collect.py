@@ -53,13 +53,14 @@ from escalator.router.config import RouterConfig, parse_router_config
 from escalator.trace.schema import META_FILE, STEPS_FILE, RunMeta, StepRecord, read_meta, read_steps
 
 LARGE_RUN_ID = f"t-{LARGE.name}-v1"
-RCFG: RouterConfig = parse_router_config({
+RAW_RCFG: dict[str, object] = {
     "self_consistency": {"k": 3, "temperature": 0.7, "seeds": [1, 2, 3], "models": [SMALL.name]},
     "verifier": {"prompt_version": "verifier_t", "models": [SMALL.name]},
     "inventory": {"small": {SMALL.name: {"baseline": RUN_ID, "self_consistency": None, "verifier": None}},
                   "frontier": {"model": LARGE.name, "baseline": LARGE_RUN_ID, "repeat": None}},
     "bootstrap": {"B": 10, "seed": 1},
-})
+}
+RCFG: RouterConfig = parse_router_config(RAW_RCFG)
 FILLED_VERIFIER = b"""
 system: "Check the answer to a question about {{db_id}}.\\n\\n{{schema_card}}"
 user: "Question: {{question}}{{evidence_section}}"
@@ -355,3 +356,17 @@ def test_frontier_repeat_without_paid_exits_with_the_projected_cost(
     out = capsys.readouterr()
     assert f"projected cost ${Decimal('1.875')}" in out.out
     assert "need --paid" in out.err
+
+
+def test_digest_check_covers_only_the_models_a_collection_calls() -> None:
+    from escalator.eval.collect import used_models
+    from escalator.llm.models import load_models
+
+    cfg = load_models()
+    job = plan_job("verifier", cfg.models["gemma4-e4b"], rcfg=parse_router_config({
+        **{k: v for k, v in RAW_RCFG.items() if k != "inventory"},
+        "inventory": {"small": {"gemma4-e4b": {"baseline": "b", "self_consistency": None, "verifier": None}},
+                      "frontier": {"model": "sonnet-5-5", "baseline": "f", "repeat": None}}}),
+        cfg=load_agent_config(), prompt=verifier_prompt(), smoke=False)
+    used = used_models(cfg, [job])
+    assert list(used.models) == ["gemma4-e4b"] and used.ollama_min_version == cfg.ollama_min_version

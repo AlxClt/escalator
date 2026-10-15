@@ -40,6 +40,7 @@ Spec: `docs/tasks/week3-router-task.md`. This file lists:
 | D9 | The spec's gate list omits `max_tokens`, `cache_schema` and the price table, which change the agent, its keys or its costs. | They are in `MUST_MATCH` too. Every `RunMeta` field is in exactly one of `MUST_MATCH` / `MAY_DIFFER` (tested). |
 | D10 | `configs_sha256` necessarily differs from the baselines', because `configs/router.yaml` lives under `configs/`. | It is in `MAY_DIFFER`. Every field that changes the agent is gated individually. |
 | D11 | `make sc-samples` with the default model list includes haiku-5-5, a paid model. | It is refused without `PAID=1`, printing haiku's projected cost (3 × its baseline nominal usd = $0.7728525). Gemma only: `make sc-samples MODELS="gemma4-e4b gemma4-12b gemma4-31b"`. |
+| D12 | **Line endings change recorded hashes.** With `core.autocrlf=true`, the Windows working copies of `prompts/v1.yaml`, `configs/*` and `data/manifest.json` are CRLF while git stores LF. The recorded hashes are of the CRLF bytes: v1's `prompt_sha256` `249d4302…` is `88b4227d…` in LF bytes, which is the hash the 13/10 WSL smoke runs recorded. Those runs used the same prompt text; only the line endings differed (week-2 notes read this as a prompt change). Likewise `manifest_sha256` `437af3c6…` (CRLF) is `ca84e0fd…` (LF). `TraceWriter.write_meta` also writes CRLF on Windows. | `.gitattributes` keeps the exact bytes (`-text`) of everything week 3 hashes: `traces/published/**`, `results/router.json`, `results/signals.json`, `results/figures/**` and `verifier_v1.yaml` (LF, as recorded). The 13 committed `meta.json` blobs hash to the `meta_sha256` values in `router.json`. **Open (owner):** pin `v1.yaml`, `configs/**` and `data/manifest.json` to `eol=crlf`, so every checkout (CI, Linux) reproduces the recorded hashes. |
 
 ## Decisions where the spec was silent
 
@@ -101,9 +102,113 @@ Ratios `r` (smoke latency per sample ÷ baseline latency, same tasks): SC 3.399,
 
 - **The projections were pessimistic** for 12b, 31b and haiku: e4b's smoke ratio (inflated by a 58 s cold load and a slower pod that morning) was applied to every model.
 - **The e4b runs start with cache hits:** 98 of `sc-gemma4-e4b-v1`'s records and 44 of the e4b verifier's are hits. They are the smoke runs' requests, identical by construction (same tasks, seeds and prompt).
-- **Task 1068 (e4b verifier):** step 0's `execute_sql` hit the 30 s sandbox timeout, then the step-1 LLM call failed after its retries (`provider_error`, infra). It is resumed through the cache (`make verifier-runs MODELS=gemma4-e4b OVERWRITE=1`); otherwise the analysis set A excludes 1068 for every pair.
+- **Task 1068 (e4b verifier):** step 0's `execute_sql` hit the 30 s sandbox timeout, then the step-1 LLM call failed after its retries (`provider_error`, infra). Resumed on 15/10 (`make verifier-runs MODELS=gemma4-e4b OVERWRITE=1`):
+  - **First attempt:** stopped at task 1068 with exit 4, before any call. The pod had been reinstalled with only `gemma4:e4b-it-qat` pulled (same digest), and the provider's digest check covered every pinned Ollama model, 12b and 31b included.
+  - **Fix:** collection now checks the digests of the models it calls only (`eval.collect.used_models`).
+  - **Second attempt:** exit 0. 199 tasks replayed from the cache, and task 1068 re-ran (step 0 cached, steps 1–3 live), ending `no_tool_call`. Ollama 0.40.4, e4b fully in VRAM (`/api/ps`: `size_vram` = `size`). The run's meta records `git_sha` `270472e`, dirty (the uncommitted fix).
+  - **Result:** the final run has 200 tasks with no `provider_error`, so A holds all 200 pinned tasks.
 - **SC and verifier calls overlapped on the pod** from 09:39 to about 12:20 UTC: two client processes, while `OLLAMA_NUM_PARALLEL` is unknown (`null`). `latency_ms` is measured by the client, so in that window it includes any queueing behind the other process's calls. If the server batched the two streams (`OLLAMA_NUM_PARALLEL` > 1), the outputs in that window could also differ numerically from a call served alone; the compatibility gate does not see this. Latency metrics for these runs are upper bounds.
 
 ## Results
 
-To be filled after `make router` on the collected runs.
+From `results/router.json` (`make router` on the published runs, 15/10/2026). Raw numbers with 95% intervals, no interpretation:
+- **Acc, escalation rate:** Wilson intervals.
+- **Cost, CPS, oracle gap, AUC:** bootstrap intervals (B = 2000, seed 20261015).
+- **p:** exact McNemar against frontier-only. Holm adjusts over the 16 non-degenerate points of all pairs.
+- **AUC:** against δ = +1 (escalation gain) and against a_S = 0 (small-tier failure).
+
+﻿n = 200, excluded [], Holm family m = 16
+
+### gemma4-12b -> sonnet-5-5
+
+| Quantity | Value [95% CI] |
+|---|---|
+| n | 200 |
+| Acc_S | 0.690 [0.623, 0.750] |
+| Acc_L | 0.860 [0.805, 0.901] |
+| b (S right, L wrong) | 7 |
+| c (S wrong, L right) | 41 |
+| oracle ceiling | 0.895 [0.845, 0.930] |
+| small-only vs frontier-only McNemar (b, c, p) | 7, 41, 6.24e-07 |
+| small flip rate (SC) | 0.155 [0.111, 0.212] |
+| AUC error (gain / fail) | 0.759 [0.683, 0.836] / 0.702 [0.642, 0.759] |
+| AUC self_consistency (gain / fail) | 0.759 [0.676, 0.836] / 0.792 [0.726, 0.854] |
+| AUC verifier (gain / fail) | 0.780 [0.712, 0.848] / 0.777 [0.717, 0.839] |
+
+| Signal | tau | Esc. rate | Acc | Cost (USD/task) | CPS (USD/solved) | Oracle gap (pp) | p raw | p Holm |
+|---|---|---|---|---|---|---|---|---|
+| error | 0 | 0.125 [0.086, 0.178] | 0.800 [0.739, 0.850] | 0.00305 [0.00189, 0.00428] | 0.00381 [0.00237, 0.00533] | 5.0 [2.5, 7.5] | 0.02896 | 0.3475 |
+| self_consistency | 0 | 0.290 [0.232, 0.356] | 0.830 [0.772, 0.876] | 0.00626 [0.00481, 0.00781] | 0.00755 [0.00569, 0.00956] | 6.5 [3.5, 10.0] | 0.2632 | 1 |
+| self_consistency | 1/3 | 0.115 [0.078, 0.167] | 0.760 [0.696, 0.814] | 0.00283 [0.00175, 0.00408] | 0.00373 [0.00228, 0.00541] | 8.5 [5.5, 11.5] | 0.0008214 | 0.0115 |
+| self_consistency | 2/3 | 0.045 [0.024, 0.083] | 0.715 [0.649, 0.773] | 0.00111 [0.00042, 0.00195] | 0.00155 [0.00058, 0.00271] | 5.5 [2.5, 8.5] | 8.963e-06 | 0.0001344 |
+| verifier | 0 | 0.360 [0.297, 0.429] | 0.840 [0.783, 0.884] | 0.00775 [0.00621, 0.00940] | 0.00923 [0.00728, 0.01140] | 5.5 [2.5, 9.0] | 0.3877 | 1 |
+
+### gemma4-31b -> sonnet-5-5
+
+| Quantity | Value [95% CI] |
+|---|---|
+| n | 200 |
+| Acc_S | 0.815 [0.755, 0.863] |
+| Acc_L | 0.860 [0.805, 0.901] |
+| b (S right, L wrong) | 12 |
+| c (S wrong, L right) | 21 |
+| oracle ceiling | 0.920 [0.874, 0.950] |
+| small-only vs frontier-only McNemar (b, c, p) | 12, 21, 0.1628 |
+| small flip rate (SC) | 0.065 [0.038, 0.108] |
+| AUC error (gain / fail) | 0.548 [0.500, 0.625] / 0.527 [0.500, 0.569] |
+| AUC self_consistency (gain / fail) | 0.567 [0.485, 0.670] / 0.539 [0.483, 0.601] |
+| AUC verifier (gain / fail) | 0.642 [0.539, 0.750] / 0.600 [0.531, 0.673] |
+
+| Signal | tau | Esc. rate | Acc | Cost (USD/task) | CPS (USD/solved) | Oracle gap (pp) | p raw | p Holm |
+|---|---|---|---|---|---|---|---|---|
+| error | 0 | 0.010 [0.003, 0.036] | 0.825 [0.766, 0.871] | 0.00025 [0.00000, 0.00065] | 0.00030 [0.00000, 0.00079] | 1.0 [0.0, 2.0] | 0.281 | 1 |
+| self_consistency | 0 | 0.075 [0.046, 0.120] | 0.825 [0.766, 0.871] | 0.00192 [0.00101, 0.00293] | 0.00233 [0.00122, 0.00357] | 8.0 [4.5, 11.0] | 0.2478 | 1 |
+| self_consistency | 1/3 | 0.010 [0.003, 0.036] | 0.825 [0.766, 0.871] | 0.00025 [0.00000, 0.00065] | 0.00030 [0.00000, 0.00079] | 1.0 [0.0, 2.0] | 0.281 | 1 |
+| verifier | 0 | 0.080 [0.050, 0.126] | 0.835 [0.777, 0.880] | 0.00184 [0.00096, 0.00284] | 0.00220 [0.00114, 0.00342] | 6.5 [3.5, 10.0] | 0.4049 | 1 |
+
+### gemma4-e4b -> sonnet-5-5
+
+| Quantity | Value [95% CI] |
+|---|---|
+| n | 200 |
+| Acc_S | 0.105 [0.070, 0.155] |
+| Acc_L | 0.860 [0.805, 0.901] |
+| b (S right, L wrong) | 2 |
+| c (S wrong, L right) | 153 |
+| oracle ceiling | 0.870 [0.816, 0.910] |
+| small-only vs frontier-only McNemar (b, c, p) | 2, 153, 5.295e-43 |
+| small flip rate (SC) | 0.310 [0.250, 0.377] |
+| AUC error (gain / fail) | 0.737 [0.658, 0.808] / 0.964 [0.944, 0.981] |
+| AUC self_consistency (gain / fail) | 0.580 [0.492, 0.661] / 0.692 [0.572, 0.795] |
+| AUC verifier (gain / fail) | 0.618 [0.557, 0.686] / 0.724 [0.612, 0.832] |
+
+| Signal | tau | Esc. rate | Acc | Cost (USD/task) | CPS (USD/solved) | Oracle gap (pp) | p raw | p Holm |
+|---|---|---|---|---|---|---|---|---|
+| error | 0 | 0.830 [0.772, 0.876] | 0.825 [0.766, 0.871] | 0.01596 [0.01450, 0.01742] | 0.01935 [0.01738, 0.02158] | 4.5 [2.0, 7.5] | 0.06543 | 0.7197 |
+| self_consistency | 0 | 0.985 [0.957, 0.995] | 0.855 [0.800, 0.897] | 0.01897 [0.01773, 0.02021] | 0.02219 [0.02034, 0.02415] | 1.5 [0.0, 3.5] | 1 | 1 |
+| self_consistency | 1/3 | 0.915 [0.868, 0.946] | 0.810 [0.750, 0.858] | 0.01756 [0.01615, 0.01893] | 0.02168 [0.01972, 0.02376] | 6.0 [3.0, 9.5] | 0.006348 | 0.08252 |
+| self_consistency | 2/3 | 0.535 [0.466, 0.603] | 0.540 [0.471, 0.608] | 0.01009 [0.00848, 0.01168] | 0.01869 [0.01618, 0.02158] | 19.5 [15.5, 23.5] | 1.59e-17 | 2.545e-16 |
+| verifier | 0 | 0.925 [0.880, 0.954] | 0.850 [0.794, 0.893] | 0.01795 [0.01655, 0.01929] | 0.02112 [0.01920, 0.02319] | 2.0 [0.5, 4.0] | 0.625 | 1 |
+
+### haiku-5-5 -> sonnet-5-5
+
+| Quantity | Value [95% CI] |
+|---|---|
+| n | 200 |
+| Acc_S | 0.795 [0.734, 0.845] |
+| Acc_L | 0.860 [0.805, 0.901] |
+| b (S right, L wrong) | 8 |
+| c (S wrong, L right) | 21 |
+| oracle ceiling | 0.900 [0.851, 0.934] |
+| small-only vs frontier-only McNemar (b, c, p) | 8, 21, 0.02412 |
+| small flip rate (SC) | 0.085 [0.054, 0.132] |
+| AUC error (gain / fail) | 0.500 [0.500, 0.500] / 0.500 [0.500, 0.500] |
+| AUC self_consistency (gain / fail) | 0.616 [0.510, 0.723] / 0.667 [0.588, 0.744] |
+| AUC verifier (gain / fail) | 0.741 [0.636, 0.850] / 0.734 [0.658, 0.813] |
+
+| Signal | tau | Esc. rate | Acc | Cost (USD/task) | CPS (USD/solved) | Oracle gap (pp) | p raw | p Holm |
+|---|---|---|---|---|---|---|---|---|
+| error | — (no non-degenerate point) | | | | | | | |
+| self_consistency | 0 | 0.125 [0.086, 0.178] | 0.825 [0.766, 0.871] | 0.00796 [0.00686, 0.00917] | 0.00965 [0.00812, 0.01138] | 7.5 [4.0, 11.5] | 0.1892 | 1 |
+| verifier | 0 | 0.140 [0.099, 0.195] | 0.845 [0.788, 0.889] | 0.00528 [0.00433, 0.00639] | 0.00625 [0.00500, 0.00771] | 5.5 [2.5, 8.5] | 0.6072 | 1 |
+

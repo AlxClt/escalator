@@ -28,9 +28,9 @@ def _with(path: list[str], value: object) -> dict[str, object]:
     return raw
 
 
-def test_repo_config_loads_without_headline() -> None:
+def test_repo_config_loads() -> None:
     cfg = load_router_config()
-    assert cfg.headline_small_tier is None
+    assert cfg.headline_small_tier is None or cfg.headline_small_tier in cfg.small  # set by the owner only
     assert cfg.self_consistency.k == len(cfg.self_consistency.seeds) == len(set(cfg.self_consistency.seeds))
     assert list(cfg.small) == ["gemma4-e4b", "gemma4-12b", "gemma4-31b", "haiku-5-5"]
 

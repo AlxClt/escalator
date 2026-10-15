@@ -1,0 +1,61 @@
+{
+  "schema_version": 3,
+  "run_id": "sc-gemma4-e4b-v1",
+  "created_at": "2026-10-15T08:35:54+00:00",
+  "git_sha": "d034aa6a679219ac2e58ed0ed8dd36728ad98f76",
+  "git_dirty": true,
+  "prices_sha256": "ab6609f29b18a64a3bd408a4a456ad652157c21c470561871b33fc0e2c305b78",
+  "prices_retrieved_on": "2026-10-14",
+  "model_digests": {
+    "gemma4-e4b": "ollama/gemma4:e4b-it-qat@ee665637121887cf3befff38abbb1be4ee117c7db867d97a67e29049ecd7e15f"
+  },
+  "tier_config": {
+    "name": "gemma4-e4b",
+    "tier": "S",
+    "provider": "ollama",
+    "model_id": "ollama/gemma4:e4b-it-qat@ee665637121887cf3befff38abbb1be4ee117c7db867d97a67e29049ecd7e15f",
+    "settings": {
+      "num_ctx": 16384,
+      "think": false
+    }
+  },
+  "prompt_version": "v1",
+  "prompt_sha256": "249d430288508c556fe7cd262ae20bcf58668c99ce2b0087dced8054f2a38bb4",
+  "tool_manifest_sha256": "df3d9b6ee3e2481b35c051af55aeb767f03de5e7db05475766b97ed6ff51524b",
+  "mcp_server_version": "1",
+  "mcp_sdk_version": "2.3.0",
+  "temperature": 0.7,
+  "seed": null,
+  "sample_idxs": [
+    0,
+    1,
+    2
+  ],
+  "max_steps": 8,
+  "retry_cap": 2,
+  "render_max_rows": 50,
+  "render_max_chars": 4000,
+  "overflow_margin": 1024,
+  "max_tokens": 2048,
+  "configs_sha256": "398ec70daf783df6276482b0e7624ab88b4f46df6b008081313e95a1aec3700f",
+  "env_lock": {
+    "python_version": "3.12.14",
+    "sqlite_version": "3.53.1"
+  },
+  "manifest_sha256": "437af3c6dfe8c2ab4c87380120c0b7e6715d024575288094871ac3db9afbd9b9",
+  "cache_schema": 1,
+  "ollama_version": "0.40.4",
+  "run_kind": "self_consistency",
+  "sample_seeds": {
+    "0": 1,
+    "1": 2,
+    "2": 3
+  },
+  "baseline_run_id": "baselines-gemma4-e4b-v1",
+  "ollama_modelfile_params": {
+    "top_k": "64",
+    "top_p": "0.95",
+    "temperature": "1"
+  },
+  "ollama_num_parallel": null
+}
