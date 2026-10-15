@@ -33,4 +33,5 @@ markers = [
     "data: integration gate that needs the pinned data under data/raw (run by make data-verify)",
     "slow: long-running (gold SQL over every task, the 30 s sandbox timeout)",
     "manifest: checks data/manifest.json against the pinned data (run by make manifest)",
+    "local: needs the local week-2 traces, LLM cache and data (run by make test-local, never in CI)",
 ]

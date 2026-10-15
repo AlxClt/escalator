@@ -32,6 +32,25 @@ def parse_version(v: str) -> tuple[int, ...]:
     return tuple(int(p) for p in v.split("-")[0].split(".") if p.isdigit())
 
 
+def parse_modelfile_parameters(text: object) -> JsonDict:
+    out: dict[str, object] = {}
+    for line in text.splitlines() if isinstance(text, str) else []:
+        name, _, value = line.strip().partition(" ")
+        if not name:
+            continue
+        value = value.strip()
+        if len(value) >= 2 and value[0] == value[-1] == '"':
+            value = value[1:-1]
+        prev = out.get(name)
+        if prev is None:
+            out[name] = value
+        elif isinstance(prev, list):
+            prev.append(value)
+        else:
+            out[name] = [prev, value]
+    return out
+
+
 def _wire_messages(messages: tuple[Message, ...]) -> list[JsonDict]:
     names: dict[str, str] = {}
     out: list[JsonDict] = []
@@ -106,6 +125,13 @@ class OllamaProvider:
             if isinstance(m, dict) and isinstance(m.get("name"), str) and isinstance(m.get("digest"), str):
                 out[m["name"]] = m["digest"]
         return out
+
+    def show(self, tag: str) -> JsonDict:
+        """The Modelfile parameters of a local tag, from /api/show: `name value` lines; a repeated name
+        (e.g. `stop`) becomes a list. Values stay strings, as Ollama reports them."""
+        r = self._client.post("/api/show", json={"model": tag})
+        raise_for_status(r.status_code, r.text)
+        return parse_modelfile_parameters(r.json().get("parameters"))
 
     # --- calls ---------------------------------------------------------------
 

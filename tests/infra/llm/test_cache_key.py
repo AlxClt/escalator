@@ -80,3 +80,22 @@ def test_dict_key_order_does_not_change_key() -> None:
     permuted = Request(model=BASE.model, messages=BASE.messages, tools=(reordered_tool, TOOL_B), max_tokens=1024)
     reordered_ctx = dict(reversed(list(CONTEXT.items())))
     assert key(permuted, reordered_ctx) == key(BASE, CONTEXT)
+
+
+# --- week 3: backward compatibility of the key ----------------------------------------------------
+# Computed at e20e05d (end of week 2). Every key already in the cache and in the week-2 traces was
+# made by this preimage; a change here would orphan them. sample_idx has been a Request field, and so
+# part of every key, since week 1: sample 1 of a request without temperature or seed is already a new
+# key, and no key extension was needed for the frontier repeat.
+GOLDEN_SAMPLE_0 = "3bcc33a863f5aa54978e5d53d089db70c825041a5da2500c3dd1b738c30f31b5"
+GOLDEN_SAMPLE_1 = "cdbac8021a11237b425508feea869a83a6c5872cbba606060375253f1692c062"
+
+
+def test_week2_key_is_byte_identical() -> None:
+    assert key(BASE, CONTEXT) == GOLDEN_SAMPLE_0
+
+
+def test_sample_idx_1_without_seed_is_a_new_key() -> None:
+    assert BASE.temperature is None and BASE.seed is None and BASE.sample_idx == 0
+    repeat = BASE.model_copy(update={"sample_idx": 1})
+    assert key(repeat, CONTEXT) == GOLDEN_SAMPLE_1 != key(BASE, CONTEXT)

@@ -1,6 +1,6 @@
 # Project Status - Escalator
 
-**Last Updated:** 14/10/2026
+**Last Updated:** 15/10/2026
 **Project Start:** 30/09/2026
 
 ---
@@ -80,9 +80,9 @@ Spec: `docs/tasks/week2-agent-loop-task.md`; conflicts and decisions in `docs/we
 - [x] Agent loop (`agent/loop.py`), tool layer (`agent/tools.py`), prompts v1 (`agent/prompts/v1.yaml`, real text, `{{db_id}}` slot added)
 - [x] Trace schema v2, `trace/replay.py`, `eval/runner.py`, `make smoke`, `make baselines` (defined, not run; refused without `PAID=1`)
 - [x] `tests/agent/` (spec tests 1–15; 16 dropped with concurrency) and the full `make test` suite pass locally
-- [ ] `make smoke` twice: not run yet, the Ollama pod was down. Check the second run under 5 s at $0. Under WSL on `/mnt/c`, imports (≈ 4.9 s), server start (≈ 4.4 s) and gold re-execution (≈ 3.5 s) already exceed 5 s, so run from the WSL filesystem or natively
+- [x] `make smoke` twice: not run yet, the Ollama pod was down. Check the second run under 5 s at $0. Under WSL on `/mnt/c`, imports (≈ 4.9 s), server start (≈ 4.4 s) and gold re-execution (≈ 3.5 s) already exceed 5 s, so run from the WSL filesystem or natively
 - [x] A cached rerun needs no live provider: providers are built and the Ollama digests checked at the first cache miss; readonly reruns of paid models pass the paid guard
-- [ ] On the first smoke: check that Ollama's `prompt_eval_count` is not reduced by KV-cache reuse (overflow detection depends on it), and settle P6
+- [x] On the first smoke: check that Ollama's `prompt_eval_count` is not reduced by KV-cache reuse (overflow detection depends on it), and settle P6
 
 #### 2 - Baselines and frontier sweep
 
@@ -98,3 +98,17 @@ Manual trigger only: One frontier sweep.
 
 **Exit criterion**
 `results/baselines.json` committed, containing per-task outcomes and costs for all four model configurations. Two or more points on the accuracy/cost plane. Traces for every failed task stored.
+
+### Step 3: The router
+
+Spec: `docs/tasks/week3-router-task.md`; conflicts and decisions in `docs/week3-notes.md`. Four (small, frontier) pairs: gemma4-e4b, gemma4-12b, gemma4-31b and haiku-5-5, each with sonnet-5-5.
+
+- [x] Collection infrastructure: `make sc-samples`, `make verifier-runs`, `make frontier-repeat` (paid, refused without `PAID=1`; projected $3.83), `make sc-estimate`, `make publish-traces`; RunMeta v3; compatibility gate (`CHECK=1` passes for all four SC runs and the frontier repeat against the week-2 baselines)
+- [x] Cache keys unchanged: `sample_idx` was already hashed; `make test-local` replays the week-2 baselines' keys
+- [ ] Checkpoint A: the owner writes `verifier_v1.yaml`; then `make sc-samples SMOKE=1`, `make verifier-runs SMOKE=1`, `make sc-estimate`; wait for a go
+- [ ] Metrics primitives (`eval/metrics.py`): Wilson, exact McNemar, Holm, AUC, shared-matrix bootstrap
+- [ ] Signals (`router/signals.py`), label-free execution cache, run inventory loader
+- [ ] Policy simulation (`router/policy.py`), `make router` → `results/signals.json`, `results/router.json` (integrity check against `results/baselines.json`)
+- [ ] `make plots` (matplotlib in a `plots` dependency group); headline once `headline_small_tier` is set
+- [ ] Checkpoint B: full SC and verifier collection for the Gemma models (haiku only with `PAID=1`, by hand); publish; `make results`
+- [ ] `docs/week3-notes.md` result tables

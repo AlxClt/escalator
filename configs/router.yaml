@@ -1,0 +1,37 @@
+# Week 3: signal collection (escalator.eval.collect) and the offline routing simulation (escalator.router).
+# Model names are keys of configs/models.yaml.
+
+# k samples per task at temperature T, sample j with seeds[j]. Ollama receives temperature and seed
+# only (top_p / top_k stay the Modelfile's). Anthropic models accept no sampling parameter: their
+# samples differ by sample_idx alone, numbered 1..k so that sample 1 never replays the baseline
+# request (sample_idx 0, same parameters).
+self_consistency:
+  k: 3
+  temperature: 0.7
+  seeds: [1, 2, 3]
+  models: [gemma4-e4b, gemma4-12b, gemma4-31b, haiku-5-5]
+
+# One fresh run per task with the verifier prompt, at the baseline's sampling (T = 0 and the
+# configs/agent.yaml seed for Ollama; provider defaults for Anthropic).
+verifier:
+  prompt_version: verifier_v1
+  models: [gemma4-e4b, gemma4-12b, gemma4-31b, haiku-5-5]
+
+# The run ids the simulation reads. Explicit: no discovery by globbing, no inference from timestamps.
+# null = not collected (the signal is reported as not_collected, never as zeros).
+inventory:
+  small:
+    gemma4-e4b: {baseline: baselines-gemma4-e4b-v1, self_consistency: null, verifier: null}
+    gemma4-12b: {baseline: baselines-gemma4-12b-v1, self_consistency: null, verifier: null}
+    gemma4-31b: {baseline: baselines-gemma4-31b-v1, self_consistency: null, verifier: null}
+    haiku-5-5: {baseline: baselines-haiku-5-5-v1, self_consistency: null, verifier: null}
+  frontier:
+    model: sonnet-5-5
+    baseline: baselines-sonnet-5-5-v1
+    repeat: null              # make frontier-repeat (paid, manual): sample_idx 1
+
+bootstrap:
+  B: 2000
+  seed: 20261015
+
+# headline_small_tier: <model name>   # deliberately unset: chosen by the project owner, no default

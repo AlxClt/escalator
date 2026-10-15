@@ -1,0 +1,15 @@
+# Verifier prompt version verifier_v1 (week 3). One file per version: never edit a version a run has used.
+# Same slots and renderer rules as v1.yaml: system {{db_id}} {{schema_card}}; user {{question}}
+# {{evidence_section}}; evidence_section {{evidence}}. No tool_descriptions: they come from the baseline
+# prompt version (configs/agent.yaml: prompt_version), so the tool manifest hash equals the baseline's.
+# Placeholders only: the project owner writes the prose. While any <<PROMPT_PLACEHOLDER: ...>> marker
+# remains, `make verifier-runs` refuses to run.
+
+system: |-
+  <<PROMPT_PLACEHOLDER: system>>
+  {{db_id}}
+  {{schema_card}}
+
+user: "<<PROMPT_PLACEHOLDER: user>> {{question}}{{evidence_section}}"
+
+evidence_section: "<<PROMPT_PLACEHOLDER: evidence_section>> {{evidence}}"

@@ -3,6 +3,10 @@
 A version file holds every piece of model-facing natural-language text: the `system`, `user` and
 `evidence_section` templates and the tool descriptions. Templates use `{{slot}}` placeholders,
 filled by plain substitution (no Jinja, no str.format: schema cards and SQL contain braces).
+
+A verifier version (`verifier_v1.yaml`, week 3) holds the three templates only: its tool descriptions
+come from the baseline version, so the tool manifest, and its hash, stay the baseline's. A template
+still holding a `<<PROMPT_PLACEHOLDER: ...>>` marker has no prose yet: no run may use it.
 """
 
 from __future__ import annotations
@@ -24,6 +28,7 @@ SLOTS: dict[str, frozenset[str]] = {
     "evidence_section": frozenset({"evidence"}),
 }
 _SLOT = re.compile(r"\{\{(.*?)\}\}")
+PLACEHOLDER = re.compile(r"<<PROMPT_PLACEHOLDER: [^<>]*>>")
 
 
 class PromptError(ValueError):
@@ -126,3 +131,36 @@ def parse_prompt(data: bytes, version: str, where: str = "prompt") -> Prompt:
 def load_prompt(version: str, root: Path = PROMPTS_DIR) -> Prompt:
     path = root / f"{version}.yaml"
     return parse_prompt(path.read_bytes(), version, where=str(path))
+
+
+def parse_prompt_with_tools(data: bytes, version: str, tools_from: Prompt, where: str = "prompt") -> Prompt:
+    """A templates-only version (no tool_descriptions), with the tools of `tools_from`."""
+    raw: object = yaml.safe_load(data)
+    if not isinstance(raw, dict):
+        raise PromptError(f"{where}: expected a mapping")
+    expected = set(SLOTS)
+    if set(raw) != expected:
+        raise PromptError(f"{where}: keys must be {sorted(expected)}, got {sorted(map(str, raw))}")
+    texts = {k: _text(raw, k, where) for k in SLOTS}
+    for name, template in texts.items():
+        check_template(f"{where}: {name}", template, SLOTS[name])
+    return Prompt(version, hashlib.sha256(data).hexdigest(), texts["system"], texts["user"],
+                  texts["evidence_section"], dict(tools_from.tools))
+
+
+def load_prompt_with_tools(version: str, tools_from: Prompt, root: Path = PROMPTS_DIR) -> Prompt:
+    path = root / f"{version}.yaml"
+    return parse_prompt_with_tools(path.read_bytes(), version, tools_from, where=str(path))
+
+
+def placeholder_fields(prompt: Prompt) -> list[str]:
+    """The templates and tool texts still holding a placeholder marker, sorted."""
+    texts = {"system": prompt.system, "user": prompt.user, "evidence_section": prompt.evidence_section}
+    for name, tool in prompt.tools.items():
+        texts[f"tool_descriptions.{name}"] = tool.description
+        texts.update({f"tool_descriptions.{name}.{k}": v for k, v in tool.parameters.items()})
+    return sorted(name for name, text in texts.items() if PLACEHOLDER.search(text))
+
+
+def has_placeholders(prompt: Prompt) -> bool:
+    return bool(placeholder_fields(prompt))

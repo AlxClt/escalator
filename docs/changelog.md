@@ -32,6 +32,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - Trace replay (`escalator.trace.replay.replay_task`): re-runs a task from its trace against a readonly cache and reports any request key that does not reproduce.
 - `configs/agent.yaml`: prompt version, step budget, retry cap, display caps, overflow margin, per-tier `max_tokens`, seed and run presets.
 - Claude Haiku 5.5 (`haiku-5-5`, tier S, adaptive thinking, effort medium) in `configs/models.yaml`, `configs/prices.yaml` (retrieved 2026-10-14) and the `baselines` preset; a model's optional `max_tokens` in `configs/models.yaml` overrides its tier's value (Haiku: 16000).
+- Week-3 trace collection (`python -m escalator.eval.collect`, `make sc-samples`, `make verifier-runs`, `make frontier-repeat`, `make sc-estimate`; settings in `configs/router.yaml`): k = 3 self-consistency samples at T = 0.7 with explicit per-sample seeds, verifier runs with their own prompt, and a paid frontier repeat (sample 1) refused without `PAID=1` with its projected cost printed. `SMOKE=1` runs the first 10 tasks on gemma4-e4b; `CHECK=1` runs only the compatibility gates.
+- Compatibility gate (`escalator.eval.compat`): before the first LLM call, a collection run's meta must match its model's baseline meta on every field that changes the agent, its tools, data or cache keys; any difference aborts with a field-level diff.
+- Verifier prompt `verifier_v1.yaml` (placeholders and slots only, tool descriptions taken from the baseline prompt); `make verifier-runs` refuses while any `<<PROMPT_PLACEHOLDER: ...>>` marker remains.
+- `make publish-traces RUNS=...`: copies a run into `traces/published/<run_id>/` with a deterministic `steps.jsonl.gz`; readers look in `published/` first.
+- `configs/router.yaml`: self-consistency and verifier settings, the explicit run inventory (baseline, self-consistency and verifier run ids per small model; frontier baseline and repeat), bootstrap settings. `headline_small_tier` has no default.
+- `make test-local` (pytest marker `local`): checks that need the local traces, LLM cache and data, such as replaying the week-2 baselines' request keys; `make test` excludes them.
+- `OLLAMA_NUM_PARALLEL` in `.env.example`, recorded in collection runs' `meta.json`.
 
 ### Changed
 
@@ -41,4 +48,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - **BREAKING:** trace `SCHEMA_VERSION` 2: `tool`, `args`, `args_raw`, `tool_status`, `result_hash` and `result_preview` are lists in call order (one entry per tool call); `end` adds `validation_exhausted` and `context_overflow`, `tool_status` adds `ignored`; response fields are nullable for `provider_error`; `RunMeta` records the tier config, prompt and tool-manifest hashes, MCP server and SDK versions, sampling and loop settings.
 - `Task` carries the question and evidence text.
 - Sampling parameters follow the provider, not the tier: Ollama models run at T = 0 with the fixed seed, Anthropic models send none at any tier.
+- `RunMeta` schema v3: adds `run_kind`, `sample_seeds`, `baseline_run_id`, `ollama_modelfile_params` and `ollama_num_parallel`; v2 `meta.json` files still read (as `run_kind: baseline`). `StepRecord` stays v2.
 - Context overflow is detected by the agent loop (`prompt tokens ≥ num_ctx − overflow_margin`) and recorded as an outcome; the Ollama provider no longer raises `ContextOverflow`, which is removed.
