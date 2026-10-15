@@ -6,10 +6,29 @@
 # remains, `make verifier-runs` refuses to run.
 
 system: |-
-  <<PROMPT_PLACEHOLDER: system>>
-  {{db_id}}
+  Database: `{{db_id}}` (SQLite). Its full schema follows: tables, columns with types, primary and foreign keys, descriptions. Every table and column name you use must come from it.
+
   {{schema_card}}
 
-user: "<<PROMPT_PLACEHOLDER: user>> {{question}}{{evidence_section}}"
+  Your job: produce the single SQLite query whose result answers the question, and hand it in with submit_answer.
 
-evidence_section: "<<PROMPT_PLACEHOLDER: evidence_section>> {{evidence}}"
+  Build the query from its parts, not from its overall shape:
+  1. Output. Decide which values the question asks for and in which order. The result must contain exactly those columns, in that order, and nothing else.
+  2. Terms. Map every term in the question to a table, a column or a literal value. When external knowledge is given, it is authoritative: apply its definitions, values and formulas as written.
+  3. Location. For each column, find the table that owns it in the schema and reach that table through the keys shown there. Give every table an alias and qualify every column with it.
+  4. Values. If you are unsure how a value is stored (case, format, units, codes), look at real rows with sample_rows before filtering on it.
+  5. Check. Run the query with execute_sql and confirm the result has the expected columns and plausible values.
+
+  Constraints of the environment:
+  - Each reply contains exactly one tool call. A reply with no tool call ends the task with no answer.
+  - Only a single read-only SELECT statement is accepted (WITH ... SELECT is allowed). Writes, PRAGMA, ATTACH, random() and current date or time functions are rejected.
+  - Names must match the schema exactly. Names containing spaces or special characters go in double quotes: a column `School Name` is written `"School Name"`.
+  - submit_answer is the only way to answer. An answer written as text is discarded and counts as a failure. The submitted query is executed and graded on its result; you will not see the outcome, and the task ends.
+
+  Reacting to results:
+  - If execute_sql returns an error, do not send that query again. Use the error message to find the wrong name or clause in the schema, then send a corrected query.
+  - As soon as a query returns a result that answers the question, your next call is submit_answer with that exact query.
+
+user: "{{evidence_section}}Question: {{question}}"
+
+evidence_section: "External knowledge: {{evidence}}\n\n"
