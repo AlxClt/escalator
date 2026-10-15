@@ -6,19 +6,19 @@ measurements live in `docs/week3-notes.md`.
 
 Branch: `feature/week3-router`. Commit only through `/update-docs-and-commit`, at each completed step.
 
-## Status (end of 15/10/2026)
+## Status (15/10/2026, evening)
 
 | Step | State |
 |---|---|
 | 1. Collection infrastructure | Done, `ca36d4f` |
 | 2. Checkpoint A: verifier prose, smoke runs, estimate | Done. Prose `d034aa6`; smoke runs validated; estimate in `week3-notes.md` |
 | 3. Metrics primitives (`eval/metrics.py`) | Done, 31 tests pass |
-| 4. Inventory, execution cache, signals | To do |
-| 5. Policy simulation | To do |
-| 6. `make router` end to end | To do |
-| 7. Plots | To do |
-| 8. Checkpoint B: full collection | **Running** (started by the owner, 15/10 ~08:35 UTC) |
-| 9. Notes tables, docs, PR | To do |
+| 4. Inventory, execution cache, signals | Done (`router/inventory.py`, `execcache.py`, `signals.py`; tests 5–8) |
+| 5. Policy simulation | Done (`router/policy.py`; tests 9–11) |
+| 6. `make router` end to end | Done (`router/outcomes.py`, `report.py`, `__main__.py`; tests 14–15). Integrity check passes on the real runs; n = 199 until task 1068 is resumed |
+| 7. Plots | Done (`router/plots.py`, matplotlib 3.11.2; test 16). Headline waits for `headline_small_tier` |
+| 8. Checkpoint B: full collection | Done 15/10, except one `provider_error` (e4b verifier, task 1068) to resume with `make verifier-runs MODELS=gemma4-e4b OVERWRITE=1` (owner's call). Runs not yet published |
+| 9. Notes tables, docs, PR | Notes decisions written; result tables after the resume; then publish runs, PR |
 
 ### Collection in flight (step 8)
 
@@ -71,7 +71,7 @@ The runs record `git_sha` `d034aa6` with `git_dirty: true`. The dirt is the unco
   - `submit_of(run)`: the first `submit_answer` call that is not `validation_error` / `ignored`, with its `args` (`db_id`, `sql`) and `tool_status`.
   - `ans(run, ex)`: rows or ⊥.
   - `eq(u, v) = u is not None and v is not None and execution_match(u, v, ordered=False)` (`eval.scorers`; the scorer is not modified).
-  - `error_signal(run)`: 1 iff `end ∈ FAILED_ENDS` or the submit status is in {`execution_error`, `timeout`, `denied`}. Read from the trace; no execution needed.
+  - `error_signal(run)`: 1 iff `end ∈ FAILED_ENDS` or the submitted query fails when re-executed label-free (D4). The server's `tool_status` is only a cross-check (no disagreement on the week-2 runs).
   - `sc_signal(samples, ex) -> (s, m)`, with `m = max_j Σ_j' eq(...)`. ⊥ never agrees, including with itself.
   - `verifier_signal(base, ver, ex)`.
   - A signal whose inventory id is null → `status: not_collected` and null values, never zeros.

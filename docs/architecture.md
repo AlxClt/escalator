@@ -23,8 +23,14 @@ escalator/
 │   │   └── prompts/        # <version>.yaml (v1; verifier_v1: templates only, tools from the baseline), one file per version; loader, slot renderer and placeholder check in __init__.py
 │   ├── router/
 │   │   ├── config.py       # configs/router.yaml: SC and verifier settings, explicit run inventory, bootstrap
-│   │   ├── signals.py      # error / self-consistency / verifier
-│   │   └── policy.py       # threshold sweep, oracle, budget knapsack
+│   │   ├── inventory.py    # listed runs only, role-checked, grouped per (task, sample); analysis set; no eval import
+│   │   ├── execcache.py    # label-free execution of submitted SQL, outcomes persisted in .cache/exec.sqlite
+│   │   ├── signals.py      # error / self-consistency / verifier from small-tier runs only (never gold, never frontier)
+│   │   ├── outcomes.py     # a(r) through eval.scorers; integrity check against results/baselines.json
+│   │   ├── policy.py       # threshold sweep, oracle frontier, budget interpolation, random reference
+│   │   ├── report.py       # D5-D8 metrics, shared bootstrap, McNemar + Holm -> router.json / signals.json
+│   │   ├── __main__.py     # python -m escalator.router (make router)
+│   │   └── plots.py        # python -m escalator.router.plots (make plots): results/figures/
 │   ├── trace/
 │   │   ├── schema.py       # StepRecord v2 per LLM call (steps.jsonl, per-call fields as lists), RunMeta v3 (meta.json: run_kind, sample seeds, baseline gated against), strict reader
 │   │   ├── published.py    # traces/published/<run_id>/ (meta.json + deterministic steps.jsonl.gz); run lookup published-first
@@ -55,7 +61,6 @@ escalator/
 │   ├── raw/               # gitignored: fetched data, gold-check cache
 │   └── manifest.json      # the 200 pinned tasks: ids, difficulty, task_hash, gold_result_hash
 ├── results/               # committed metrics JSON — the actual evidence
-├── notebooks/             # plots only, generated from results/
 ├── traces/                # gitignored except traces/published/ (runs behind published numbers)
 ├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}; tests/eval (scorer, gold side); tests/test_scorer.py (20 hand-made pairs); tests/test_server.py (MCP, needs data/raw); tests/agent (loop, tools, prompts, runner, replay over a real MCP server on tests/fixtures/agent_db.sql)
 ├── Makefile               # make test | test-local | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | sc-samples | verifier-runs | frontier-repeat | sc-estimate | publish-traces | results
@@ -77,3 +82,9 @@ Collection flow (week 3): `eval/collect.py` plans one run per (kind, model) from
 (`eval/compat.py`), all before the first LLM call → runs every task × sample through `agent/loop.py`
 exactly as the runner does → `traces/<kind>-<model>-<prompt_version>/`. `make publish-traces` copies
 runs into `traces/published/`, which the simulation reads through the inventory.
+
+Routing flow (week 3, $0): `make router` loads the inventory's runs (`router/inventory.py`) → recomputes
+a_S and a_L with `eval.scorers` and checks them against `results/baselines.json` (`router/outcomes.py`) →
+computes the signals from small-tier runs (`router/signals.py`, submitted SQL executed through
+`router/execcache.py`) → simulates every policy (`router/policy.py`) → `results/signals.json` and
+`results/router.json` (`router/report.py`) → `make plots` draws `results/figures/` (`router/plots.py`).

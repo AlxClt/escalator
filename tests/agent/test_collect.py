@@ -281,13 +281,29 @@ def test_frontier_repeat_is_sample_1_with_new_keys(server: Server, tmp_path: Pat
 # --- test 4: guards -------------------------------------------------------------------------
 
 
-def test_verifier_file_holds_only_placeholders_and_slots() -> None:
-    v = load_prompt_with_tools("verifier_v1", load_prompt("v1"))
+# verifier_v1.yaml as committed in ca36d4f, before the owner wrote its prose (d034aa6).
+PLACEHOLDER_VERIFIER = b"""system: |-
+  <<PROMPT_PLACEHOLDER: system>>
+  {{db_id}}
+  {{schema_card}}
+
+user: "<<PROMPT_PLACEHOLDER: user>> {{question}}{{evidence_section}}"
+
+evidence_section: "<<PROMPT_PLACEHOLDER: evidence_section>> {{evidence}}"
+"""
+
+
+def test_a_placeholder_verifier_holds_only_placeholders_and_slots() -> None:
+    v = parse_prompt_with_tools(PLACEHOLDER_VERIFIER, "verifier_v1", load_prompt("v1"))
     assert placeholder_fields(v) == ["evidence_section", "system", "user"]
     for name in SLOTS:
         rest = _SLOT.sub("", PLACEHOLDER.sub("", getattr(v, name)))
         assert rest.strip() == "", f"{name} holds prose: {rest!r}"
     assert not has_placeholders(load_prompt("v1"))
+
+
+def test_written_verifier_has_no_placeholders() -> None:
+    assert placeholder_fields(load_prompt_with_tools("verifier_v1", load_prompt("v1"))) == []
 
 
 def test_verifier_manifest_equals_the_baseline() -> None:
@@ -297,7 +313,10 @@ def test_verifier_manifest_equals_the_baseline() -> None:
     assert manifest_sha256(build_manifest(DB_IDS, v)) == manifest_sha256(build_manifest(DB_IDS, v1))
 
 
-def test_verifier_runs_refuse_a_placeholder_prompt(capsys: pytest.CaptureFixture[str]) -> None:
+def test_verifier_runs_refuse_a_placeholder_prompt(monkeypatch: pytest.MonkeyPatch,
+                                                   capsys: pytest.CaptureFixture[str]) -> None:
+    monkeypatch.setattr(collect_mod, "load_prompt_with_tools",
+                        lambda version, base: parse_prompt_with_tools(PLACEHOLDER_VERIFIER, version, base))
     assert collect_mod.main(["verifier-runs"]) == 2
     err = capsys.readouterr().err
     assert "placeholders" in err and "'system'" in err

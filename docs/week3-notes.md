@@ -47,6 +47,22 @@ Spec: `docs/tasks/week3-router-task.md`. This file lists:
 - **SC meta:** the shared temperature goes in `temperature`, `seed` is `null`, and the per-sample seeds go in `sample_seeds` (`{"0": 1, "1": 2, "2": 3}`).
 - **Gate timing:** all jobs of an invocation are gated before the first LLM call; one failing job aborts them all. `CHECK=1` runs only the gates, against a live MCP server, without loading tasks or calling a model.
 - **Modelfile parameters:** read with `/api/show` when the Ollama provider is first built (first cache miss), next to the version check. Like `ollama_version`, they are `null` for a fully cached run.
+- **The error signal executes the submitted query** through the sandbox (`row_cap=None`, the same path as EX), as D4 says, rather than reading the server's `tool_status` (which ran with the 1000-row cap). On the four week-2 small baselines the two never disagree, and the signal equals `end != submitted or sql_error` in `results/baselines.json` on every task.
+- **Persistent execution cache** (`.cache/exec.sqlite`, gitignored): each (db, SQL) outcome is stored the first time and reused, so a query near the 30 s limit cannot flip between invocations. The key salt is the `sources.lock` hash, the SQLite version and the sandbox timeout.
+- **Integrity check scope:** each baseline run is checked on every task it was scored on in week 2 (all 200), not only on A.
+- **Analysis set:** built from every run of the inventory, verifier and SC runs included, so one `provider_error` in any run removes the task from all four pairs.
+- **SC samples are identified by position** (sorted `sample_idx`), so haiku's 1..3 and Gemma's 0..2 are handled alike.
+- **Operational rates:** a call "ignored after submit" is an `ignored` call with a rendered result (`result_hash` set); an `ignored` call without one is a context-overflow call, and it counts as emitted. The execution-error and timeout rates are over validated, executed, non-submit calls.
+- **Bootstrap:** a resample where a statistic is undefined (CPS with no solve, AUC with an empty class, headroom with a zero denominator) or infinite (the CPS ratio when the policy's CPS is 0) is dropped for that statistic and counted in `n_undefined`. A point value of `+∞` is written `"inf"` with a flag.
+- **EX carries two intervals:** Wilson (`acc`, the protocol's interval for a proportion) and a bootstrap one (`acc_bootstrap`, from the shared matrix), used by the plots so both axes carry bootstrap intervals as the spec asks.
+- **Number format:** floats to 10 significant digits (not decimals: an exact McNemar p reaches 1e-40), keys sorted, τ = −∞ written `"-inf"` with an exact `tau_exact` string ("1/3").
+- **Random reference:** written at 21 points, e = 0, n/20, …, n.
+- **Budget variant:** `router.policy.acc_at_budget(points, B)` is exposed and tested against every tie-break order; `router.json` does not tabulate budgets (the spec names no grid).
+- **Plots** live in `src/escalator/router/plots.py` (no plotting existed in weeks 1–2; `notebooks/` does not exist). Files: `results/figures/frontier-<model>-{cps,cost}.{png,svg}`, plus `headline.{png,svg}` (a copy of the chosen model's CPS figure) once `headline_small_tier` is set.
+- **New dependency:** `matplotlib==3.11.2`, in a `plots` dependency group. Nothing was locked for plotting and the spec requires PNG + SVG figures. The group is in `[tool.uv] default-groups`, so CI's unchanged `uv sync --locked` installs it for test 16. `make router` does not import it.
+- **Colours:** the reference categorical palette's slots 1–3 (blue, orange, aqua), the set documented as passing the all-pairs colour-vision checks in light mode. The palette validator could not be run here (no Node.js). Each signal also has its own marker shape.
+- **Haiku's error signal is constant** (0 on every task: all 200 baseline answers were submitted and executed). It has no non-degenerate point and an AUC of exactly 0.5.
+- **Haiku's SC samples are drawn at provider-default sampling**, not T = 0.7 (the API rejects sampling parameters), so its self-consistency signal is not comparable 1:1 with the Gemma models'.
 - **`make smoke` on native Windows:** 10 tasks from the cache, $0, second run 4.2 s wall (the week-2 run from WSL took 60 s). The contract now holds.
 
 ## Measured wall-clock
@@ -70,7 +86,23 @@ Ratios `r` (smoke latency per sample ÷ baseline latency, same tasks): SC 3.399,
 | gemma4-31b | 7.72 h | 2.16 h |
 | haiku-5-5 (paid, by hand) | 1.89 h, $0.77 | 0.53 h |
 
-**Checkpoint B:** started by the owner on 15/10/2026 at about 08:35 UTC: `sc-gemma4-{e4b,12b,31b}-v1` in sequence, and `sc-haiku-5-5-v1` in parallel (paid). The runs record `git_sha` `d034aa6` with `git_dirty: true`. The uncommitted files were `eval/metrics.py`, its tests and this file; collection does not use any of them. Measured wall-clock: to be filled.
+**Checkpoint B:** started by the owner on 15/10/2026 at about 08:35 UTC: `sc-gemma4-{e4b,12b,31b}-v1` in sequence, and `sc-haiku-5-5-v1` in parallel (paid). The runs record `git_sha` `d034aa6` with `git_dirty: true`. The uncommitted files were `eval/metrics.py`, its tests and this file; collection does not use any of them. The verifier runs (started 09:23 UTC for haiku and 09:39 UTC for Gemma, recording `git_sha` `54c2f77`, clean) were run alongside the SC runs. All runs finished on 15/10: Ollama 0.40.4 throughout, the same Modelfile parameters, and every run's records sorted.
+
+| Run | Runs | Ends | `provider_error` | LLM latency (projected) | Nominal usd (projected) |
+|---|---|---|---|---|---|
+| `sc-gemma4-e4b-v1` | 600 | 455 no_tool_call, 123 submitted, 22 max_steps | — | 2.51 h (3.26) | 0 |
+| `sc-gemma4-12b-v1` | 600 | 536 submitted, 64 max_steps | — | 1.67 h (5.80) | 0 |
+| `sc-gemma4-31b-v1` | 600 | 592 submitted, 5 no_tool_call, 3 max_steps | — | 2.16 h (7.72) | 0 |
+| `sc-haiku-5-5-v1` | 600 | 600 submitted | — | 0.59 h (1.89) | 0.8002 (0.7729) |
+| `verifier-gemma4-e4b-verifier_v1` | 200 | 100 no_tool_call, 78 submitted, 21 max_steps, 1 provider_error | 1068 | 1.07 h (0.91) | 0 |
+| `verifier-gemma4-12b-verifier_v1` | 200 | 154 submitted, 46 max_steps | — | 0.71 h (1.62) | 0 |
+| `verifier-gemma4-31b-verifier_v1` | 200 | 198 submitted, 2 max_steps | — | 0.76 h (2.16) | 0 |
+| `verifier-haiku-5-5-verifier_v1` | 200 | 200 submitted | — | 0.20 h (0.53) | 0.2738 (0.2576) |
+
+- **The projections were pessimistic** for 12b, 31b and haiku: e4b's smoke ratio (inflated by a 58 s cold load and a slower pod that morning) was applied to every model.
+- **The e4b runs start with cache hits:** 98 of `sc-gemma4-e4b-v1`'s records and 44 of the e4b verifier's are hits. They are the smoke runs' requests, identical by construction (same tasks, seeds and prompt).
+- **Task 1068 (e4b verifier):** step 0's `execute_sql` hit the 30 s sandbox timeout, then the step-1 LLM call failed after its retries (`provider_error`, infra). It is resumed through the cache (`make verifier-runs MODELS=gemma4-e4b OVERWRITE=1`); otherwise the analysis set A excludes 1068 for every pair.
+- **SC and verifier calls overlapped on the pod** from 09:39 to about 12:20 UTC: two client processes, while `OLLAMA_NUM_PARALLEL` is unknown (`null`). `latency_ms` is measured by the client, so in that window it includes any queueing behind the other process's calls. If the server batched the two streams (`OLLAMA_NUM_PARALLEL` > 1), the outputs in that window could also differ numerically from a call served alone; the compatibility gate does not see this. Latency metrics for these runs are upper bounds.
 
 ## Results
 

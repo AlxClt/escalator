@@ -16,7 +16,7 @@ COLLECT_FLAGS = $(SMOKE_FLAG) $(MODELS_FLAG) $(PAID_FLAG) $(OVERWRITE_FLAG) $(CH
 PY := uv run --locked python
 
 .PHONY: test test-local env-lock data data-lock data-verify manifest smoke baselines
-.PHONY: sc-samples sc-estimate verifier-runs frontier-repeat publish-traces
+.PHONY: sc-samples sc-estimate verifier-runs frontier-repeat publish-traces router plots results
 
 test:
 	$(PY) -m pytest -m "not data and not manifest and not local"
@@ -74,3 +74,15 @@ sc-estimate:
 # RUNS="run_id ..." -> traces/published/<run_id>/{meta.json, steps.jsonl.gz}
 publish-traces:
 	$(PY) -m escalator.trace.published $(RUNS)
+
+# Offline routing simulation over the runs listed in configs/router.yaml: no LLM call, $0.
+# traces -> results/signals.json, results/router.json (byte-identical across invocations).
+router:
+	$(PY) -m escalator.router
+
+# results/router.json -> results/figures/ (PNG + SVG). Fails, after the per-model figures, while
+# configs/router.yaml headline_small_tier is unset.
+plots:
+	$(PY) -m escalator.router.plots
+
+results: router plots

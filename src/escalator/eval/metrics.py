@@ -120,9 +120,13 @@ class Bootstrap:
         return [stat(row) for row in self.indices]
 
     def interval(self, stat: Statistic, *, alpha: float = 0.05) -> BootstrapInterval:
-        vals = self.values(stat)
-        kept = [v for v in vals if v is not None and not math.isnan(v)]
-        undefined = len(vals) - len(kept)
-        if not kept:
-            return BootstrapInterval(None, None, undefined)
-        return BootstrapInterval(quantile7(kept, alpha / 2), quantile7(kept, 1 - alpha / 2), undefined)
+        return percentile_interval(self.values(stat), alpha=alpha)
+
+
+def percentile_interval(values: Sequence[float | None], *, alpha: float = 0.05) -> BootstrapInterval:
+    """2.5% and 97.5% (alpha = 0.05) of the defined values; undefined ones are dropped and counted."""
+    kept = [v for v in values if v is not None and not math.isnan(v)]
+    undefined = len(values) - len(kept)
+    if not kept:
+        return BootstrapInterval(None, None, undefined)
+    return BootstrapInterval(quantile7(kept, alpha / 2), quantile7(kept, 1 - alpha / 2), undefined)

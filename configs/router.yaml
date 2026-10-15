@@ -21,10 +21,10 @@ verifier:
 # null = not collected (the signal is reported as not_collected, never as zeros).
 inventory:
   small:
-    gemma4-e4b: {baseline: baselines-gemma4-e4b-v1, self_consistency: null, verifier: null}
-    gemma4-12b: {baseline: baselines-gemma4-12b-v1, self_consistency: null, verifier: null}
-    gemma4-31b: {baseline: baselines-gemma4-31b-v1, self_consistency: null, verifier: null}
-    haiku-5-5: {baseline: baselines-haiku-5-5-v1, self_consistency: null, verifier: null}
+    gemma4-e4b: {baseline: baselines-gemma4-e4b-v1, self_consistency: sc-gemma4-e4b-v1, verifier: verifier-gemma4-e4b-verifier_v1}
+    gemma4-12b: {baseline: baselines-gemma4-12b-v1, self_consistency: sc-gemma4-12b-v1, verifier: verifier-gemma4-12b-verifier_v1}
+    gemma4-31b: {baseline: baselines-gemma4-31b-v1, self_consistency: sc-gemma4-31b-v1, verifier: verifier-gemma4-31b-verifier_v1}
+    haiku-5-5: {baseline: baselines-haiku-5-5-v1, self_consistency: sc-haiku-5-5-v1, verifier: verifier-haiku-5-5-verifier_v1}
   frontier:
     model: sonnet-5-5
     baseline: baselines-sonnet-5-5-v1

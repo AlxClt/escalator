@@ -107,8 +107,10 @@ Spec: `docs/tasks/week3-router-task.md`; working plan and resume checklist in `d
 - [x] Cache keys unchanged: `sample_idx` was already hashed; `make test-local` replays the week-2 baselines' keys
 - [x] Checkpoint A: `verifier_v1.yaml` written by the owner; SC and verifier smoke runs on gemma4-e4b validated (cache rerun identical); projected full collection 16.8 h (SC) + 4.7 h (verifier) for the Gemma models
 - [x] Metrics primitives (`eval/metrics.py`): Wilson, exact McNemar, Holm, AUC, shared-matrix bootstrap
-- [ ] Signals (`router/signals.py`), label-free execution cache, run inventory loader
-- [ ] Policy simulation (`router/policy.py`), `make router` → `results/signals.json`, `results/router.json` (integrity check against `results/baselines.json`)
-- [ ] `make plots` (matplotlib in a `plots` dependency group); headline once `headline_small_tier` is set
-- [ ] Checkpoint B: full collection. Running since 15/10: `sc-gemma4-{e4b,12b,31b}-v1` and `sc-haiku-5-5-v1`; verifier runs not started. Then publish, fill the inventory, `make results`
+- [x] Signals (`router/signals.py`), label-free execution cache, run inventory loader
+- [x] Policy simulation (`router/policy.py`), `make router` → `results/signals.json`, `results/router.json` (integrity check passes on all five baselines; byte-identical reruns)
+- [x] `make plots` (matplotlib 3.11.2 in a `plots` dependency group); the headline waits for `headline_small_tier`, set by the owner
+- [x] Checkpoint B: all SC and verifier runs collected on 15/10 (haiku's paid runs by the owner), inventory filled
+- [ ] Resume the one `provider_error` (e4b verifier, task 1068): `make verifier-runs MODELS=gemma4-e4b OVERWRITE=1`; until then n = 199
+- [ ] Publish the runs (`make publish-traces`), rerun `make router`, choose `headline_small_tier`
 - [ ] `docs/week3-notes.md` result tables

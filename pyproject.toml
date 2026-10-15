@@ -18,6 +18,12 @@ dependencies = [
 dev = [
     "pytest>=8.0",
 ]
+plots = [
+    "matplotlib==3.11.2",  # results/figures (make plots, tests/router/test_plots.py); make router does not use it
+]
+
+[tool.uv]
+default-groups = ["dev", "plots"]  # CI's uv sync --locked installs both
 
 [build-system]
 requires = ["hatchling"]
