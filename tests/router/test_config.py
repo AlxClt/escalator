@@ -56,3 +56,25 @@ def test_inventory_roles_must_be_explicit() -> None:
     del inv["small"]["a"]["verifier"]
     with pytest.raises(RouterConfigError, match="must be given"):
         parse_router_config(raw)
+
+
+def test_task_set_paths_default_to_the_pinned_sample() -> None:
+    cfg = parse_router_config(copy.deepcopy(BASE))
+    assert (cfg.manifest, cfg.scoring, cfg.baselines) == (None, None, None)
+    raw = copy.deepcopy(BASE) | {"manifest": "data/m.json", "scoring": "configs/s.yaml", "baselines": "results/b.json"}
+    cfg = parse_router_config(raw)
+    assert cfg.manifest is not None and cfg.manifest.as_posix().endswith("data/m.json")
+    assert cfg.baselines is not None and cfg.baselines.name == "b.json"
+    with pytest.raises(RouterConfigError):
+        parse_router_config(copy.deepcopy(BASE) | {"manifest": 3})
+
+
+def test_challenging_study_configs_load() -> None:
+    from pathlib import Path
+
+    for name in ("sonnet", "opus"):
+        cfg = load_router_config(Path(f"configs/router-challenging-{name}.yaml"))
+        assert list(cfg.small) == ["gemma4-31b"] and cfg.small["gemma4-31b"].baseline == "challenging-gemma4-31b-v1"
+        assert cfg.manifest is not None and cfg.manifest.name == "manifest-challenging.json"
+        assert cfg.frontier.baseline == f"challenging-{cfg.frontier.model}-v1"
+

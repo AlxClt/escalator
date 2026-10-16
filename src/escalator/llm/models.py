@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
@@ -42,6 +43,11 @@ class ModelSpec:
 class ModelsConfig:
     ollama_min_version: str
     models: dict[str, ModelSpec]
+
+    def only(self, names: Iterable[str]) -> ModelsConfig:
+        """The pinned models a run calls: check_ollama on it does not need every pinned tag pulled."""
+        keep = set(names)
+        return ModelsConfig(self.ollama_min_version, {n: s for n, s in self.models.items() if n in keep})
 
 
 def load_models(path: Path = DEFAULT_MODELS) -> ModelsConfig:

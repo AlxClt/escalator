@@ -75,6 +75,8 @@ class Preset:
     models: tuple[str, ...]
     tasks: int | None  # first N manifest tasks; None = all
     out: Path
+    manifest: Path | None = None  # task set; None = data/manifest.json
+    scoring: Path | None = None  # ordered tasks and tie blocks; None = configs/scoring.yaml
 
 
 @dataclass(frozen=True)
@@ -122,11 +124,18 @@ def load_agent_config(path: Path = DEFAULT_AGENT_CONFIG) -> AgentConfig:
         if not isinstance(entry, dict):
             raise ValueError(f"{where}: presets.{name} must be a mapping")
         models, tasks, out = entry.get("models"), entry.get("tasks"), entry.get("out")
+        paths: dict[str, Path | None] = {}
+        for key in ("manifest", "scoring"):
+            value = entry.get(key)
+            if value is not None and not isinstance(value, str):
+                raise ValueError(f"{where}: presets.{name}.{key} must be a path")
+            paths[key] = None if value is None else REPO_ROOT / value
         if not isinstance(models, list) or not all(isinstance(m, str) for m in models) or not isinstance(out, str):
             raise ValueError(f"{where}: presets.{name} needs models (list) and out (path)")
         if tasks != "all" and (isinstance(tasks, bool) or not isinstance(tasks, int) or tasks <= 0):
             raise ValueError(f"{where}: presets.{name}.tasks must be a positive integer or 'all'")
-        presets[name] = Preset(tuple(models), None if tasks == "all" else int(tasks), REPO_ROOT / out)
+        presets[name] = Preset(tuple(models), None if tasks == "all" else int(tasks), REPO_ROOT / out,
+                               paths["manifest"], paths["scoring"])
     return AgentConfig(version, loop, _int(raw, "seed", where), presets)
 
 
@@ -287,7 +296,7 @@ async def execute_run(*, preset: str, specs: Sequence[ModelSpec], tasks: Sequenc
                       prices: PriceTable, prompt: Prompt, cfg: AgentConfig, session: ToolSession,
                       server_version: str, db_ids: Sequence[str], traces_root: Path, overwrite: bool,
                       score: Scorer, ollama_version: Callable[[], str | None],
-                      max_usd: Decimal | None = None) -> RunReport:
+                      max_usd: Decimal | None = None, manifest: Path | None = None) -> RunReport:
     """`ollama_version` is read after each model's tasks: the Ollama server is contacted only at the
     first cache miss, so its version is known only then (None for a fully cached run)."""
     tools = build_manifest(db_ids, prompt)
@@ -312,7 +321,7 @@ async def execute_run(*, preset: str, specs: Sequence[ModelSpec], tasks: Sequenc
             retry_cap=cfg.loop.retry_cap, render_max_rows=cfg.loop.render.max_rows,
             render_max_chars=cfg.loop.render.max_chars, overflow_margin=cfg.loop.overflow_margin,
             max_tokens=max_tokens_for(spec, cfg.loop), cache_schema=CACHE_SCHEMA, ollama_version=None,
-            env_lock=env_lock,
+            env_lock=env_lock, **({"manifest": manifest} if manifest is not None else {}),
         )
         run_ctx = RunContext(run_id=run_id, llm=llm, prompt=prompt, tools=tools, schemas=input_schemas(db_ids),
                              cache_context=cache_context, config=cfg.loop)
@@ -380,18 +389,18 @@ def _main(args: argparse.Namespace) -> int:
 
     # Heavier imports only once the run is allowed to start.
     from escalator.env.sandbox import Sandbox
-    from escalator.eval.tasks import load_tasks, score_sql
+    from escalator.eval.tasks import load_preset_tasks, score_sql
     from escalator.llm.adapter import Adapter
     from escalator.llm.models import check_ollama
     from escalator.llm.providers import ollama
     from escalator.llm.providers.base import LazyProvider, Provider
 
-    all_tasks = load_tasks()
+    all_tasks = load_preset_tasks(preset.manifest, preset.scoring)
     tasks = all_tasks if preset.tasks is None else all_tasks[: preset.tasks]
     # Built, and the Ollama digests checked, only at the first cache miss: a cached rerun needs no
     # live provider, no OLLAMA_BASE_URL and no API key.
     lazy_ollama = LazyProvider("ollama", ollama.OllamaProvider, ollama.normalize,
-                               check=lambda p: check_ollama(models_cfg, p))
+                               check=lambda p: check_ollama(models_cfg.only(names), p))
     providers: dict[str, Provider] = {"ollama": lazy_ollama}
     if any(s.provider == "anthropic" for s in specs):
         from escalator.llm.providers import anthropic  # the SDK import is slow: only when needed
@@ -415,7 +424,7 @@ def _main(args: argparse.Namespace) -> int:
                 prompt=prompt, cfg=cfg, session=session, server_version=server_version,
                 db_ids=db_ids_under(db_root), traces_root=traces_root, overwrite=args.overwrite,
                 score=lambda task, sql: score_sql(sandbox, task, sql), ollama_version=lambda: lazy_ollama.server_version,
-                max_usd=max_usd,
+                max_usd=max_usd, manifest=preset.manifest,
             )
 
     try:

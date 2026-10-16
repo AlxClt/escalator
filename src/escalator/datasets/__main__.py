@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from pathlib import Path
 
 from escalator.datasets import bootstrap, fetch, manifest, verify
 from escalator.datasets.config import load_config
@@ -24,7 +25,10 @@ def main(argv: list[str] | None = None) -> int:
     p_diag = sub.add_parser("diagnose-gold", help="one-off: run selected gold queries with a long cap")
     p_diag.add_argument("--ids", nargs="+", required=True)
     p_diag.add_argument("--cap-s", type=float, default=1800.0)
-    sub.add_parser("manifest", help="exclude, sample and pin the task subset in data/manifest.json")
+    p_man = sub.add_parser("manifest", help="exclude, sample and pin the task subset in data/manifest.json")
+    p_man.add_argument("--stratum", choices=manifest.STRATA,
+                       help="every frame task of this difficulty stratum instead of the stratified sample")
+    p_man.add_argument("--out", type=Path, help="output path (default data/manifest.json)")
     args = parser.parse_args(argv)
     cfg = load_config()
 
@@ -43,9 +47,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "manifest":
         fetch.install_network_guard()
-        path = cfg.data_dir / "manifest.json"
+        path = args.out or cfg.data_dir / "manifest.json"
+        if args.stratum is not None and path.resolve() == (cfg.data_dir / "manifest.json").resolve():
+            print("refused: a stratum manifest needs --out (data/manifest.json is the pinned sample)", file=sys.stderr)
+            return 2
         try:
-            manifest.write_manifest(cfg, manifest.load_manifest_config(), path)
+            manifest.write_manifest(cfg, manifest.load_manifest_config(), path, args.stratum)
         except manifest.ManifestError as exc:
             print(f"manifest refused: {exc}", file=sys.stderr)
             return 1

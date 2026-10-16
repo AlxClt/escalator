@@ -34,3 +34,9 @@ models:
     # No sampling parameters (non-default values are rejected), so no T = 0 for this tier-S model.
     max_tokens: 16000           # the tier-S default (2048) is sized for Gemma without thinking
     settings: {thinking: {type: adaptive}, effort: medium}
+  opus-5-5:
+    tier: L
+    provider: anthropic
+    model: claude-opus-5-5
+    # Settings of the 14/10 smoke run (traces/smoke-opus-5-5-v1), so its recorded calls replay from the cache.
+    settings: {thinking: {type: adaptive}, effort: medium}

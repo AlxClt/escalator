@@ -56,7 +56,7 @@ from escalator.llm.cost import DEFAULT_PRICES, PriceTable
 from escalator.llm.errors import CacheMiss, ProviderSetupError
 from escalator.llm.models import ModelsConfig, ModelSpec, load_models
 from escalator.llm.types import Request, Response
-from escalator.router.config import RouterConfig, load_router_config
+from escalator.router.config import DEFAULT_ROUTER_CONFIG, RouterConfig, load_router_config
 from escalator.trace.published import DEFAULT_TRACES, RunNotFound, load_meta, load_steps
 from escalator.trace.schema import RunKind, RunMeta, StepRecord, TierMeta, TraceWriter, build_run_meta
 
@@ -123,8 +123,16 @@ def baseline_sampling(spec: ModelSpec, cfg: AgentConfig, sample_idx: int) -> tup
     return (Sample(sample_idx, temperature, seed),)
 
 
-def run_id_for(kind: RunKind, spec: ModelSpec, prompt: Prompt, *, smoke: bool) -> str:
-    prefix = RUN_PREFIX[kind] + ("-smoke" if smoke else "")
+def run_scope(baseline_run_id: str, spec: ModelSpec) -> str | None:
+    """The task-set scope of a baseline run id: `challenging-gemma4-31b-v1` -> `challenging`; the week-2
+    `baselines-<model>-<version>` runs (the pinned 200-task sample) have none."""
+    head, sep, _ = baseline_run_id.partition(f"-{spec.name}-")
+    return None if not sep or head == RUN_PREFIX["baseline"] else head
+
+
+def run_id_for(kind: RunKind, spec: ModelSpec, prompt: Prompt, *, smoke: bool, scope: str | None = None) -> str:
+    """`<kind>[-smoke][-<scope>]-<model>-<prompt_version>`, e.g. sc-challenging-gemma4-31b-v1."""
+    prefix = RUN_PREFIX[kind] + ("-smoke" if smoke else "") + (f"-{scope}" if scope else "")
     return f"{prefix}-{spec.name}-{prompt.version}"
 
 
@@ -149,12 +157,13 @@ def plan_job(kind: RunKind, spec: ModelSpec, *, rcfg: RouterConfig, cfg: AgentCo
         samples = baseline_sampling(spec, cfg, 1)
     else:
         raise ValueError(f"no collection for run kind {kind}")
-    return Job(kind, spec, run_id_for(kind, spec, prompt, smoke=smoke), prompt, samples,
-               baseline_run_id(kind, spec, rcfg))
+    base = baseline_run_id(kind, spec, rcfg)
+    return Job(kind, spec, run_id_for(kind, spec, prompt, smoke=smoke, scope=run_scope(base, spec)), prompt, samples,
+               base)
 
 
 def job_meta(job: Job, *, prices: PriceTable, tool_sha: str, server_version: str, cfg: AgentConfig,
-             env_lock: dict[str, str], num_parallel: str | None) -> RunMeta:
+             env_lock: dict[str, str], num_parallel: str | None, manifest: Path | None = None) -> RunMeta:
     temps = {s.temperature for s in job.samples}
     seeds = {s.seed for s in job.samples}
     if len(temps) != 1:
@@ -177,6 +186,7 @@ def job_meta(job: Job, *, prices: PriceTable, tool_sha: str, server_version: str
         sample_seeds={str(s.sample_idx): s.seed for s in job.samples if s.seed is not None} if per_sample else None,
         baseline_run_id=job.baseline_run_id,
         ollama_num_parallel=num_parallel if spec.provider == "ollama" else None,
+        **({"manifest": manifest} if manifest is not None else {}),
     )
 
 
@@ -195,7 +205,8 @@ class Gated:
 
 
 def gate(jobs: Sequence[Job], *, llm: LLM, prices: PriceTable, cfg: AgentConfig, server_version: str,
-         db_ids: Sequence[str], traces_root: Path, env_lock: dict[str, str], num_parallel: str | None) -> list[Gated]:
+         db_ids: Sequence[str], traces_root: Path, env_lock: dict[str, str], num_parallel: str | None,
+         manifest: Path | None = None) -> list[Gated]:
     """Every job's meta against its baseline's, before any LLM call; CompatError lists the diffs."""
     out: list[Gated] = []
     errors: list[str] = []
@@ -203,7 +214,7 @@ def gate(jobs: Sequence[Job], *, llm: LLM, prices: PriceTable, cfg: AgentConfig,
         tools = build_manifest(db_ids, job.prompt)
         tool_sha = manifest_sha256(tools)
         meta = job_meta(job, prices=prices, tool_sha=tool_sha, server_version=server_version, cfg=cfg,
-                        env_lock=env_lock, num_parallel=num_parallel)
+                        env_lock=env_lock, num_parallel=num_parallel, manifest=manifest)
         try:
             base = load_meta(job.baseline_run_id, traces_root)
         except RunNotFound as exc:
@@ -266,10 +277,11 @@ async def run_job(g: Gated, tasks: Sequence[Task], *, session: ToolSession, trac
 async def collect(jobs: Sequence[Job], tasks: Sequence[Task], *, llm: LLM, prices: PriceTable, cfg: AgentConfig,
                   session: ToolSession, server_version: str, db_ids: Sequence[str], traces_root: Path,
                   overwrite: bool, env_lock: dict[str, str], num_parallel: str | None = None,
-                  ollama: OllamaInfo | None = None, max_usd: Decimal | None = None) -> list[JobReport]:
+                  ollama: OllamaInfo | None = None, max_usd: Decimal | None = None,
+                  manifest: Path | None = None) -> list[JobReport]:
     """All gates first, then the jobs in order."""
     gated = gate(jobs, llm=llm, prices=prices, cfg=cfg, server_version=server_version, db_ids=db_ids,
-                 traces_root=traces_root, env_lock=env_lock, num_parallel=num_parallel)
+                 traces_root=traces_root, env_lock=env_lock, num_parallel=num_parallel, manifest=manifest)
     info = ollama or OllamaInfo()
     return [await run_job(g, tasks, session=session, traces_root=traces_root, overwrite=overwrite, ollama=info,
                           max_usd=max_usd) for g in gated]
@@ -383,12 +395,11 @@ def plan_jobs(kind: RunKind, args: argparse.Namespace, rcfg: RouterConfig, cfg: 
 def used_models(models_cfg: ModelsConfig, jobs: Sequence[Job]) -> ModelsConfig:
     """The pinned models a collection actually calls: the Ollama digest check covers these only, so
     resuming one model does not need every pinned tag pulled on the server."""
-    names = {j.spec.name for j in jobs}
-    return ModelsConfig(models_cfg.ollama_min_version, {n: s for n, s in models_cfg.models.items() if n in names})
+    return models_cfg.only(j.spec.name for j in jobs)
 
 
-def _smoke_task_ids() -> set[str]:
-    raw = json.loads((REPO_ROOT / "data" / "manifest.json").read_text(encoding="utf-8"))
+def _smoke_task_ids(manifest: Path | None = None) -> set[str]:
+    raw = json.loads((manifest or REPO_ROOT / "data" / "manifest.json").read_text(encoding="utf-8"))
     return {str(e["question_id"]) for e in raw["tasks"][:SMOKE_TASKS]}
 
 
@@ -420,14 +431,14 @@ class _NoLLM:
 
 
 def _check_gates(jobs: Sequence[Job], *, prices: PriceTable, cfg: AgentConfig, db_root: Path, traces_root: Path,
-                 env_lock: dict[str, str], num_parallel: str | None) -> int:
+                 env_lock: dict[str, str], num_parallel: str | None, manifest: Path | None = None) -> int:
     """Start the MCP server and run every gate; no task is loaded and no model is called."""
 
     async def go() -> list[Gated]:
         async with server_session(db_root) as (_session, server_version):
             return gate(jobs, llm=_NoLLM(), prices=prices, cfg=cfg, server_version=server_version,
                         db_ids=db_ids_under(db_root), traces_root=traces_root, env_lock=env_lock,
-                        num_parallel=num_parallel)
+                        num_parallel=num_parallel, manifest=manifest)
 
     try:
         gated = anyio.run(go)
@@ -446,7 +457,7 @@ def _check_gates(jobs: Sequence[Job], *, prices: PriceTable, cfg: AgentConfig, d
 def _main(command: str, args: argparse.Namespace) -> int:
     start = time.monotonic()
     cfg = load_agent_config()
-    rcfg = load_router_config()
+    rcfg = load_router_config(args.config)
     traces_root = _env_path("ESCALATOR_TRACES_DIR", DEFAULT_TRACES)
     if command == "estimate":
         return _estimate(rcfg, cfg, traces_root)
@@ -474,8 +485,8 @@ def _main(command: str, args: argparse.Namespace) -> int:
     num_parallel = os.environ.get(NUM_PARALLEL_ENV) or None
     if args.check:
         return _check_gates(jobs, prices=prices, cfg=cfg, db_root=db_root, traces_root=traces_root,
-                            env_lock=env_lock, num_parallel=num_parallel)
-    task_ids = _smoke_task_ids() if args.smoke else None
+                            env_lock=env_lock, num_parallel=num_parallel, manifest=rcfg.manifest)
+    task_ids = _smoke_task_ids(rcfg.manifest) if args.smoke else None
     paid = set(paid_models([j.spec for j in jobs], prices))
     for job in jobs:
         if job.spec.name in paid:
@@ -493,13 +504,13 @@ def _main(command: str, args: argparse.Namespace) -> int:
         print(f"warning: {NUM_PARALLEL_ENV} is not set in the environment or .env; meta records null",
               file=sys.stderr)
 
-    from escalator.eval.tasks import load_tasks
+    from escalator.eval.tasks import load_preset_tasks
     from escalator.llm.adapter import Adapter
     from escalator.llm.models import check_ollama
     from escalator.llm.providers import ollama
     from escalator.llm.providers.base import LazyProvider, Provider
 
-    all_tasks = load_tasks()
+    all_tasks = load_preset_tasks(rcfg.manifest, rcfg.scoring)
     tasks = [t for t in all_tasks if t.question_id in task_ids] if task_ids is not None else all_tasks
     models_cfg = load_models()
     info = OllamaInfo()
@@ -533,7 +544,7 @@ def _main(command: str, args: argparse.Namespace) -> int:
             return await collect(jobs, tasks, llm=Adapter(providers, cache, prices), prices=prices, cfg=cfg,
                                  session=session, server_version=server_version, db_ids=db_ids_under(db_root),
                                  traces_root=traces_root, overwrite=args.overwrite, env_lock=env_lock,
-                                 num_parallel=num_parallel, ollama=info, max_usd=max_usd)
+                                 num_parallel=num_parallel, ollama=info, max_usd=max_usd, manifest=rcfg.manifest)
 
     try:
         reports = anyio.run(go)
@@ -573,6 +584,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--smoke", action="store_true",
                    help=f"the first {SMOKE_TASKS} manifest tasks, {', '.join(SMOKE_MODELS)} only")
     p.add_argument("--models", nargs="+", help="override the configured models (keys of configs/models.yaml)")
+    p.add_argument("--config", type=Path, default=DEFAULT_ROUTER_CONFIG,
+                   help="router config: settings, run inventory and task set (default configs/router.yaml)")
     p.add_argument("--paid", action="store_true", help="allow paid models (runs calling online models are manual)")
     p.add_argument("--overwrite", action="store_true", help="replace an existing run (resumes through the cache)")
     p.add_argument("--check", action="store_true",

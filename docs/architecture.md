@@ -51,8 +51,8 @@ escalator/
 │       ├── gold.py         # read-only immutable SQLite, per-query deadline, gold-check cache
 │       ├── descriptions.py # description overlay: BIRD database_description/ + Arcwise schemas/
 │       ├── verify.py       # offline gates V/D/M/T/S and audits
-│       └── manifest.py     # pinned exclusions, stratified sampling, task and gold-result hashes
-├── configs/               # models.yaml (tiers, digests), prices.yaml (date-stamped), policy params; data.yaml, manifest.yaml (seed, pinned exclusions), scoring.yaml (hand-checked ordered tasks and their tie blocks), agent.yaml (prompt version, loop limits, display caps, run presets), router.yaml (SC/verifier settings, run inventory, bootstrap)
+│       └── manifest.py     # pinned exclusions, stratified sampling (or a whole stratum: --stratum), task and gold-result hashes
+├── configs/               # models.yaml (tiers, digests), prices.yaml (date-stamped), policy params; data.yaml, manifest.yaml (seed, pinned exclusions), scoring.yaml (hand-checked ordered tasks and their tie blocks), agent.yaml (prompt version, loop limits, display caps, run presets), router.yaml (SC/verifier settings, run inventory, bootstrap); router-challenging-{sonnet,opus}.yaml and scoring-challenging.yaml (challenging-stratum study: task set, inventory, ordering audit)
 ├── data/
 │   ├── sources.lock       # pinned sources: bird_minidev_zip, arcwise_plat_full, arcwise_schemas
 │   ├── env.lock           # pinned Python and SQLite versions
@@ -60,9 +60,11 @@ escalator/
 │   ├── gold_allowlist.json # human-edited gold exceptions
 │   ├── audit/             # verification audits: ids, counts, file/column names only
 │   ├── raw/               # gitignored: fetched data, gold-check cache
-│   └── manifest.json      # the 200 pinned tasks: ids, difficulty, task_hash, gold_result_hash
-├── results/               # committed metrics JSON — the actual evidence
+│   ├── manifest.json      # the 200 pinned tasks: ids, difficulty, task_hash, gold_result_hash
+│   └── manifest-challenging.json # every challenging frame task (95), for the pre-registered 31b study
+├── results/               # committed metrics JSON — the actual evidence; results/challenging/ for the challenging-stratum study
 ├── traces/                # gitignored except traces/published/ (runs behind published numbers)
+├── scripts/               # mcp_overhead.py; prereg_31b_challenging.py (pre-registered tests of the challenging study from the router outputs); rebuild_preset_results.py (a preset's results file rescored from its traces)
 ├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}; tests/eval (scorer, gold side); tests/test_scorer.py (20 hand-made pairs); tests/test_server.py (MCP, needs data/raw); tests/agent (loop, tools, prompts, runner, replay over a real MCP server on tests/fixtures/agent_db.sql)
 ├── Makefile               # make test | test-local | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | sc-samples | verifier-runs | frontier-repeat | sc-estimate | publish-traces | router | plots | results
 └── README.md

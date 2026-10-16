@@ -172,6 +172,13 @@ def test_router_numbers(inventory: Path, sandbox: Sandbox) -> None:
     assert point["cost_per_task"]["value"] == pytest.approx((0.03 + 0.04) / 6)
     test = point["test_vs_frontier_only"]
     assert test["b"]["value"] == 1 and test["c"]["value"] == 2 and "p_holm" in test
+    # vs the small model alone: escalating 3 (wrong -> right) and 4 (wrong -> wrong): 1 win, 0 losses
+    vs_small = point["vs_small_only"]
+    assert (vs_small["test"]["wins"]["value"], vs_small["test"]["losses"]["value"]) == (1, 0)
+    assert vs_small["test"]["p"]["value"] == 1.0 and vs_small["delta_acc"]["value"] == pytest.approx(1 / 6)
+    assert "vs_small_only" not in pair["baselines"]["small_only"]
+    fo = pair["baselines"]["frontier_only"]["vs_small_only"]["test"]
+    assert (fo["wins"]["value"], fo["losses"]["value"]) == (3, 1)  # c = {2, 3, 6}, b = {5}
     # self-consistency: m = [2, 1, 0, 2, 3, 1] -> s = [1/3, 2/3, 1, 1/3, 0, 2/3]
     signals = json.loads(run_build(inventory, sandbox, rcfg())[1])
     assert [r["m_sc"] for r in signals["rows"]] == [2, 1, 0, 2, 3, 1]

@@ -1,0 +1,863 @@
+{
+  "stratum": "challenging",
+  "method": "frame = Plat-Full ids minus the exclusions pinned in configs/manifest.yaml (date_dependent, gold_too_slow, allowlisted); every frame task of the stratum (Mini-Dev difficulty), no sampling",
+  "sample_size": 95,
+  "sources_lock_sha256": "b4ca4e0f2232a225d317c090a45beac70eceb117b6aa11f2bade00da0b0cb928",
+  "env_lock_sha256": "7a5bf629fea9876f03255981bfa11ca5f23ff9d2d68d9302960d8b9c92bbd7e6",
+  "arcwise_ref": "fe766045c55b6875a43b30e9ac7683df5582f8cf",
+  "frame_size": 484,
+  "strata": {
+    "challenging": {
+      "frame": 95,
+      "allocation": 95
+    }
+  },
+  "exclusions": [
+    {
+      "question_id": "194",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "518",
+      "reasons": [
+        "gold_too_slow"
+      ]
+    },
+    {
+      "question_id": "701",
+      "reasons": [
+        "gold_too_slow"
+      ]
+    },
+    {
+      "question_id": "898",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1031",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1156",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1227",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1229",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1232",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1235",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1239",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1242",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1243",
+      "reasons": [
+        "date_dependent"
+      ]
+    },
+    {
+      "question_id": "1257",
+      "reasons": [
+        "date_dependent"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "question_id": "28",
+      "db_id": "california_schools",
+      "difficulty": "challenging",
+      "task_hash": "4a589e19cf1245db80e2bf9f372f154c4369409b609114616f885a553d327e06",
+      "gold_result_hash": "f3021d98f197b1c3f3825782bc43b303b6067ae6e0e76cc45737add3fdeb7927",
+      "gold_row_count": 57
+    },
+    {
+      "question_id": "36",
+      "db_id": "california_schools",
+      "difficulty": "challenging",
+      "task_hash": "b79b3e6d9e3d44972c3ee33253698a0c187a3f144481daf2ef1d237217faf5f9",
+      "gold_result_hash": "cefce7f2404df650a6d68a9d58ce9dd34312519fc9fffb58f12cbe3fe25c1793",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "62",
+      "db_id": "california_schools",
+      "difficulty": "challenging",
+      "task_hash": "abf6b6e9effa6535fdb1e727a2ae9b2d945a72fc3dfe1325144d946099f6572b",
+      "gold_result_hash": "d61b07a4f41f72303f4507056c68560f8722af7bb27dabf3a0ca86210e2ebd26",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "83",
+      "db_id": "california_schools",
+      "difficulty": "challenging",
+      "task_hash": "2dea2564549a1aadb3a0a5b2087e9f0773873fd5f38748decc2a27f50d91d23f",
+      "gold_result_hash": "fb2e1c5c9372354883dfd9e5970fc8eaa515393f1bd5818ab0c34d592c642356",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "87",
+      "db_id": "california_schools",
+      "difficulty": "challenging",
+      "task_hash": "e81a8b7bb5311dd67767217fbb0952c547d68bd40e8b18df91650ead6bb38d4b",
+      "gold_result_hash": "7ca3d249aaa7179f3083d66beff6a76c2ef1dcecee04b1585dd2d28d50c7442a",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "94",
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "task_hash": "6e0510065eb27493e6c4cc557550da460e95cb84a858cbd14a2824d3f2b2e9d4",
+      "gold_result_hash": "6e16aea4f60fbfd9c7b9a373f7c243f4b794061b8c89f2f457ceaa66076b6da2",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "115",
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "task_hash": "bd7af9870c1ddc380a45e24e5e0537e775ea2aba74204f29226596645270303c",
+      "gold_result_hash": "4f0b7edbdc1832523a2ae91c5f76f484e857de6c203253e30473ed2cb754b341",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "116",
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "task_hash": "7c26bfea875f2d6fd9afb7d7f35991c9aeed03bfe5fe518bd2b16b5da40fcd05",
+      "gold_result_hash": "f97776b0970c62ba9cc12589790e0a93b9510021b5f96ae4da55c203b87a36ee",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "125",
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "task_hash": "58d7e3878049cf08fbe8fa0e1c2d3662b7b6ccd710742762fdc7bd63bd72674f",
+      "gold_result_hash": "da0704da4e51d1abd5cf9a3cf7a6ed9d0ddc9d299ab86c6a87becf3097e9ec0a",
+      "gold_row_count": 43
+    },
+    {
+      "question_id": "149",
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "task_hash": "a3f8dc885fffe9867c930247cbab53674a3be64da90bce4131c22a392b5bd216",
+      "gold_result_hash": "f0127a462fc69131a8c5d97fa125868edf6c97fa78488b94899674d4c4c944eb",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "169",
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "task_hash": "dbbc2620e46ff00555549afa90860c89487d46d1bc78945fdf9d789bb1cc4d0c",
+      "gold_result_hash": "5421abf5e2f8287a0b2e4bdde64f5c654158b6b14861c0b6bdc0729b621c68d0",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "173",
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "task_hash": "7cdb6e5b47f47f7bd10be147345fac492497c88a73dbcedccab77f3854df1711",
+      "gold_result_hash": "c4c4a15f03f2a64b8a68cafa391bae436ad319b15ee1bfc1a8c45cba249661d0",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "198",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "51d98066b14ca80063128eba86cb0d1d81673137c50455c2e1585a5351141ced",
+      "gold_result_hash": "e3afdddbc2605c3f93d451fcdff22d46499f8a9e4abc79ca0885389b39cf5afb",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "206",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "551db1fd0d8d5cb3e04070fc67c436f9236e41b9b5ae3c57cae4556a76924406",
+      "gold_result_hash": "649f907f2efed8e9be7bc1e6cae95aaf2956582e08fcc46eea64dc34ba2538e9",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "207",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "78ea4743ca82aed5bcf5ce0fa8c6d1282da05d0f8deff2a734c3eed492e431d0",
+      "gold_result_hash": "2e662d3960fd14f3331e9a3ca2d3e09b2d8b22c0d44975798e50535437c84c84",
+      "gold_row_count": 5
+    },
+    {
+      "question_id": "212",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "f3f9b3acc8ae1415a7653a43c68bd680b90290310c14c9d331cc52b65eadec39",
+      "gold_result_hash": "034a9d39ff166acb5558250bbf04ccba9df4fa3f6cae220b24ea8f080839fe46",
+      "gold_row_count": 3
+    },
+    {
+      "question_id": "215",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "660b1d5f37a4ad96dbf947a1ee12bdc4e212eb3cc50953371f159354fbe521ab",
+      "gold_result_hash": "2aa3bf6cb6cee2c38b8d00c864ef940fede3caece2bfafdd329de299aa1f2267",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "218",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "608af3553da242c318f48a2f16e410fba1fe285f1b591999eae44ddd7c887ddb",
+      "gold_result_hash": "a4c7ad7bf438974f3c607415525bdeaa903cae8e774844479dd20e31f9e153f8",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "219",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "589252b47d3b4dab2e0d6f5e247fcc93dadc55653e808c6f616dfa967d69738f",
+      "gold_result_hash": "918c8848f972f4e4f166a1959cd9f55ab2405bb71d928915be8c5f96651a9eb4",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "220",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "94c5417792bee88bdcf2e49df1a1a3d43570ee3828454ef4add2b6182cbfd739",
+      "gold_result_hash": "0ad056aa4b51b8b78135a3b6209b90803dbb6a3faae16bed919709ec97d1d2b1",
+      "gold_row_count": 3
+    },
+    {
+      "question_id": "230",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "cae5dd787badaac76cb9e582b6be226fa36a2101599c7db40aa60de53de1c690",
+      "gold_result_hash": "6527103460b5bcff1f0e04c0c35ebe9728ce1904dfea5a92fedc20db2d716188",
+      "gold_row_count": 5
+    },
+    {
+      "question_id": "231",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "fb9e13bfc1d1342870035be8589f401b736bd64f877f938c412d3ce16c513404",
+      "gold_result_hash": "02581ad1ad05551c88c52596cdd588b745242a84addb533572c02618cfba643b",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "240",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "d52b1d71d9f38b3882602d4b64fadf00d5efd3f828175ca67c2198682b91ccf4",
+      "gold_result_hash": "e3de4c13db96c8b80ad896999d7ca89e140c971e98b4c58cba59782e38c9b513",
+      "gold_row_count": 6
+    },
+    {
+      "question_id": "247",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "2bb3fff68d0c8e2ae9698a5ffc0dcbef0f943ea809ae32fda598843495c3700b",
+      "gold_result_hash": "a86146fc67d4cc00abb9c740c82ce6368d4a6bc5597982efd4fa635134deb1ec",
+      "gold_row_count": 5
+    },
+    {
+      "question_id": "249",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "44574104d6be3dc9146796f7159115156ea36c3abcbbaefcad1a391d9542125e",
+      "gold_result_hash": "fcc0f35f893ee2775c5817ddf6f904cc9ea382ff8e39b88bffd55e04cd1fe876",
+      "gold_row_count": 2
+    },
+    {
+      "question_id": "253",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "08bf75de5c69b942e070ad926cc4b5844d223e45d7d27957217b6eadf3917b51",
+      "gold_result_hash": "fa113d989990b8fb8dfecf265ceefbebf0d01ddda8f4b1d5187e44af7aaf79a0",
+      "gold_row_count": 4
+    },
+    {
+      "question_id": "263",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "879458d73e33062d930552b97d514e56736e18422aac5ced342619822c6ec4a5",
+      "gold_result_hash": "69cd729b983a9de2c85c3a44bdc6d74e2293424adfa97d0b4562f6de2b43f33c",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "268",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "57c83d844954624747f8980ed02f314554431a437e877861f00fdc3550f8d379",
+      "gold_result_hash": "25a6a7c4cd6bb7939d1b1804baaf1d6d7587e95e0ca3b0b5d6ecb1c28f0d8fe5",
+      "gold_row_count": 2
+    },
+    {
+      "question_id": "281",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "93a541ccf1a4e419d806ca57b75bac8711547af3e9ffc8f6b2936215185692df",
+      "gold_result_hash": "7581b54f7503c6ef70eda7a93cc3cdf984dc73b73d7a0c698a58b13f1868fa3b",
+      "gold_row_count": 8
+    },
+    {
+      "question_id": "282",
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "task_hash": "f1585fd5d17c308123478a904fd0b269a179195230cb2300055ecfec1dd20e4f",
+      "gold_result_hash": "25737bd0f23cd92a2318bd2cdb1acf7c5efd4484de325e24df85c3a83de1e4a2",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "371",
+      "db_id": "card_games",
+      "difficulty": "challenging",
+      "task_hash": "9ca32e5644dad408decf7715cbbc9e38942c0620bf8498e46e74316d139d0ce2",
+      "gold_result_hash": "675b3968ae6091242f8ea62d9628558df0f07ace2c41ed1197bdbaea113d8ae6",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "415",
+      "db_id": "card_games",
+      "difficulty": "challenging",
+      "task_hash": "8c51956b76451f662a6f6712bdffe379d5f6102c8898a741a1e30fdb27bc4471",
+      "gold_result_hash": "093522c5ca8ee28e96b0e498367b814405dce7d69b22b48238e56c4c800f3d95",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "416",
+      "db_id": "card_games",
+      "difficulty": "challenging",
+      "task_hash": "de86cef5c8da2e65b16c6a6053add3b85ab784648160220aaff94bdccf9ef6ac",
+      "gold_result_hash": "b2631d50e2fae3566dd7974eaae62a0865d1a059fac552f58c06c24da8609ef5",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "477",
+      "db_id": "card_games",
+      "difficulty": "challenging",
+      "task_hash": "39cfd3eda9b6ed6a11df8216ddcc96f9bf8ab0e6ae02015f5b488295e306a8f3",
+      "gold_result_hash": "6f7b904e933371ae86ea12f1a18ac1ccfca6960634ca736327a321924d987225",
+      "gold_row_count": 2
+    },
+    {
+      "question_id": "487",
+      "db_id": "card_games",
+      "difficulty": "challenging",
+      "task_hash": "5d575541ed97787b468a77051547ca2732c1e2822fc09f6d266e17865b8f7955",
+      "gold_result_hash": "093522c5ca8ee28e96b0e498367b814405dce7d69b22b48238e56c4c800f3d95",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "528",
+      "db_id": "card_games",
+      "difficulty": "challenging",
+      "task_hash": "629870b2fe2f72564dfc87b3788dcbf54b1479f49bc40aa9e2e3df11239fc1f0",
+      "gold_result_hash": "3ceddfc4ba78a8d53c4d882c909c083c89308f5ef27b76c05cd24aa4cca67d47",
+      "gold_row_count": 1664
+    },
+    {
+      "question_id": "586",
+      "db_id": "codebase_community",
+      "difficulty": "challenging",
+      "task_hash": "018475d586d9375c3597ccd64ed9fcb9e6c2cc04fc5b61840ca3865e2530a1b2",
+      "gold_result_hash": "4ab0f0aecc7fd5734d9bbb74d41302759308ae7734357d487367d92531beae48",
+      "gold_row_count": 2
+    },
+    {
+      "question_id": "598",
+      "db_id": "codebase_community",
+      "difficulty": "challenging",
+      "task_hash": "1c7f411d58f7b2ef02922f40aea4ac85e0f5c1945142b8a345e391f75d4c2932",
+      "gold_result_hash": "3b821f859bc63dc92724f9e71e5271728957782354d197f568a6b4e78ddcc6ab",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "634",
+      "db_id": "codebase_community",
+      "difficulty": "challenging",
+      "task_hash": "a5a762f578dcbfbd27fc9981e3a004e19654b6379d925a60742d2cfd142ea9d8",
+      "gold_result_hash": "d4b214a25f99f57d39d39e0cd4fb03f7bc4eb3506dded303df772cf190af5f81",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "639",
+      "db_id": "codebase_community",
+      "difficulty": "challenging",
+      "task_hash": "799f513789cb33589e06c10b6d0d43effa0669d34cb2b97676f9f0abef9ff654",
+      "gold_result_hash": "f7367c6321e884e57dd996204dd7fdf2803d0ff052e585203fe77c4c0f14e409",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "724",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "dadfff4099fccaa0c35571d5da00384a0db533b39bcde8b2704a2b0abece565d",
+      "gold_result_hash": "63ef055181be080d9b150bc4fa9e6c0827ebd30b8cd5b4bdba4312e619dfc662",
+      "gold_row_count": 90
+    },
+    {
+      "question_id": "730",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "bb216ae1c5c2678fde98fd52224c7f514d6d6e765c07e9d11f749a67472aae36",
+      "gold_result_hash": "f122cc45d9946f7b08d49d174eea7aac6ac8491e58c3ff1b72a09b8d79ec1ac2",
+      "gold_row_count": 201
+    },
+    {
+      "question_id": "743",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "c6dce7bb9adc2eee326f0552a1876b11f38d01fe273a07fdafa601d51d9535db",
+      "gold_result_hash": "833ec03c0afee33b251ed9bc1f6f11501cd890f6fb8cd877e79d6e899721c0b5",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "744",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "41b8eddeed9da250f19f71871d459029ac41a7661afdf38ae40aacffdf99d88f",
+      "gold_result_hash": "1836e0e5e804e7a7add32149834467ef2770742302eddbef3f85d91908202f98",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "760",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "dfa2b1d660a1008ddc9c7d988295394dd957fc8fd2cae749e292ba677b951c7c",
+      "gold_result_hash": "dda623c379477778bfd28c5c97415306dfcf5da05a6776f6c5909f2adb926ca0",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "769",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "239312805995a78bc4fdfd14eba836290eb3c82ebe0e86de9816a50aea1b835e",
+      "gold_result_hash": "0de6e80f82b4e8edbcd423223589d8552e47bad1c6574a41004ba7bae30f25a4",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "772",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "a01a71196b4ab1bbe21d5a3d23217ab13b06b72315271cd78df7259907636431",
+      "gold_result_hash": "0a9e45e109d2b7fc2f7ef6575c18d6996f911b75874f72d4b31d7ba72f89bcb3",
+      "gold_row_count": 5
+    },
+    {
+      "question_id": "773",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "29b6d2a67b501566fef497d74a529f82d06daa6b8a45240a82ac0b516a496161",
+      "gold_result_hash": "baf69eafa1402bfdeb52e1365d15c49f983aab749509c1c55d43b1e0ceb0034b",
+      "gold_row_count": 159
+    },
+    {
+      "question_id": "775",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "9b4e8c76a0ceea4419281adb924869010f24f44f8eb079ef240bd54ea997174a",
+      "gold_result_hash": "ce7f2fd804ce01f5fdef6dddfd5139ec2d26e8a0ae3e112cb1daaeaa31b76b56",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "788",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "fed8b594a7aeabd2100e07b4edda35ec1673ed520610d63ee86036da9bc7f6c5",
+      "gold_result_hash": "e8ad62551a1247e62f5fd270d898ca0f6d5f9c69e3f1de486b73559af8b252bd",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "819",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "600bf933e477df2216648c613d5e78e71d4017a41715a4d16bf2fe301807d748",
+      "gold_result_hash": "22176695eee2b6720807eb36a8f6d0140852414fc1e8dc30d96255fb21101187",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "829",
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "task_hash": "1d307072be2ec09824edfdeb19843dfed69a602ce114409ed8af07e084164ed9",
+      "gold_result_hash": "9e635db3e9a7d53f6f9051e58a51aca052dfe04ca47989be5575ab3b355f4f5e",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "880",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "abf82faef421dccd26a00b295119d55587bf610ce25f923aab036976d23a8463",
+      "gold_result_hash": "94a11891d6bd87d34e0a1f1fd60af7cb4fef4560ab60af66ccc2245c5709d216",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "896",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "35cbc2e1efbfc4cfb812bba03bbe47e2c88806fcce741abfafe857b07196b466",
+      "gold_result_hash": "124d2167e9c01270b422224533cd1e0c7a0ded3a4a09be56b54ffbfba6833612",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "944",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "26da1f9276cce42217dcfeea9143d8cfd9fb94657cb88209351164570290ab76",
+      "gold_result_hash": "1a4bab5a2268fed8441ad5853218526c86ccc241fdfadf87fac9865edecddbc9",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "954",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "41c4a8f4c0d48b6cee557ac1e5b455d95bdd8f3a15c6dbad5b352e6a5f033e87",
+      "gold_result_hash": "a136581cd08a8ff08ce59f12e858d09b49fe08b56738ea8d2b55b146c5227aa9",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "955",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "3d134cb09a7b706b1208203a2a08a27bd093aace296dc9a67857f354114bc53d",
+      "gold_result_hash": "1ed3d4b7672f428e9e0c63024e71d4d6a9f4d8988f20726a392b8965862ec86c",
+      "gold_row_count": 25
+    },
+    {
+      "question_id": "962",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "c8d9fa22ecc9ba337b530fce9c338b550a3c3373135c3737b36fc0b2767553db",
+      "gold_result_hash": "2d945099f88321fc0ad97bec1d14f2ae441e4fc5f3053b6260ed01cb552c29d8",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "988",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "8593a0d0e9420a893a952b94c1065a4cad8a2c7e694b583352ef552b66ba5353",
+      "gold_result_hash": "89889697d299c82efd0e7cc9df2861bc5ff77ccef76412818a69ef8a554c9aab",
+      "gold_row_count": 3
+    },
+    {
+      "question_id": "990",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "c4db7972d497325ce0817a423a9dc0587e0ed3f5ece3785fb1a2136c49d41a22",
+      "gold_result_hash": "7cdc248a3c8f39000a41b97511952519058aedeb8d6526d7d21ce9f7b34cfb95",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "994",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "a24b6161119db5037afd8686123df21f622e09fa14eb4c336470d6955f624b45",
+      "gold_result_hash": "3ab7edf42ebc1a61de181dc3e78846caebeed1c7f6779d605657cb95ee091d3b",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1001",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "5259461bfdb3aa53c681d279195445ca7ab859c3ef297dde97ef66aea3519ee2",
+      "gold_result_hash": "628e784f010ea96b27d7e06a0a1079bec6aac1ef4e5a145189057c5af952bde7",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1011",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "f932943a7a3f8e6f63486161a78d084147cbae41311e0b5566837de1c17e51c0",
+      "gold_result_hash": "486a7ef97b5902899f3db5ead1c5f646b894bfeebca9b8a3412e3805fb64a2f8",
+      "gold_row_count": 20
+    },
+    {
+      "question_id": "1014",
+      "db_id": "formula_1",
+      "difficulty": "challenging",
+      "task_hash": "12c51451d99a5feabfea7784836291de45d1abe0e3999f497d92afbcd3628fd7",
+      "gold_result_hash": "34d3c3615f17194f4fde32b2b7694d846d29b22b557ddf12cea214983b78843f",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1028",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "e85c6657d35d6fd2717049a18df7e7f5cc11a42742480e18ce7c4bbd0cacf9ae",
+      "gold_result_hash": "12eefce213591fb517ceebc135ef316c02a027e9bf16f83868f593dfe8f1e3fd",
+      "gold_row_count": 2
+    },
+    {
+      "question_id": "1036",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "735fbbedf9cc5b5a2b3f2810ce073606920a866c896f180995e7656eaed7103a",
+      "gold_result_hash": "35e7b807b43104af9a1a84827e1cb251129c8a62a126753f7bfa8137440be72f",
+      "gold_row_count": 128
+    },
+    {
+      "question_id": "1037",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "7afeded9da9cdd5f2036faefaa4a57f7508d88c6713e3344b4ba499a2e80e46e",
+      "gold_result_hash": "6591dee46c0dbc2b3828f405b3cb35c5da88d0c9af575e5ebcd05207b53657a5",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1042",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "b6c4ef5b98af9fce9d75ea559dc57faa4f050fad954c1c0114ab024180dcdec2",
+      "gold_result_hash": "d8083dacca70ad0b9cd7ff6c240eb9e9838540c0c42e09d18ac0aa11dafc441d",
+      "gold_row_count": 11
+    },
+    {
+      "question_id": "1058",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "781fc3ccd6da50d4198968b41cc7f43b33097902e88f90e5b7231ac32a90fc76",
+      "gold_result_hash": "d839b605ed9f60f89ed5f398b51944ca9d3cc526a44202121f1213d33414119a",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1076",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "9a50f30936e08b183c9e5d9fa7b724fc5a0225543fce249f6de22978b998bddb",
+      "gold_result_hash": "06ba6629b2238233e2fc051adb9b15c9988fe2b81ae6da1ae62df26b649f1fc2",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1084",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "b8659a0102de1d7fd5ab608016ae682289b5ed4f02cdf4b96477426b50844b73",
+      "gold_result_hash": "5d6960fabe7640cddf93f2618fec7f56cc974da59d0ca831a61f382b3bc15cd2",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1094",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "8b8d39df537541670da4d147bb2ea14952b8c27ec3d4f9bbee6ab68bbb932701",
+      "gold_result_hash": "df56cde8721e4df22ac58deb23a2fad7f6dfb79201a4b7c41663542a6e9ba99f",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1114",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "12248e41df77b720d89084a10111fa70c021d5e324575f48fea0199482403998",
+      "gold_result_hash": "a5117c030c0e73e16f4b770b257b87009f50db091a1fde9954f374d4fe94d2b5",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1115",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "221160caa2b2087c20e53d5aee409ba1fe40fc24dfb4f567eea6f186abd5191b",
+      "gold_result_hash": "df37884ce5753b92e8fe3050085e73a9a4d43ae5a38525b0898618ea8de3445c",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1139",
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "task_hash": "441ff3a017c073813eee474af8f12d759d7a156bb9689c21106f643f232b6e33",
+      "gold_result_hash": "ada8d3bdc3b3e9a2a27c2986144f64541fcff23d4f6e194703520ed9a6c5280e",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1168",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "ad0af8922a675c5fa5eb7487d435ca56bdad405a35057bd9e7fa081b4a401eb9",
+      "gold_result_hash": "845445122a9bdc1d0cb8b4f77774ccefb451a02496033b93155125f67c3105f5",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1169",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "dddc3fa795aa1b6b890458a8c3273b88fa1d8055b1b8edd25fa355b50488ba5f",
+      "gold_result_hash": "0b6a382d00d13016466a9f0a909d2774d25761754a3c8c4f8636b357dbf861a2",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1171",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "30283b6c51d266177479f27b4eb225061ea8bf635199500ce6bec7db436a5f47",
+      "gold_result_hash": "d61b07a4f41f72303f4507056c68560f8722af7bb27dabf3a0ca86210e2ebd26",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1185",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "8b54082eddd8e287b78ce5680241c70864d9c97f5fac0e8162222497978a89ec",
+      "gold_result_hash": "8e690f36a91a8ffc057bb21047a178cf1714dfad768c2e475ac50070498b7e2c",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1189",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "03efe5c3d97c8f367172101bf77d94005f352a2cd0fd97936dc3d59ead5a003d",
+      "gold_result_hash": "d61b07a4f41f72303f4507056c68560f8722af7bb27dabf3a0ca86210e2ebd26",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1192",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "c12002ae80ec9478a052590a7bd69b9909a1813c018e4225e858d1b591ddf1ce",
+      "gold_result_hash": "2fd27569bca6af65e68a05c7d2bffd6d87985ce2c33e96249d4b02c6574738a9",
+      "gold_row_count": 6
+    },
+    {
+      "question_id": "1231",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "9b143aa767a21af41ab63b6d13965d0ca923f8c85e01fc28ceca7ebfa5fafda2",
+      "gold_result_hash": "e28707ba4cb969afb77ca148cc067fad76046bf720903809fc6c63ac7cb0559a",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1241",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "f3bdddb7b26985a2450df75328ca3288a4a4c16390541282cf16d4c8131c7b28",
+      "gold_result_hash": "c722847b642fe9fb13a1de28c52bb694639f848d9e3a86a2c4c54186608e6bd9",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1247",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "52f446ad861eae4ca68aedb4b12b7684572f230d05e79d64f8632252aa575014",
+      "gold_result_hash": "52e1c1c8992d85d0a2c2d5575eee43726379d76f3eeb7f2c54da9820e68664d8",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1270",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "44ecf63fda8f47b5f95a8a247ff1870fe0d4628fd3f21f3cbe8781489b219a89",
+      "gold_result_hash": "6c1e336a2ee1736614133a8f5eddc51f1f3e6c4c079ad033aaaddce1bae0c2bb",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1302",
+      "db_id": "thrombosis_prediction",
+      "difficulty": "challenging",
+      "task_hash": "c692f1b328da8652fb7c71f37d72b8799c8b84c008193933702e14e8db6005cd",
+      "gold_result_hash": "d61b07a4f41f72303f4507056c68560f8722af7bb27dabf3a0ca86210e2ebd26",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1339",
+      "db_id": "student_club",
+      "difficulty": "challenging",
+      "task_hash": "f79564a23aff6facbe554fc016011cf869970f1d028df14872fe9a4448b1211b",
+      "gold_result_hash": "b374e3175d502174a977eccd961c55eb63548a52ad534b30a532c87bb945f276",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1359",
+      "db_id": "student_club",
+      "difficulty": "challenging",
+      "task_hash": "a774970f31e5643bf5a17b897eec933207f2a4e181efbe46076728775a446feb",
+      "gold_result_hash": "4fe7ec0c9be3695f2f85ce62ef3fb75e6605848b349363be1cb9bdacfbb88fec",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1457",
+      "db_id": "student_club",
+      "difficulty": "challenging",
+      "task_hash": "1b7847d70122830dbd4f89ec26b382155e1d09b5307e16f831c32d8d996c389c",
+      "gold_result_hash": "b5264c1dbfc7f2187e47e0659f98294573389e3de90b6b6c617aa5358e520d3a",
+      "gold_row_count": 3
+    },
+    {
+      "question_id": "1460",
+      "db_id": "student_club",
+      "difficulty": "challenging",
+      "task_hash": "af71c0cea871ca4f44126db528f5ee32f2809c05e6369764bde623bb7de977f8",
+      "gold_result_hash": "1f9e43f77110bc2d390829ad81a78306b6b0b532bab3b3df6cdb1cb77f49a5df",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1464",
+      "db_id": "student_club",
+      "difficulty": "challenging",
+      "task_hash": "50cede268bf02a2acfab6eac704398821cf9c7117e2d6b302fc030f391a1c036",
+      "gold_result_hash": "6cbd30af1494ef578bd3c082d84da224bb49c938748530e51b0b902f073dd933",
+      "gold_row_count": 2
+    },
+    {
+      "question_id": "1476",
+      "db_id": "debit_card_specializing",
+      "difficulty": "challenging",
+      "task_hash": "cffbc25653e58c4a5d1dc913b45a7d44457dbb464af77db12ecc87c413f690a2",
+      "gold_result_hash": "c5655d8b05806fdb24498e959283c44c55091aafc0d97717edaaa022ec22bc42",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1481",
+      "db_id": "debit_card_specializing",
+      "difficulty": "challenging",
+      "task_hash": "f59759a391029cb594713e7b46b3de12e492264d2f46e87692b31e18a45a5d0a",
+      "gold_result_hash": "9be33fd98d2cb95666350a4eaa919977517fc109dc2b18dbfd0d37b66cf4cc5d",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1482",
+      "db_id": "debit_card_specializing",
+      "difficulty": "challenging",
+      "task_hash": "fa6e3818f35e1cdbada5f015b91cd34decda39c53a726c56a58f4f861b7fe4b8",
+      "gold_result_hash": "7ec41a524dd3defe51a6dd43634fc4e7a925fef04e9fc1049711fd400f5c0011",
+      "gold_row_count": 1
+    },
+    {
+      "question_id": "1526",
+      "db_id": "debit_card_specializing",
+      "difficulty": "challenging",
+      "task_hash": "84d38e6884bf99ee0cb4f803d8be2e86c08c7ae070d934e30dfe145f9950a139",
+      "gold_result_hash": "c91acf849cfd3421f46da2c457e18750c78babf7631144f327d7a3fc4af87fff",
+      "gold_row_count": 1
+    }
+  ]
+}

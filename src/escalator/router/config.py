@@ -59,6 +59,10 @@ class RouterConfig:
     frontier: FrontierRuns
     bootstrap: BootstrapConfig
     headline_small_tier: str | None  # no default: set by hand
+    # Task set of the study; None = the pinned 200-task sample and its files.
+    manifest: Path | None = None  # data/manifest.json
+    scoring: Path | None = None  # configs/scoring.yaml
+    baselines: Path | None = None  # results/baselines.json (integrity check)
 
 
 def _map(raw: object, where: str) -> dict[str, object]:
@@ -133,7 +137,14 @@ def parse_router_config(raw: object, where: str = "router.yaml") -> RouterConfig
     headline = top.get("headline_small_tier")
     if headline is not None and (not isinstance(headline, str) or headline not in small):
         raise RouterConfigError(f"headline_small_tier must name a model of inventory.small, got {headline!r}")
-    return RouterConfig(sc, verifier, small, frontier, bootstrap, headline)
+    paths: dict[str, Path | None] = {}
+    for key in ("manifest", "scoring", "baselines"):
+        value = top.get(key)
+        if value is not None and (not isinstance(value, str) or not value):
+            raise RouterConfigError(f"{key} must be a path relative to the repo root")
+        paths[key] = None if value is None else REPO_ROOT / value
+    return RouterConfig(sc, verifier, small, frontier, bootstrap, headline, paths["manifest"], paths["scoring"],
+                        paths["baselines"])
 
 
 def load_router_config(path: Path = DEFAULT_ROUTER_CONFIG) -> RouterConfig:

@@ -37,3 +37,13 @@ def test_max_tokens_is_parsed(tmp_path: Path) -> None:
 def test_bad_max_tokens_is_refused(tmp_path: Path, value: str) -> None:
     with pytest.raises(ModelResolutionError, match="max_tokens"):
         _load(tmp_path, f"    max_tokens: {value}\n")
+
+
+def test_only_keeps_the_models_a_run_calls() -> None:
+    from escalator.llm.models import load_models
+
+    cfg = load_models()
+    sub = cfg.only(["gemma4-31b", "sonnet-5-5"])
+    assert sorted(sub.models) == ["gemma4-31b", "sonnet-5-5"] and sub.ollama_min_version == cfg.ollama_min_version
+    assert cfg.only([]).models == {}
+

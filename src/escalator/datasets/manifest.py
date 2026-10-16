@@ -179,51 +179,104 @@ def _gold_rows(ctx: DataContext, rec: Record) -> list[tuple[object, ...]]:
         raise ManifestError(f"gold for {normalize_id(rec.get('question_id'))} failed: {type(exc).__name__}") from exc
 
 
+def _frame(ctx: DataContext, excluded: Mapping[str, list[str]]) -> dict[str, list[str]]:
+    """Stratum -> frame ids (Plat-Full minus the pinned exclusions), in id order."""
+    frame: dict[str, list[str]] = {s: [] for s in STRATA}
+    for qid in sort_ids(ctx.platfull_by_id):
+        if qid not in excluded:
+            frame[str(ctx.minidev_by_id[qid].get("difficulty"))].append(qid)
+    return frame
+
+
+def _task_entries(ctx: DataContext, ids: list[str]) -> list[dict[str, object]]:
+    """Manifest entries for `ids` in id order; executes each gold query for its result hash."""
+    tasks: list[dict[str, object]] = []
+    for qid in sort_ids(ids):
+        rec = ctx.platfull_by_id[qid]
+        rows = _gold_rows(ctx, rec)
+        tasks.append({
+            "question_id": qid,
+            "db_id": rec.get("db_id"),
+            "difficulty": ctx.minidev_by_id[qid].get("difficulty"),
+            "task_hash": task_hash(rec),
+            "gold_result_hash": result_hash(rows),
+            "gold_row_count": len(rows),
+        })
+    return tasks
+
+
+def _header(cfg: DataConfig) -> dict[str, object]:
+    ref = parse_lock(json.loads(cfg.lock.read_text(encoding="utf-8"))).source("arcwise_plat_full").ref
+    return {"sources_lock_sha256": sha256_hex(cfg.lock.read_bytes()),
+            "env_lock_sha256": sha256_hex(cfg.env_lock.read_bytes()), "arcwise_ref": ref}
+
+
+def _dump(manifest: Mapping[str, object]) -> bytes:
+    return (json.dumps(manifest, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+
+
 def build_manifest(cfg: DataConfig, mcfg: ManifestConfig, sample_size: int = SAMPLE_SIZE) -> bytes:
     check_inputs(cfg)
     check_pinned_exclusions(cfg, mcfg)
     excluded = exclusions(mcfg)
     ctx = DataContext(cfg)
     try:
-        minidev = ctx.minidev_by_id
-        frame: dict[str, list[str]] = {s: [] for s in STRATA}
-        for qid in sort_ids(ctx.platfull_by_id):
-            if qid not in excluded:
-                frame[str(minidev[qid].get("difficulty"))].append(qid)
+        frame = _frame(ctx, excluded)
         alloc = allocate({s: len(ids) for s, ids in frame.items()}, sample_size)
         chosen = select(frame, alloc, mcfg.seed)
-        tasks: list[dict[str, object]] = []
-        for qid in sort_ids(q for ids in chosen.values() for q in ids):
-            rec = ctx.platfull_by_id[qid]
-            rows = _gold_rows(ctx, rec)
-            tasks.append({
-                "question_id": qid,
-                "db_id": rec.get("db_id"),
-                "difficulty": minidev[qid].get("difficulty"),
-                "task_hash": task_hash(rec),
-                "gold_result_hash": result_hash(rows),
-                "gold_row_count": len(rows),
-            })
+        tasks = _task_entries(ctx, [q for ids in chosen.values() for q in ids])
     finally:
         ctx.close()
-    ref = parse_lock(json.loads(cfg.lock.read_text(encoding="utf-8"))).source("arcwise_plat_full").ref
+    header = _header(cfg)
     manifest = {
         "seed": mcfg.seed,
         "method": METHOD,
         "sample_size": sample_size,
-        "sources_lock_sha256": sha256_hex(cfg.lock.read_bytes()),
-        "env_lock_sha256": sha256_hex(cfg.env_lock.read_bytes()),
-        "arcwise_ref": ref,
+        **header,
         "frame_size": sum(len(ids) for ids in frame.values()),
         "strata": {s: {"frame": len(frame[s]), "allocation": alloc[s]} for s in STRATA},
         "exclusions": [{"question_id": q, "reasons": r} for q, r in excluded.items()],
         "tasks": tasks,
     }
-    return (json.dumps(manifest, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+    return _dump(manifest)
 
 
-def write_manifest(cfg: DataConfig, mcfg: ManifestConfig, path: Path) -> bytes:
-    data = build_manifest(cfg, mcfg)
+STRATUM_METHOD = (
+    "frame = Plat-Full ids minus the exclusions pinned in configs/manifest.yaml "
+    "(date_dependent, gold_too_slow, allowlisted); every frame task of the stratum (Mini-Dev difficulty), "
+    "no sampling"
+)
+
+
+def build_stratum_manifest(cfg: DataConfig, mcfg: ManifestConfig, stratum: str) -> bytes:
+    """Every frame task of one difficulty stratum, with the same entries and hashes as build_manifest."""
+    if stratum not in STRATA:
+        raise ManifestError(f"unknown stratum {stratum!r}; expected one of {list(STRATA)}")
+    check_inputs(cfg)
+    check_pinned_exclusions(cfg, mcfg)
+    excluded = exclusions(mcfg)
+    ctx = DataContext(cfg)
+    try:
+        frame = _frame(ctx, excluded)
+        tasks = _task_entries(ctx, frame[stratum])
+    finally:
+        ctx.close()
+    manifest = {
+        "stratum": stratum,
+        "method": STRATUM_METHOD,
+        "sample_size": len(tasks),
+        **_header(cfg),
+        "frame_size": sum(len(ids) for ids in frame.values()),
+        "strata": {stratum: {"frame": len(frame[stratum]), "allocation": len(tasks)}},
+        "exclusions": [{"question_id": q, "reasons": r} for q, r in excluded.items()],
+        "tasks": tasks,
+    }
+    return _dump(manifest)
+
+
+def write_manifest(cfg: DataConfig, mcfg: ManifestConfig, path: Path, stratum: str | None = None) -> bytes:
+    """The sampled manifest, or with `stratum` every frame task of that stratum."""
+    data = build_manifest(cfg, mcfg) if stratum is None else build_stratum_manifest(cfg, mcfg, stratum)
     tmp = path.with_suffix(".json.tmp")
     tmp.write_bytes(data)
     os.replace(tmp, path)

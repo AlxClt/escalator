@@ -1,0 +1,14 @@
+# Scoring configuration for the challenging-stratum study (data/manifest-challenging.json, 95 tasks).
+# Same rules as configs/scoring.yaml: a task is ordered only when its question asks for an output
+# order; an ORDER BY that selects the top-N rows is not enough. Tie blocks as in configs/scoring.yaml.
+#
+# Audit of the 95 questions (16/10/2026): neither 824 nor 1040 is in this stratum. Of the 56 tasks new
+# to this study, 8 golds have a top-level ORDER BY (all with LIMIT). Ties at every LIMIT boundary and
+# inside the ordered results were checked by executing the golds: none.
+# - 220 "list top three elements ... in alphabetical order": ordered; 3 distinct values, no ties.
+# - 1011 "top 20 drivers, ranked by their shortest lap time": ordered, shortest lap first (owner's
+#   decision, 16/10/2026); no ties inside the top 20 or at rank 20/21 (69241 vs 69284 ms).
+# - 94, 115, 988, 1001, 1058, 1168: top-N selection only (1 row, or all qualifying rows for 988).
+ordered_tasks:
+  220: []    # "in alphabetical order"; 3 distinct elements
+  1011: []   # "ranked by their shortest lap time", ascending; no ties
