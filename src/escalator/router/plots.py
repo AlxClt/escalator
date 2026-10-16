@@ -8,7 +8,8 @@ The EX axis runs from the lowest plotted value minus 0.2 (floored at 0) up to 1.
 
 Points: small-only, frontier-only, and per signal escalate-all and every non-degenerate threshold point,
 joined in tau order (one marker and one colour per signal); 95% bootstrap intervals on both axes. The
-oracle frontier is dashed through its vertices, the random-escalation reference dotted. Footer: n,
+oracle frontier is dashed through its vertices, then flat at its ceiling to the right edge (no budget
+buys more than the ceiling); the random-escalation reference is dotted. Footer: n,
 prices retrieved_on, run ids.
 
 The headline figure is the frontier plot of configs/router.yaml `headline_small_tier`. That key has no
@@ -127,7 +128,13 @@ def frontier_figure(router: Json, model: str, axis: str) -> Any:
             _errpoint(ax, p, fmt=marker, color=INK, markersize=9 if marker == "*" else 7, ecolor=INK_2, zorder=5,
                       label=label)
 
-    ax.set_xlim(left=0)
+    # Past its last vertex the oracle cannot gain accuracy: Acc_O*(C) stays at the ceiling for any larger
+    # budget, so the dashed line continues flat to the right edge.
+    xmax = ax.get_xlim()[1]
+    if oracle and xmax > oracle[-1][0]:
+        ax.plot([oracle[-1][0], xmax], [oracle[-1][1], oracle[-1][1]], linestyle="--", color=INK_2, linewidth=1.5,
+                zorder=2)
+    ax.set_xlim(0, xmax)
     ax.set_ylim(y_floor(ys), 1)
     ax.set_xlabel(x_label)
     ax.set_ylabel("Execution accuracy (EX)")

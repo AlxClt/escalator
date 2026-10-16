@@ -66,3 +66,16 @@ def test_ex_axis_starts_at_the_lowest_value_minus_0_2_floored_at_0(router_json: 
     # reference's start); every signal point is higher.
     assert hi == 1.0 and lo == pytest.approx(2 / 6 - 0.2)
 
+
+def test_oracle_frontier_continues_flat_at_the_ceiling_to_the_right_edge(router_json: dict[str, object]) -> None:
+    pairs = router_json["pairs"]
+    assert isinstance(pairs, dict)
+    ceiling = pairs["small"]["oracle"]["ceiling"]["value"]
+    for axis in ("cps", "cost"):
+        ax = frontier_figure(router_json, "small", axis).axes[0]
+        dashed = [line for line in ax.get_lines() if line.get_linestyle() == "--"]
+        xs = [x for line in dashed for x in line.get_xdata()]
+        right = max(range(len(xs)), key=lambda i: xs[i])
+        ys = [y for line in dashed for y in line.get_ydata()]
+        assert xs[right] == pytest.approx(ax.get_xlim()[1]) and ys[right] == pytest.approx(ceiling)
+
