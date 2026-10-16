@@ -1,7 +1,19 @@
-# Files identified by the sha256 of their exact bytes (meta.json, router.json inputs, prompt_sha256):
-# git must never rewrite their line endings on checkout (core.autocrlf would turn LF into CRLF).
+# Files identified by the sha256 of their exact bytes (meta.json, router.json inputs, prompt_sha256,
+# prices_sha256, manifest_sha256, configs_sha256, the lock hashes in data/manifest.json): git must check
+# them out with the bytes those recorded hashes were computed on, on every OS (week-3 notes, D12).
+
+# Written by the runs and the router with LF (meta.json with CRLF on Windows): kept byte for byte.
 traces/published/** -text
 results/router.json -text
 results/signals.json -text
 results/figures/** -text
-src/escalator/agent/prompts/verifier_v1.yaml -text
+
+# Prompt versions: kept byte for byte as committed (verifier_v1.yaml: LF).
+src/escalator/agent/prompts/*.yaml -text
+
+# Hashed while checked out on Windows with core.autocrlf=true, so recorded as CRLF: pinned to CRLF.
+src/escalator/agent/prompts/v1.yaml text eol=crlf
+configs/** text eol=crlf
+data/manifest.json text eol=crlf
+data/sources.lock text eol=crlf
+data/env.lock text eol=crlf
