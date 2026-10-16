@@ -4,6 +4,8 @@ results/router.json -> per small model, two frontier figures (PNG + SVG):
 - frontier-<model>-cps: y = EX, x = USD per solved task (linear, from 0);
 - frontier-<model>-cost: y = EX, x = USD per task (the plane where the oracle gap is measured).
 
+The EX axis runs from the lowest plotted value minus 0.2 (floored at 0) up to 1.
+
 Points: small-only, frontier-only, and per signal escalate-all and every non-degenerate threshold point,
 joined in tau order (one marker and one colour per signal); 95% bootstrap intervals on both axes. The
 oracle frontier is dashed through its vertices, the random-escalation reference dotted. Footer: n,
@@ -41,6 +43,7 @@ SIGNAL_STYLE = {
 }
 INK, INK_2, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#8a8984", "#e4e3df", "#fcfcfb"
 AXES = {"cps": ("cost_per_solved", "USD per solved task"), "cost": ("cost_per_task", "USD per task")}
+Y_MARGIN = 0.2  # the EX axis starts this far below the lowest plotted value (owner's choice), never below 0
 
 # JSON from results/router.json: nested objects of unknown shape, read defensively.
 Json = Any
@@ -75,19 +78,30 @@ def _errpoint(ax: Any, p: tuple[float, float, list[float], list[float]], **kw: A
     ax.errorbar([x], [y], xerr=[[xe[0]], [xe[1]]], yerr=[[ye[0]], [ye[1]]], elinewidth=1, capsize=0, **kw)
 
 
+def y_floor(ys: list[float]) -> float:
+    """Lowest plotted EX minus Y_MARGIN, or 0 when that is negative (or nothing is plotted)."""
+    return max(0.0, min(ys) - Y_MARGIN) if ys else 0.0
+
+
+def rand_points(pair: Json, x_key: str) -> list[tuple[float, float]]:
+    return [(r[x_key]["value"], r["acc"]["value"]) for r in pair["random_reference"]["points"]
+            if isinstance(r[x_key]["value"], (int, float))]
+
+
 def frontier_figure(router: Json, model: str, axis: str) -> Any:
     pair = router["pairs"][model]
     x_key, x_label = AXES[axis]
     fig, ax = plt.subplots(figsize=(7.2, 5.0), dpi=150)
     ax.grid(True, color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
+    ys: list[float] = []  # every plotted EX value, for the axis floor
 
     oracle = [(v[x_key]["value"], v["acc"]["value"]) for v in pair["oracle"]["vertices"]
               if isinstance(v[x_key]["value"], (int, float))]
+    ys += [float(y) for _, y in oracle] + [float(y) for _, y in rand_points(pair, x_key)]
     if oracle:
         ax.plot(*zip(*oracle), linestyle="--", color=INK_2, linewidth=1.5, label="oracle frontier", zorder=2)
-    rand = [(r[x_key]["value"], r["acc"]["value"]) for r in pair["random_reference"]["points"]
-            if isinstance(r[x_key]["value"], (int, float))]
+    rand = rand_points(pair, x_key)
     if rand:
         ax.plot(*zip(*rand), linestyle=":", color=MUTED, linewidth=1.5, label="random escalation", zorder=2)
 
@@ -99,6 +113,7 @@ def frontier_figure(router: Json, model: str, axis: str) -> Any:
         xy = [p for p in (_xy(q, x_key) for q in pts) if p is not None]
         if not xy:
             continue
+        ys += [p[1] for p in xy]
         ax.plot([p[0] for p in xy], [p[1] for p in xy], color=color, linewidth=2, zorder=3)
         for k, p in enumerate(xy):
             _errpoint(ax, p, fmt=marker, color=color, markersize=7, markeredgecolor=SURFACE, markeredgewidth=1.5,
@@ -108,11 +123,12 @@ def frontier_figure(router: Json, model: str, axis: str) -> Any:
                                ("frontier_only", "*", f"frontier-only ({pair['frontier_model']})")):
         p = _xy(pair["baselines"][key], x_key)
         if p is not None:
+            ys.append(p[1])
             _errpoint(ax, p, fmt=marker, color=INK, markersize=9 if marker == "*" else 7, ecolor=INK_2, zorder=5,
                       label=label)
 
     ax.set_xlim(left=0)
-    ax.set_ylim(0, 1)
+    ax.set_ylim(y_floor(ys), 1)
     ax.set_xlabel(x_label)
     ax.set_ylabel("Execution accuracy (EX)")
     ax.set_title(f"{model} -> {pair['frontier_model']}: accuracy vs {x_label}", color=INK, fontsize=11, loc="left")

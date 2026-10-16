@@ -11,7 +11,7 @@ import pytest
 from test_router_e2e import GOLD, FIXTURE_SQL, rcfg, run_build, write_baselines, write_inventory
 
 from escalator.env.sandbox import Sandbox
-from escalator.router.plots import HeadlineUnset, write_figures
+from escalator.router.plots import HeadlineUnset, frontier_figure, write_figures, y_floor
 
 
 @pytest.fixture(scope="module")
@@ -54,3 +54,15 @@ def test_figures_are_deterministic(router_json: dict[str, object], tmp_path: Pat
         assert (tmp_path / "a" / name).read_bytes() == (tmp_path / "b" / name).read_bytes(), name
     svg = (tmp_path / "a" / "frontier-small-cps.svg").read_text(encoding="utf-8")
     assert "<dc:date>" not in svg and "oracle frontier" in svg and "n = 6 tasks" in svg
+
+
+def test_ex_axis_starts_at_the_lowest_value_minus_0_2_floored_at_0(router_json: dict[str, object]) -> None:
+    assert y_floor([0.81, 0.69, 0.86]) == pytest.approx(0.49)
+    assert y_floor([0.105, 0.86]) == 0.0
+    assert y_floor([]) == 0.0
+    fig = frontier_figure(router_json, "small", "cost")
+    lo, hi = fig.axes[0].get_ylim()
+    # Lowest plotted EX in the fixture: small-only = 2/6 (also the oracle's first vertex and the random
+    # reference's start); every signal point is higher.
+    assert hi == 1.0 and lo == pytest.approx(2 / 6 - 0.2)
+
