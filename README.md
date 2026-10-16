@@ -32,8 +32,8 @@ Execution accuracy vs USD per solved task:
 
 Paired tests (McNemar) for the verifier signal:
 
-- **Routed vs gemma4-12b alone:** b = 3, c = 33, p = 2.3 × 10⁻⁷. Routing beats the small model by 15.0 pp.
-- **Routed vs frontier alone:** b = 4, c = 8, p = 0.39. No significant difference is detectable from this experiment
+- **Routed vs gemma4-12b alone:** McNemar's p value: 2.3 × 10⁻⁷. Routing beats the small model by 15.0 pp.
+- **Routed vs frontier alone:** McNemar's p value: 0.39. No significant difference is detectable from this experiment
 
 *Notes:*
 
