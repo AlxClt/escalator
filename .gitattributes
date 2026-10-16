@@ -17,3 +17,5 @@ configs/** text eol=crlf
 data/manifest.json text eol=crlf
 data/sources.lock text eol=crlf
 data/env.lock text eol=crlf
+# Written by make manifest --stratum with LF; its hash is recorded by the challenging-study runs.
+data/manifest-challenging.json -text

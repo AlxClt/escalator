@@ -1,0 +1,31 @@
+# Challenging-stratum study, gemma4-31b -> sonnet-5-5 (pre-registered: docs/prereg-31b-challenging.md).
+# Same keys as configs/router.yaml, plus the task set: manifest, scoring config and baselines file.
+# Both router-challenging-*.yaml configs list the same gemma4-31b runs; only the frontier differs.
+
+manifest: data/manifest-challenging.json
+scoring: configs/scoring-challenging.yaml
+baselines: results/challenging/baselines.json
+
+self_consistency:
+  k: 3
+  temperature: 0.7
+  seeds: [1, 2, 3]
+  models: [gemma4-31b]
+
+verifier:
+  prompt_version: verifier_v1
+  models: [gemma4-31b]
+
+inventory:
+  small:
+    gemma4-31b: {baseline: challenging-gemma4-31b-v1, self_consistency: null, verifier: null}
+  frontier:
+    model: sonnet-5-5
+    baseline: challenging-sonnet-5-5-v1
+    repeat: null
+
+bootstrap:
+  B: 2000
+  seed: 20261015
+
+headline_small_tier: gemma4-31b

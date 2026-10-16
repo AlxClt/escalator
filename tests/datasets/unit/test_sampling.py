@@ -14,6 +14,7 @@ from escalator.datasets.manifest import (
     ManifestError,
     allocate,
     build_manifest,
+    build_stratum_manifest,
     encode_value,
     load_manifest_config,
     rank_key,
@@ -173,3 +174,20 @@ def test_manifest_config_requires_every_reason(tmp_path: Path) -> None:
     path.write_text("seed: 1\nexclusions:\n  date_dependent: []\n", encoding="utf-8")
     with pytest.raises(ManifestError):
         load_manifest_config(path)
+
+
+def test_stratum_manifest_takes_every_frame_task_of_the_stratum(tmp_path: Path) -> None:
+    cfg = _setup(tmp_path)
+    data = build_stratum_manifest(cfg, PINNED, "challenging")
+    assert data == build_stratum_manifest(cfg, PINNED, "challenging")
+    m = json.loads(data)
+    frame = [str(i) for i in range(30) if DIFFS[i % 3] == "challenging" and str(i) not in {"1", "2", "3", "5"}]
+    assert [t["question_id"] for t in m["tasks"]] == frame
+    assert m["stratum"] == "challenging" and m["sample_size"] == len(frame) == m["strata"]["challenging"]["allocation"]
+    assert m["frame_size"] == 26 and len(m["exclusions"]) == 4
+    # the same entries (hashes, row counts) as the sampled manifest for the tasks both hold
+    sampled = {t["question_id"]: t for t in json.loads(build_manifest(cfg, PINNED, sample_size=26))["tasks"]}
+    assert all(sampled[t["question_id"]] == t for t in m["tasks"])
+    with pytest.raises(ManifestError, match="unknown stratum"):
+        build_stratum_manifest(cfg, PINNED, "hard")
+

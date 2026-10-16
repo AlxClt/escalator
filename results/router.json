@@ -326,6 +326,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.105,
+                  0.235
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.17
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 7
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 6.240408439e-07
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 41
+                }
+              }
             }
           },
           "self_consistency": {
@@ -555,6 +581,32 @@
                 "method": "bootstrap",
                 "n_undefined": 0,
                 "value": 0.0
+              }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.105,
+                  0.235
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.17
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 7
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 6.240408439e-07
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 41
+                }
               }
             }
           },
@@ -786,6 +838,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.105,
+                  0.235
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.17
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 7
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 6.240408439e-07
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 41
+                }
+              }
             }
           }
         },
@@ -1014,6 +1092,32 @@
               "method": "bootstrap",
               "n_undefined": 0,
               "value": 0.0
+            }
+          },
+          "vs_small_only": {
+            "delta_acc": {
+              "ci95": [
+                0.105,
+                0.235
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.17
+            },
+            "test": {
+              "losses": {
+                "point_estimate": true,
+                "value": 7
+              },
+              "p": {
+                "point_estimate": true,
+                "value": 6.240408439e-07
+              },
+              "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+              "wins": {
+                "point_estimate": true,
+                "value": 41
+              }
             }
           }
         },
@@ -2673,6 +2777,32 @@
                   "n_undefined": 0,
                   "value": -0.06
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.07,
+                    0.155
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.11
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 4.768371582e-07
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 22
+                  }
+                }
               }
             }
           ],
@@ -2906,6 +3036,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.105,
+                    0.235
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.17
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 7
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 6.240408439e-07
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 41
+                  }
+                }
               }
             },
             {
@@ -3136,6 +3292,32 @@
                   "n_undefined": 0,
                   "value": -0.06
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.07,
+                    0.155
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.11
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 4.768371582e-07
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 22
+                  }
+                }
               }
             },
             {
@@ -3357,6 +3539,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.17
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -3630,6 +3838,32 @@
                   "n_undefined": 0,
                   "value": -0.03
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.094875,
+                    0.19
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.14
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 7.450580597e-09
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 28
+                  }
+                }
               }
             },
             {
@@ -3879,6 +4113,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.1
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.04,
+                    0.105
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.07
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0001220703125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 14
+                  }
                 }
               }
             },
@@ -4130,6 +4390,32 @@
                   "n_undefined": 0,
                   "value": -0.145
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.005,
+                    0.045
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.025
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0625
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 5
+                  }
+                }
               }
             }
           ],
@@ -4363,6 +4649,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.105,
+                    0.235
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.17
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 7
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 6.240408439e-07
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 41
+                  }
+                }
               }
             },
             {
@@ -4592,6 +4904,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.03
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.094875,
+                    0.19
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.14
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 7.450580597e-09
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 28
+                  }
                 }
               }
             },
@@ -4823,6 +5161,32 @@
                   "n_undefined": 0,
                   "value": -0.1
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.04,
+                    0.105
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.07
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0001220703125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 14
+                  }
+                }
               }
             },
             {
@@ -5053,6 +5417,32 @@
                   "n_undefined": 0,
                   "value": -0.145
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.005,
+                    0.045
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.025
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0625
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 5
+                  }
+                }
               }
             },
             {
@@ -5274,6 +5664,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.17
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -5547,6 +5963,32 @@
                   "n_undefined": 0,
                   "value": -0.02
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.1,
+                    0.205
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.15
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 2.272136044e-07
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 33
+                  }
+                }
               }
             }
           ],
@@ -5780,6 +6222,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.105,
+                    0.235
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.17
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 7
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 6.240408439e-07
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 41
+                  }
+                }
               }
             },
             {
@@ -6010,6 +6478,32 @@
                   "n_undefined": 0,
                   "value": -0.02
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.1,
+                    0.205
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.15
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 2.272136044e-07
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 33
+                  }
+                }
               }
             },
             {
@@ -6231,6 +6725,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.17
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -6469,6 +6989,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  -0.015,
+                  0.100125
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.045
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 12
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.1627556575
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 21
+                }
+              }
             }
           },
           "self_consistency": {
@@ -6698,6 +7244,32 @@
                 "method": "bootstrap",
                 "n_undefined": 0,
                 "value": 0.0
+              }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  -0.015,
+                  0.100125
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.045
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 12
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.1627556575
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 21
+                }
               }
             }
           },
@@ -6929,6 +7501,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  -0.015,
+                  0.100125
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.045
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 12
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.1627556575
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 21
+                }
+              }
             }
           }
         },
@@ -7157,6 +7755,32 @@
               "method": "bootstrap",
               "n_undefined": 0,
               "value": 0.0
+            }
+          },
+          "vs_small_only": {
+            "delta_acc": {
+              "ci95": [
+                -0.015,
+                0.100125
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.045
+            },
+            "test": {
+              "losses": {
+                "point_estimate": true,
+                "value": 12
+              },
+              "p": {
+                "point_estimate": true,
+                "value": 0.1627556575
+              },
+              "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+              "wins": {
+                "point_estimate": true,
+                "value": 21
+              }
             }
           }
         },
@@ -8516,6 +9140,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.025
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.5
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 2
+                  }
+                }
               }
             }
           ],
@@ -8749,6 +9399,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    -0.015,
+                    0.100125
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.045
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 12
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.1627556575
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 21
+                  }
+                }
               }
             },
             {
@@ -8979,6 +9655,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.025
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.5
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 2
+                  }
+                }
               }
             },
             {
@@ -9200,6 +9902,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.045
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -9473,6 +10201,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    -0.015,
+                    0.035
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.6875
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 4
+                  }
+                }
               }
             },
             {
@@ -9723,6 +10477,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.025
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.5
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 2
+                  }
+                }
               }
             }
           ],
@@ -9956,6 +10736,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    -0.015,
+                    0.100125
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.045
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 12
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.1627556575
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 21
+                  }
+                }
               }
             },
             {
@@ -10185,6 +10991,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.035
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    -0.015,
+                    0.035
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.6875
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 4
+                  }
                 }
               }
             },
@@ -10416,6 +11248,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.025
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.5
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 2
+                  }
+                }
               }
             },
             {
@@ -10637,6 +11495,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.045
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -10910,6 +11794,32 @@
                   "n_undefined": 0,
                   "value": -0.025
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    -0.01,
+                    0.05
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.02
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.34375
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 7
+                  }
+                }
               }
             }
           ],
@@ -11143,6 +12053,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    -0.015,
+                    0.100125
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.045
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 12
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.1627556575
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 21
+                  }
+                }
               }
             },
             {
@@ -11373,6 +12309,32 @@
                   "n_undefined": 0,
                   "value": -0.025
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    -0.01,
+                    0.05
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.02
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.34375
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 7
+                  }
+                }
               }
             },
             {
@@ -11594,6 +12556,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.045
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -11832,6 +12820,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.695,
+                  0.815
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.755
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 2
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 5.294718666e-43
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 153
+                }
+              }
             }
           },
           "self_consistency": {
@@ -12061,6 +13075,32 @@
                 "method": "bootstrap",
                 "n_undefined": 0,
                 "value": 0.0
+              }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.695,
+                  0.815
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.755
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 2
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 5.294718666e-43
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 153
+                }
               }
             }
           },
@@ -12292,6 +13332,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.695,
+                  0.815
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.755
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 2
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 5.294718666e-43
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 153
+                }
+              }
             }
           }
         },
@@ -12520,6 +13586,32 @@
               "method": "bootstrap",
               "n_undefined": 0,
               "value": 0.0
+            }
+          },
+          "vs_small_only": {
+            "delta_acc": {
+              "ci95": [
+                0.695,
+                0.815
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.755
+            },
+            "test": {
+              "losses": {
+                "point_estimate": true,
+                "value": 2
+              },
+              "p": {
+                "point_estimate": true,
+                "value": 5.294718666e-43
+              },
+              "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+              "wins": {
+                "point_estimate": true,
+                "value": 153
+              }
             }
           }
         },
@@ -15859,6 +16951,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.655,
+                    0.785
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.72
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 8.968310172e-44
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 144
+                  }
+                }
               }
             }
           ],
@@ -16092,6 +17210,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.695,
+                    0.815
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.755
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 5.294718666e-43
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 153
+                  }
+                }
               }
             },
             {
@@ -16322,6 +17466,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.655,
+                    0.785
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.72
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 8.968310172e-44
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 144
+                  }
+                }
               }
             },
             {
@@ -16543,6 +17713,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.755
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -16816,6 +18012,32 @@
                   "n_undefined": 0,
                   "value": -0.005
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.69,
+                    0.81
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.75
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.045368654e-42
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 152
+                  }
+                }
               }
             },
             {
@@ -17065,6 +18287,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.05
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.64,
+                    0.77
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.705
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 2.582873329e-41
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 142
+                  }
                 }
               }
             },
@@ -17316,6 +18564,32 @@
                   "n_undefined": 0,
                   "value": -0.32
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.365,
+                    0.505
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.435
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.292469707e-26
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 87
+                  }
+                }
               }
             }
           ],
@@ -17549,6 +18823,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.695,
+                    0.815
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.755
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 5.294718666e-43
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 153
+                  }
+                }
               }
             },
             {
@@ -17778,6 +19078,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.005
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.69,
+                    0.81
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.75
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.045368654e-42
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 152
+                  }
                 }
               }
             },
@@ -18009,6 +19335,32 @@
                   "n_undefined": 0,
                   "value": -0.05
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.64,
+                    0.77
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.705
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 2.582873329e-41
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 142
+                  }
+                }
               }
             },
             {
@@ -18239,6 +19591,32 @@
                   "n_undefined": 0,
                   "value": -0.32
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.365,
+                    0.505
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.435
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.292469707e-26
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 87
+                  }
+                }
               }
             },
             {
@@ -18460,6 +19838,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.755
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -18733,6 +20137,32 @@
                   "n_undefined": 0,
                   "value": -0.01
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.685,
+                    0.805125
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.745
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.064986833e-43
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 150
+                  }
+                }
               }
             }
           ],
@@ -18966,6 +20396,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.695,
+                    0.815
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.755
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 5.294718666e-43
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 153
+                  }
+                }
               }
             },
             {
@@ -19196,6 +20652,32 @@
                   "n_undefined": 0,
                   "value": -0.01
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.685,
+                    0.805125
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.745
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.064986833e-43
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 150
+                  }
+                }
               }
             },
             {
@@ -19417,6 +20899,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.755
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -19655,6 +21163,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.015,
+                  0.115
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.065
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 8
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.02411954477
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 21
+                }
+              }
             }
           },
           "self_consistency": {
@@ -19884,6 +21418,32 @@
                 "method": "bootstrap",
                 "n_undefined": 0,
                 "value": 0.0
+              }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.015,
+                  0.115
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.065
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 8
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.02411954477
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 21
+                }
               }
             }
           },
@@ -20115,6 +21675,32 @@
                 "n_undefined": 0,
                 "value": 0.0
               }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.015,
+                  0.115
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.065
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 8
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.02411954477
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 21
+                }
+              }
             }
           }
         },
@@ -20343,6 +21929,32 @@
               "method": "bootstrap",
               "n_undefined": 0,
               "value": 0.0
+            }
+          },
+          "vs_small_only": {
+            "delta_acc": {
+              "ci95": [
+                0.015,
+                0.115
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.065
+            },
+            "test": {
+              "losses": {
+                "point_estimate": true,
+                "value": 8
+              },
+              "p": {
+                "point_estimate": true,
+                "value": 0.02411954477
+              },
+              "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+              "wins": {
+                "point_estimate": true,
+                "value": 21
+              }
             }
           }
         },
@@ -21683,6 +23295,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.015,
+                    0.115
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.065
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 8
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.02411954477
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 21
+                  }
+                }
               }
             },
             {
@@ -21903,6 +23541,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.065
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -22176,6 +23840,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.005,
+                    0.06
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.03
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0703125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 7
+                  }
+                }
               }
             }
           ],
@@ -22409,6 +24099,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.015,
+                    0.115
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.065
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 8
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.02411954477
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 21
+                  }
+                }
               }
             },
             {
@@ -22639,6 +24355,32 @@
                   "n_undefined": 0,
                   "value": -0.035
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.005,
+                    0.06
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.03
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0703125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 7
+                  }
+                }
               }
             },
             {
@@ -22859,6 +24601,32 @@
                   "method": "bootstrap",
                   "n_undefined": 0,
                   "value": -0.065
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
                 }
               }
             }
@@ -23132,6 +24900,32 @@
                   "n_undefined": 0,
                   "value": -0.015
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.015,
+                    0.085
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.05
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.01293945312
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 12
+                  }
+                }
               }
             }
           ],
@@ -23365,6 +25159,32 @@
                   "n_undefined": 0,
                   "value": 0.0
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.015,
+                    0.115
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.065
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 8
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.02411954477
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 21
+                  }
+                }
               }
             },
             {
@@ -23595,6 +25415,32 @@
                   "n_undefined": 0,
                   "value": -0.015
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.015,
+                    0.085
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.05
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.01293945312
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 12
+                  }
+                }
               }
             },
             {
@@ -23816,6 +25662,32 @@
                   "n_undefined": 0,
                   "value": -0.065
                 }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
+                }
               }
             }
           ]
@@ -23823,5 +25695,5 @@
       }
     }
   },
-  "schema_version": 1
+  "schema_version": 2
 }

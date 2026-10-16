@@ -107,6 +107,13 @@ def load_tasks(
             data.close()
 
 
+def load_preset_tasks(manifest: Path | None = None, scoring: Path | None = None) -> list[Task]:
+    """load_tasks for a task set other than the pinned sample: its manifest and its scoring config (the
+    ordered tasks listed there must all be in that manifest). None = the default files."""
+    ordered = None if scoring is None else load_ordered_tasks(scoring)
+    return load_tasks(manifest or DEFAULT_MANIFEST, ordered_tasks=ordered)
+
+
 def gold_result(sandbox: Sandbox, task: Task) -> Result:
     """Gold rows through the sandbox (the model side's code path), verified against the manifest hash."""
     out = sandbox.execute(task.db_id, task.gold_sql, row_cap=None)

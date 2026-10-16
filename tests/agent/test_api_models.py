@@ -52,4 +52,6 @@ def test_configured_anthropic_model_is_priced_and_builds_a_valid_body(spec: Mode
 def test_sonnet_and_haiku_are_configured() -> None:
     names = {s.name for s in ANTHROPIC_SPECS}
     assert {"sonnet-5-5", "haiku-5-5"} <= names
-    assert set(load_agent_config().presets["baselines"].models) >= names
+    presets = load_agent_config().presets
+    assert set().union(*(p.models for p in presets.values())) >= names  # every API model is run by some preset
+    assert "opus-5-5" in presets["challenging"].models and "opus-5-5" not in presets["baselines"].models

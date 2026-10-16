@@ -24,3 +24,9 @@ presets:
     models: [gemma4-e4b, gemma4-12b, gemma4-31b, sonnet-5-5, haiku-5-5]
     tasks: all
     out: results/baselines.json
+  challenging:               # every challenging frame task (docs/prereg-31b-challenging.md)
+    models: [gemma4-31b, sonnet-5-5, opus-5-5]
+    tasks: all
+    manifest: data/manifest-challenging.json
+    scoring: configs/scoring-challenging.yaml
+    out: results/challenging/baselines.json

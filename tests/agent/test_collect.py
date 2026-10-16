@@ -117,7 +117,8 @@ def test_sc_samples_record_sample_idx_seeds_and_distinct_keys(server: Server, tm
     provider = scripted()
     job = small_job()
     [report] = run_collect(server, tmp_path, provider, [job])
-    assert job.run_id == f"sc-{SMALL.name}-v1" and len(report.outcomes) == 3 * len(TASKS)
+    # the baseline t-fake-small-v1 gives the run its scope "t" (week-2 `baselines-*` runs have none)
+    assert job.run_id == f"sc-t-{SMALL.name}-v1" and len(report.outcomes) == 3 * len(TASKS)
 
     recs = steps(tmp_path, job.run_id)
     assert [(int(r.task_id), r.sample_idx, r.step) for r in recs] == sorted(
@@ -370,3 +371,28 @@ def test_digest_check_covers_only_the_models_a_collection_calls() -> None:
         cfg=load_agent_config(), prompt=verifier_prompt(), smoke=False)
     used = used_models(cfg, [job])
     assert list(used.models) == ["gemma4-e4b"] and used.ollama_min_version == cfg.ollama_min_version
+
+
+def test_run_scope_comes_from_the_baseline_run_id() -> None:
+    from escalator.eval.collect import run_id_for, run_scope
+
+    spec = dataclasses.replace(SMALL, name="gemma4-31b")
+    assert run_scope("baselines-gemma4-31b-v1", spec) is None
+    assert run_scope("challenging-gemma4-31b-v1", spec) == "challenging"
+    v1 = load_prompt("v1")
+    assert run_id_for("self_consistency", spec, v1, smoke=False, scope="challenging") == "sc-challenging-gemma4-31b-v1"
+    assert run_id_for("self_consistency", spec, v1, smoke=False) == "sc-gemma4-31b-v1"
+
+
+def test_meta_records_the_task_set_manifest(server: Server, tmp_path: Path) -> None:
+    import hashlib
+
+    from escalator.eval.collect import job_meta
+
+    other = tmp_path / "manifest-other.json"
+    other.write_text('{"tasks": []}', encoding="utf-8")
+    job = small_job()
+    m = job_meta(job, prices=prices(), tool_sha="t", server_version="1", cfg=load_agent_config(), env_lock={},
+                 num_parallel=None, manifest=other)
+    assert m.manifest_sha256 == hashlib.sha256(other.read_bytes()).hexdigest()
+

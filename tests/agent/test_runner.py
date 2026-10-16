@@ -9,7 +9,7 @@ import pytest
 from agent_helpers import LARGE, SMALL, ScriptedProvider, Server, prices, question_of
 from runner_helpers import RUN_ID, run_preset, scripted
 
-from escalator.eval.runner import RunRefused, SpendCapExceeded, check_paid, main, single_leaf
+from escalator.eval.runner import RunRefused, SpendCapExceeded, check_paid, load_agent_config, main, single_leaf
 from escalator.llm.errors import ModelResolutionError, ProviderError, ProviderSetupError
 from escalator.llm.providers import ollama
 from escalator.llm.providers.base import LazyProvider
@@ -125,3 +125,13 @@ def test_provider_setup_failure_at_first_miss_aborts(server: Server, tmp_path: P
         run_preset(server, tmp_path, lazy)
     steps = read_steps(tmp_path / "traces" / RUN_ID / STEPS_FILE)
     assert not any(s.end == "provider_error" for s in steps)
+
+
+def test_presets_carry_their_task_set() -> None:
+    presets = load_agent_config().presets
+    assert presets["baselines"].manifest is None and presets["baselines"].scoring is None
+    ch = presets["challenging"]
+    assert ch.manifest is not None and ch.manifest.name == "manifest-challenging.json"
+    assert ch.scoring is not None and ch.scoring.name == "scoring-challenging.yaml"
+    assert ch.out.as_posix().endswith("results/challenging/baselines.json")
+

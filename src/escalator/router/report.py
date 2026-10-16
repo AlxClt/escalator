@@ -42,7 +42,7 @@ from escalator.router.policy import (
 )
 from escalator.router.signals import SIGNALS, SignalName, SignalTable
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2  # 2: vs_small_only (Δ EX and exact McNemar against the small model alone)
 SIGNIFICANT = 10
 STRATA = ("simple", "moderate", "challenging")
 RANDOM_STEPS = 20  # random-reference points at e = 0, n/20, ..., n
@@ -191,13 +191,14 @@ class Policy:
     values: dict[str, list[float | None]] = field(default_factory=dict)
 
 
-STATS = ("acc", "cost", "cps", "delta_acc", "cps_ratio", "oracle_gap_pp", "headroom_captured")
+STATS = ("acc", "cost", "cps", "delta_acc", "delta_acc_small", "cps_ratio", "oracle_gap_pp", "headroom_captured")
 
 
 def _stats(pi: Outcome, fo: Outcome, small: Outcome, vertices: Sequence[object]) -> dict[str, Number | str | None]:
     gap = oracle_gap(vertices, pi)  # type: ignore[arg-type]
     return {
-        "acc": pi.acc, "cost": pi.cost, "cps": pi.cps, "delta_acc": pi.acc - fo.acc, "cps_ratio": cps_ratio(fo, pi),
+        "acc": pi.acc, "cost": pi.cost, "cps": pi.cps, "delta_acc": pi.acc - fo.acc, "delta_acc_small": pi.acc - small.acc,
+        "cps_ratio": cps_ratio(fo, pi),
         "oracle_gap_pp": None if gap is None else gap * 100,
         "headroom_captured": headroom_captured(vertices, pi, small),  # type: ignore[arg-type]
     }
@@ -233,6 +234,16 @@ def policy_json(p: Policy, data: PairData, rows: Sequence[int], fo: Outcome, sma
         "small_tier_compute": {"tokens_per_task": pe(p.tokens), "latency_ms_per_task": pe(p.latency_ms),
                                "note": "baseline run plus the signal's extra runs, mean over A"},
     }
+    if p.key != "small_only":
+        a_pi = [data.a_L[i] if esc[i] else data.a_S[i] for i in rows]
+        a_s = [data.a_S[i] for i in rows]
+        wins = sum(1 for x, y in zip(a_pi, a_s, strict=True) if x == 1 and y == 0)
+        losses = sum(1 for x, y in zip(a_pi, a_s, strict=True) if x == 0 and y == 1)
+        out["vs_small_only"] = {
+            "delta_acc": boot_json(point["delta_acc_small"], p.values["delta_acc_small"]),
+            "test": {"wins": pe(wins), "losses": pe(losses), "p": pe(mcnemar_exact(wins, losses)),
+                     "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse"},
+        }
     return out
 
 

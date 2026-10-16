@@ -1,5 +1,8 @@
 """python -m escalator.router [--config configs/router.yaml] [--out-dir results]   (make router)
 
+The config's optional `manifest`, `scoring` and `baselines` keys select another task set (e.g. the
+challenging-stratum study); without them, the pinned 200-task sample.
+
 Traces -> results/signals.json (one row per small model and task) and results/router.json (every
 metric). No LLM call, no network, $0: it reads the runs listed in configs/router.yaml and executes
 submitted SQL through the sandbox (outcomes cached in .cache/exec.sqlite).
@@ -189,16 +192,17 @@ def main(argv: list[str] | None = None) -> int:
 
     from escalator.env.sandbox import Sandbox
     from escalator.eval.runner import load_agent_config
-    from escalator.eval.tasks import load_tasks
+    from escalator.eval.tasks import load_preset_tasks
     from escalator.router.execcache import CachedExecutor
 
     rcfg = load_router_config(args.config)
     agent = load_agent_config()
-    tasks = {t.question_id: t for t in load_tasks()}
+    tasks = {t.question_id: t for t in load_preset_tasks(rcfg.manifest, rcfg.scoring)}
     ex = CachedExecutor(Sandbox.from_config())
     try:
         router, signals = build(rcfg, BaselineSettings(agent.prompt_version, agent.seed), tasks, ex,
-                                strata=load_strata(DEFAULT_MANIFEST))
+                                strata=load_strata(rcfg.manifest or DEFAULT_MANIFEST),
+                                baselines_path=rcfg.baselines or DEFAULT_BASELINES)
     except (InventoryError, IntegrityError) as exc:
         print(f"refused: {exc}", file=sys.stderr)
         return 2

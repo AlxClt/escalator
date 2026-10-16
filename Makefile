@@ -11,8 +11,11 @@ PAID_FLAG := $(if $(filter 1,$(PAID)),--paid)
 OVERWRITE_FLAG := $(if $(filter 1,$(OVERWRITE)),--overwrite)
 SMOKE_FLAG := $(if $(filter 1,$(SMOKE)),--smoke)
 CHECK_FLAG := $(if $(filter 1,$(CHECK)),--check)
+CONFIG_FLAG := $(if $(CONFIG),--config $(CONFIG))
+OUT_FLAG := $(if $(OUT),--out-dir $(OUT))
+PRESET ?= baselines
 MODELS_FLAG := $(if $(MODELS),--models $(MODELS))
-COLLECT_FLAGS = $(SMOKE_FLAG) $(MODELS_FLAG) $(PAID_FLAG) $(OVERWRITE_FLAG) $(CHECK_FLAG)
+COLLECT_FLAGS = $(SMOKE_FLAG) $(MODELS_FLAG) $(PAID_FLAG) $(OVERWRITE_FLAG) $(CHECK_FLAG) $(CONFIG_FLAG)
 PY := uv run --locked python
 
 .PHONY: test test-local env-lock data data-lock data-verify manifest smoke baselines
@@ -49,9 +52,10 @@ smoke:
 	$(PY) -m escalator.eval.runner smoke --overwrite
 
 # 3 small models + the frontier model on the pinned 200 -> results/baselines.json. Manual trigger only:
-# the frontier model is refused without PAID=1.
+# the frontier model is refused without PAID=1. PRESET=challenging runs the challenging-stratum study;
+# MODELS="a b" restricts the preset's models.
 baselines:
-	$(PY) -m escalator.eval.runner baselines $(PAID_FLAG) $(OVERWRITE_FLAG)
+	$(PY) -m escalator.eval.runner $(PRESET) $(MODELS_FLAG) $(PAID_FLAG) $(OVERWRITE_FLAG)
 
 # Week 3 collection (configs/router.yaml). Local runs only after the smoke run, the estimate and a go;
 # paid models (haiku-5-5, sonnet-5-5) are refused without PAID=1. SMOKE=1: 10 tasks, gemma4-e4b only.
@@ -78,7 +82,7 @@ publish-traces:
 # Offline routing simulation over the runs listed in configs/router.yaml: no LLM call, $0.
 # traces -> results/signals.json, results/router.json (byte-identical across invocations).
 router:
-	$(PY) -m escalator.router
+	$(PY) -m escalator.router $(CONFIG_FLAG) $(OUT_FLAG)
 
 # results/router.json -> results/figures/ (PNG + SVG). Fails, after the per-model figures, while
 # configs/router.yaml headline_small_tier is unset.

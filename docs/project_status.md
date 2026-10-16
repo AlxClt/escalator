@@ -114,3 +114,14 @@ Spec: `docs/tasks/week3-router-task.md`; working plan and resume checklist in `d
 - [x] Task 1068's `provider_error` resumed through the cache (n = 200, nothing excluded)
 - [x] 13 runs published in `traces/published/`; `make results` → `results/router.json`, `results/signals.json`, `results/figures/` (headline: gemma4-12b, chosen by the owner)
 - [x] `docs/week3-notes.md` result tables (raw, with intervals)
+
+### Study: gemma4-31b escalation on the challenging stratum
+
+Plan: all 95 challenging frame tasks, two frontier models (sonnet-5-5, opus-5-5), routed policy verifier τ = 0 fixed in advance, both pairs primary with Holm over 2 (`docs/prereg-31b-challenging.md`). Expected power at n = 95: about 0.60 per Holm-adjusted test for the routed policy, so the study reports Δ with its CI first.
+
+- [x] `data/manifest-challenging.json` (95 tasks; the 39 already in the sample keep identical entries); ordering and tie audit in `configs/scoring-challenging.yaml`
+- [x] Task-set options for runner, collector and router; `router.json` `vs_small_only`; `scripts/prereg_31b_challenging.py`
+- [x] One pass per paid model verified: the overlapping tasks replay from the cache (Sonnet 39/39, Opus smoke 3/3, 31b 39/39); projected spend ≈ $1.15 (Sonnet, 56 new tasks) + ≈ $3.9 (Opus, 92)
+- [ ] Owner: decide task 1011 (ordered or not), confirm the Opus price, then make the pre-registration binding (commit before any run)
+- [ ] Collection, each run triggered by the owner: 31b baseline, SC and verifier (local), then `make baselines PRESET=challenging PAID=1 MODELS=sonnet-5-5` and `MODELS=opus-5-5`
+- [ ] `make router` for both pairs, `scripts/prereg_31b_challenging.py`, write-up
