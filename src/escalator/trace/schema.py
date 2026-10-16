@@ -6,6 +6,10 @@ Nothing nondeterministic beyond latency_ms enters a record.
 Schema v2 (week 2): the per-call fields are lists in call order, so a response with several tool
 calls is described completely; `end` gained `validation_exhausted` and `context_overflow`, and
 `tool_status` gained `ignored` (a call the harness did not execute).
+
+RunMeta v3 (week 3): `run_kind`, per-sample seeds, the baseline a collection run was gated against,
+and the Ollama Modelfile parameters and OLLAMA_NUM_PARALLEL. v2 meta files read with the defaults
+(a week-2 run is a `baseline`). StepRecord is unchanged and stays v2.
 """
 
 from __future__ import annotations
@@ -21,13 +25,15 @@ from pydantic import BaseModel, ConfigDict, ValidationError, model_validator
 from escalator.datasets.config import REPO_ROOT
 from escalator.llm.types import JsonDict, StopReason
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 2  # StepRecord
+META_SCHEMA_VERSION = 3  # RunMeta
 STEPS_FILE = "steps.jsonl"
 META_FILE = "meta.json"
 PREVIEW_BYTES = 2048
 
 ToolStatus = Literal["ok", "validation_error", "execution_error", "timeout", "denied", "ignored"]
 End = Literal["submitted", "max_steps", "no_tool_call", "validation_exhausted", "context_overflow", "provider_error"]
+RunKind = Literal["baseline", "self_consistency", "verifier", "frontier_repeat"]
 # Ends that count as a failure of the model (week-3 error signal); provider_error is infra.
 FAILED_ENDS: frozenset[End] = frozenset({"no_tool_call", "max_steps", "validation_exhausted", "context_overflow"})
 
@@ -95,7 +101,7 @@ class TierMeta(BaseModel):
 class RunMeta(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    schema_version: Literal[2] = SCHEMA_VERSION
+    schema_version: Literal[2, 3] = META_SCHEMA_VERSION
     run_id: str
     created_at: str
     git_sha: str
@@ -123,6 +129,12 @@ class RunMeta(BaseModel):
     manifest_sha256: str  # data/manifest.json
     cache_schema: int
     ollama_version: str | None
+    # v3
+    run_kind: RunKind = "baseline"
+    sample_seeds: dict[str, int] | None = None  # str(sample_idx) -> seed, when samples differ in seed
+    baseline_run_id: str | None = None  # the run whose meta the compatibility gate compared against
+    ollama_modelfile_params: JsonDict | None = None  # /api/show parameters of the pinned digest
+    ollama_num_parallel: str | None = None  # OLLAMA_NUM_PARALLEL as declared to the client
 
 
 def preview(rendered: str) -> str:
@@ -157,7 +169,11 @@ class TraceWriter:
 
 def read_steps(path: Path) -> list[StepRecord]:
     """Strict: a malformed line raises TraceError; a final line without newline raises TruncatedTrace."""
-    data = path.read_text(encoding="utf-8")
+    return parse_steps(path.read_text(encoding="utf-8"), path)
+
+
+def parse_steps(data: str, path: Path) -> list[StepRecord]:
+    """read_steps on text already read (a published trace is gzipped); `path` names it in errors."""
     if data and not data.endswith("\n"):
         n = data.count("\n") + 1
         raise TruncatedTrace(f"{path}: line {n} has no trailing newline (crashed run?)")
@@ -219,6 +235,10 @@ def build_run_meta(
     ollama_version: str | None,
     env_lock: dict[str, str],
     manifest: Path = REPO_ROOT / "data" / "manifest.json",
+    run_kind: RunKind = "baseline",
+    sample_seeds: dict[str, int] | None = None,
+    baseline_run_id: str | None = None,
+    ollama_num_parallel: str | None = None,
 ) -> RunMeta:
     return RunMeta(
         run_id=run_id,
@@ -248,4 +268,8 @@ def build_run_meta(
         manifest_sha256=_sha256_file(manifest),
         cache_schema=cache_schema,
         ollama_version=ollama_version,
+        run_kind=run_kind,
+        sample_seeds=sample_seeds,
+        baseline_run_id=baseline_run_id,
+        ollama_num_parallel=ollama_num_parallel,
     )

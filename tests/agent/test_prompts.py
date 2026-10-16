@@ -58,3 +58,37 @@ def test_braces_in_values_survive() -> None:
     system = p.system_text(db_id="db", schema_card=card)
     assert card in system
     assert p.user_text(question=sql_ish, evidence="{{evidence}}") == f"Question: {sql_ish}\n\nExternal knowledge: {{{{evidence}}}}"
+
+
+# --- week 3: templates-only versions and placeholders ----------------------------------------
+
+
+def test_templates_only_version_takes_the_baseline_tools() -> None:
+    from escalator.agent.prompts import parse_prompt_with_tools
+
+    data = b'system: "{{db_id}} {{schema_card}}"\nuser: "{{question}}{{evidence_section}}"\n' \
+           b'evidence_section: "{{evidence}}"\n'
+    v1 = load_prompt("v1")
+    p = parse_prompt_with_tools(data, "verifier_t", v1)
+    assert p.tools == v1.tools and p.sha256 == hashlib.sha256(data).hexdigest() and p.version == "verifier_t"
+
+
+@pytest.mark.parametrize("data", [
+    b'system: "{{db_id}} {{schema_card}}"\nuser: "{{question}}{{evidence_section}}"\n'
+    b'evidence_section: "{{evidence}}"\ntool_descriptions: {}\n',
+    b'system: "{{db_id}}"\nuser: "{{question}}{{evidence_section}}"\nevidence_section: "{{evidence}}"\n',
+])
+def test_templates_only_version_is_checked(data: bytes) -> None:
+    from escalator.agent.prompts import parse_prompt_with_tools
+
+    with pytest.raises(PromptError):
+        parse_prompt_with_tools(data, "verifier_t", load_prompt("v1"))
+
+
+def test_placeholder_markers_are_found_per_field() -> None:
+    from escalator.agent.prompts import has_placeholders, parse_prompt_with_tools, placeholder_fields
+
+    data = b'system: "<<PROMPT_PLACEHOLDER: system>> {{db_id}} {{schema_card}}"\n' \
+           b'user: "Q {{question}}{{evidence_section}}"\nevidence_section: "{{evidence}}"\n'
+    p = parse_prompt_with_tools(data, "verifier_t", load_prompt("v1"))
+    assert placeholder_fields(p) == ["system"] and has_placeholders(p)

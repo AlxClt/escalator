@@ -81,8 +81,8 @@ A stranger can run make results and reproduce your table.
 - Frontier adapter: Official anthropic SDK, hand-written adapter
 - Small tier adapter: Ollama native API (`/api/chat`) via httpx
 - Schemas / config: Pydantic v2 for trace records and configs, plain YAML
-- Stats: scipy, numpy, sklearn.metrics.roc_auc_score
-- Plots: matplotlib scripts reading results/*.json
+- Stats: stdlib only (`escalator.eval.metrics`: Wilson, exact McNemar, Holm, Mann-Whitney AUC, percentile bootstrap with numpy's default quantile rule)
+- Plots: matplotlib==3.11.2 (`plots` dependency group) in `escalator.router.plots`, reading results/router.json
 - CI: GitHub Actions running make smoke in replay mode
 - Packaging: Dockerfile pinning the Python and SQLite builds
 
