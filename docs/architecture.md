@@ -62,9 +62,9 @@ escalator/
 │   ├── raw/               # gitignored: fetched data, gold-check cache
 │   ├── manifest.json      # the 200 pinned tasks: ids, difficulty, task_hash, gold_result_hash
 │   └── manifest-challenging.json # every challenging frame task (95), for the pre-registered 31b study
-├── results/               # committed metrics JSON — the actual evidence
+├── results/               # committed metrics JSON — the actual evidence; results/challenging/ for the challenging-stratum study
 ├── traces/                # gitignored except traces/published/ (runs behind published numbers)
-├── scripts/               # mcp_overhead.py; prereg_31b_challenging.py (pre-registered tests of the challenging study from the router outputs)
+├── scripts/               # mcp_overhead.py; prereg_31b_challenging.py (pre-registered tests of the challenging study from the router outputs); rebuild_preset_results.py (a preset's results file rescored from its traces)
 ├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}; tests/eval (scorer, gold side); tests/test_scorer.py (20 hand-made pairs); tests/test_server.py (MCP, needs data/raw); tests/agent (loop, tools, prompts, runner, replay over a real MCP server on tests/fixtures/agent_db.sql)
 ├── Makefile               # make test | test-local | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | sc-samples | verifier-runs | frontier-repeat | sc-estimate | publish-traces | router | plots | results
 └── README.md

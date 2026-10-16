@@ -1,0 +1,5266 @@
+{
+  "analysis_set": {
+    "excluded_task_ids": [],
+    "n": 95,
+    "rule": "pinned tasks for which no run of the inventory ended in provider_error"
+  },
+  "config": {
+    "bootstrap": {
+      "B": 2000,
+      "seed": 20261015
+    },
+    "prices_retrieved_on": "2026-10-14",
+    "self_consistency": {
+      "anthropic_models": "no sampling parameter accepted: samples at provider defaults, sample_idx 1..k",
+      "k": 3,
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "temperature": 0.7
+    },
+    "verifier_prompt_version": "verifier_v1"
+  },
+  "inputs": {
+    "challenging-gemma4-31b-v1": {
+      "meta_sha256": "3c0a2d298f41cb735d9f2ab327811ae25f3cf7936ad900a5b37b5b26bfa6108b",
+      "model": "gemma4-31b",
+      "role": "baseline"
+    },
+    "challenging-opus-5-5-v1": {
+      "meta_sha256": "24b41e9859b9966d15b92e598fc43dc6f3622e02ef955328be71d6d579e87e19",
+      "model": "opus-5-5",
+      "role": "frontier_baseline"
+    },
+    "sc-challenging-gemma4-31b-v1": {
+      "meta_sha256": "3ccbfff1bd3f3a75b757e7aa7855d956d97235775cbb65ddead4a08c92b627f8",
+      "model": "gemma4-31b",
+      "role": "self_consistency"
+    },
+    "verifier-challenging-gemma4-31b-verifier_v1": {
+      "meta_sha256": "68b301956fd46a3a9ab2eb5ad624f0c7ed9923a291e964937dfb1211d78dc0e9",
+      "model": "gemma4-31b",
+      "role": "verifier"
+    }
+  },
+  "multiplicity": {
+    "family": "every non-degenerate threshold point of every collected signal across all small models, each tested vs frontier-only (exact McNemar)",
+    "family_size": 5,
+    "method": "holm"
+  },
+  "pairs": {
+    "gemma4-31b": {
+      "baselines": {
+        "escalate_all": {
+          "error": {
+            "acc": {
+              "ci95": [
+                0.7920785981,
+                0.9262434583
+              ],
+              "k": 83,
+              "method": "wilson",
+              "n": 95,
+              "value": 0.8736842105
+            },
+            "acc_bootstrap": {
+              "ci95": [
+                0.8,
+                0.9368421053
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.8736842105
+            },
+            "by_stratum": {
+              "challenging": {
+                "acc": {
+                  "ci95": [
+                    0.7920785981,
+                    0.9262434583
+                  ],
+                  "k": 83,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.8736842105
+                },
+                "escalation_rate": {
+                  "ci95": [
+                    0.9611351459,
+                    1.0
+                  ],
+                  "k": 95,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 1.0
+                },
+                "n": {
+                  "point_estimate": true,
+                  "value": 95
+                }
+              }
+            },
+            "cost_per_solved": {
+              "ci95": [
+                0.05000401023,
+                0.061635494
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.05529339759
+            },
+            "cost_per_task": {
+              "ci95": [
+                0.04523951789,
+                0.05158982316
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.04830896842
+            },
+            "escalation_composition": {
+              "harmful": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.01079713939,
+                    0.08877098711
+                  ],
+                  "k": 3,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.03157894737
+                }
+              },
+              "helpful": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 17
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.1148357453,
+                    0.268014319
+                  ],
+                  "k": 17,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.1789473684
+                }
+              },
+              "wasted": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 75
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.697068523,
+                    0.8593781404
+                  ],
+                  "k": 75,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.7894736842
+                }
+              }
+            },
+            "escalation_rate": {
+              "ci95": [
+                0.9611351459,
+                1.0
+              ],
+              "k": 95,
+              "method": "wilson",
+              "n": 95,
+              "value": 1.0
+            },
+            "headroom_captured": {
+              "ci95": [
+                0.5294117647,
+                1.0
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.8235294118
+            },
+            "oracle_gap_pp": {
+              "ci95": [
+                0.0,
+                7.368421053
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 3.157894737
+            },
+            "small_tier_compute": {
+              "latency_ms_per_task": {
+                "point_estimate": true,
+                "value": 17167.23158
+              },
+              "note": "baseline run plus the signal's extra runs, mean over A",
+              "tokens_per_task": {
+                "point_estimate": true,
+                "value": 8323.821053
+              }
+            },
+            "tau": "-inf",
+            "tau_exact": "-inf",
+            "vs_frontier_only": {
+              "cps_ratio": {
+                "ci95": [
+                  1.0,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 1.0
+              },
+              "delta_acc": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.06315789474,
+                  0.2421052632
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.1473684211
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.002576828003
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 17
+                }
+              }
+            }
+          },
+          "self_consistency": {
+            "acc": {
+              "ci95": [
+                0.7920785981,
+                0.9262434583
+              ],
+              "k": 83,
+              "method": "wilson",
+              "n": 95,
+              "value": 0.8736842105
+            },
+            "acc_bootstrap": {
+              "ci95": [
+                0.8,
+                0.9368421053
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.8736842105
+            },
+            "by_stratum": {
+              "challenging": {
+                "acc": {
+                  "ci95": [
+                    0.7920785981,
+                    0.9262434583
+                  ],
+                  "k": 83,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.8736842105
+                },
+                "escalation_rate": {
+                  "ci95": [
+                    0.9611351459,
+                    1.0
+                  ],
+                  "k": 95,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 1.0
+                },
+                "n": {
+                  "point_estimate": true,
+                  "value": 95
+                }
+              }
+            },
+            "cost_per_solved": {
+              "ci95": [
+                0.05000401023,
+                0.061635494
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.05529339759
+            },
+            "cost_per_task": {
+              "ci95": [
+                0.04523951789,
+                0.05158982316
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.04830896842
+            },
+            "escalation_composition": {
+              "harmful": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.01079713939,
+                    0.08877098711
+                  ],
+                  "k": 3,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.03157894737
+                }
+              },
+              "helpful": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 17
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.1148357453,
+                    0.268014319
+                  ],
+                  "k": 17,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.1789473684
+                }
+              },
+              "wasted": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 75
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.697068523,
+                    0.8593781404
+                  ],
+                  "k": 75,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.7894736842
+                }
+              }
+            },
+            "escalation_rate": {
+              "ci95": [
+                0.9611351459,
+                1.0
+              ],
+              "k": 95,
+              "method": "wilson",
+              "n": 95,
+              "value": 1.0
+            },
+            "headroom_captured": {
+              "ci95": [
+                0.5294117647,
+                1.0
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.8235294118
+            },
+            "oracle_gap_pp": {
+              "ci95": [
+                0.0,
+                7.368421053
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 3.157894737
+            },
+            "small_tier_compute": {
+              "latency_ms_per_task": {
+                "point_estimate": true,
+                "value": 71245.94737
+              },
+              "note": "baseline run plus the signal's extra runs, mean over A",
+              "tokens_per_task": {
+                "point_estimate": true,
+                "value": 32435.81053
+              }
+            },
+            "tau": "-inf",
+            "tau_exact": "-inf",
+            "vs_frontier_only": {
+              "cps_ratio": {
+                "ci95": [
+                  1.0,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 1.0
+              },
+              "delta_acc": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.06315789474,
+                  0.2421052632
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.1473684211
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.002576828003
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 17
+                }
+              }
+            }
+          },
+          "verifier": {
+            "acc": {
+              "ci95": [
+                0.7920785981,
+                0.9262434583
+              ],
+              "k": 83,
+              "method": "wilson",
+              "n": 95,
+              "value": 0.8736842105
+            },
+            "acc_bootstrap": {
+              "ci95": [
+                0.8,
+                0.9368421053
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.8736842105
+            },
+            "by_stratum": {
+              "challenging": {
+                "acc": {
+                  "ci95": [
+                    0.7920785981,
+                    0.9262434583
+                  ],
+                  "k": 83,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.8736842105
+                },
+                "escalation_rate": {
+                  "ci95": [
+                    0.9611351459,
+                    1.0
+                  ],
+                  "k": 95,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 1.0
+                },
+                "n": {
+                  "point_estimate": true,
+                  "value": 95
+                }
+              }
+            },
+            "cost_per_solved": {
+              "ci95": [
+                0.05000401023,
+                0.061635494
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.05529339759
+            },
+            "cost_per_task": {
+              "ci95": [
+                0.04523951789,
+                0.05158982316
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.04830896842
+            },
+            "escalation_composition": {
+              "harmful": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.01079713939,
+                    0.08877098711
+                  ],
+                  "k": 3,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.03157894737
+                }
+              },
+              "helpful": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 17
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.1148357453,
+                    0.268014319
+                  ],
+                  "k": 17,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.1789473684
+                }
+              },
+              "wasted": {
+                "count": {
+                  "point_estimate": true,
+                  "value": 75
+                },
+                "share_of_escalated": {
+                  "ci95": [
+                    0.697068523,
+                    0.8593781404
+                  ],
+                  "k": 75,
+                  "method": "wilson",
+                  "n": 95,
+                  "value": 0.7894736842
+                }
+              }
+            },
+            "escalation_rate": {
+              "ci95": [
+                0.9611351459,
+                1.0
+              ],
+              "k": 95,
+              "method": "wilson",
+              "n": 95,
+              "value": 1.0
+            },
+            "headroom_captured": {
+              "ci95": [
+                0.5294117647,
+                1.0
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.8235294118
+            },
+            "oracle_gap_pp": {
+              "ci95": [
+                0.0,
+                7.368421053
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 3.157894737
+            },
+            "small_tier_compute": {
+              "latency_ms_per_task": {
+                "point_estimate": true,
+                "value": 33773.53684
+              },
+              "note": "baseline run plus the signal's extra runs, mean over A",
+              "tokens_per_task": {
+                "point_estimate": true,
+                "value": 16427.64211
+              }
+            },
+            "tau": "-inf",
+            "tau_exact": "-inf",
+            "vs_frontier_only": {
+              "cps_ratio": {
+                "ci95": [
+                  1.0,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 1.0
+              },
+              "delta_acc": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              }
+            },
+            "vs_small_only": {
+              "delta_acc": {
+                "ci95": [
+                  0.06315789474,
+                  0.2421052632
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.1473684211
+              },
+              "test": {
+                "losses": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.002576828003
+                },
+                "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                "wins": {
+                  "point_estimate": true,
+                  "value": 17
+                }
+              }
+            }
+          }
+        },
+        "frontier_only": {
+          "acc": {
+            "ci95": [
+              0.7920785981,
+              0.9262434583
+            ],
+            "k": 83,
+            "method": "wilson",
+            "n": 95,
+            "value": 0.8736842105
+          },
+          "acc_bootstrap": {
+            "ci95": [
+              0.8,
+              0.9368421053
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.8736842105
+          },
+          "by_stratum": {
+            "challenging": {
+              "acc": {
+                "ci95": [
+                  0.7920785981,
+                  0.9262434583
+                ],
+                "k": 83,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.8736842105
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.9611351459,
+                  1.0
+                ],
+                "k": 95,
+                "method": "wilson",
+                "n": 95,
+                "value": 1.0
+              },
+              "n": {
+                "point_estimate": true,
+                "value": 95
+              }
+            }
+          },
+          "cost_per_solved": {
+            "ci95": [
+              0.05000401023,
+              0.061635494
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.05529339759
+          },
+          "cost_per_task": {
+            "ci95": [
+              0.04523951789,
+              0.05158982316
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.04830896842
+          },
+          "escalation_composition": {
+            "harmful": {
+              "count": {
+                "point_estimate": true,
+                "value": 3
+              },
+              "share_of_escalated": {
+                "ci95": [
+                  0.01079713939,
+                  0.08877098711
+                ],
+                "k": 3,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.03157894737
+              }
+            },
+            "helpful": {
+              "count": {
+                "point_estimate": true,
+                "value": 17
+              },
+              "share_of_escalated": {
+                "ci95": [
+                  0.1148357453,
+                  0.268014319
+                ],
+                "k": 17,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.1789473684
+              }
+            },
+            "wasted": {
+              "count": {
+                "point_estimate": true,
+                "value": 75
+              },
+              "share_of_escalated": {
+                "ci95": [
+                  0.697068523,
+                  0.8593781404
+                ],
+                "k": 75,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7894736842
+              }
+            }
+          },
+          "escalation_rate": {
+            "ci95": [
+              0.9611351459,
+              1.0
+            ],
+            "k": 95,
+            "method": "wilson",
+            "n": 95,
+            "value": 1.0
+          },
+          "headroom_captured": {
+            "ci95": [
+              0.5294117647,
+              1.0
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.8235294118
+          },
+          "oracle_gap_pp": {
+            "ci95": [
+              0.0,
+              7.368421053
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 3.157894737
+          },
+          "small_tier_compute": {
+            "latency_ms_per_task": {
+              "point_estimate": true,
+              "value": 0.0
+            },
+            "note": "baseline run plus the signal's extra runs, mean over A",
+            "tokens_per_task": {
+              "point_estimate": true,
+              "value": 0.0
+            }
+          },
+          "vs_frontier_only": {
+            "cps_ratio": {
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 1.0
+            },
+            "delta_acc": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.0
+            }
+          },
+          "vs_small_only": {
+            "delta_acc": {
+              "ci95": [
+                0.06315789474,
+                0.2421052632
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": 0.1473684211
+            },
+            "test": {
+              "losses": {
+                "point_estimate": true,
+                "value": 3
+              },
+              "p": {
+                "point_estimate": true,
+                "value": 0.002576828003
+              },
+              "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+              "wins": {
+                "point_estimate": true,
+                "value": 17
+              }
+            }
+          }
+        },
+        "small_only": {
+          "acc": {
+            "ci95": [
+              0.6291856618,
+              0.8058544569
+            ],
+            "k": 69,
+            "method": "wilson",
+            "n": 95,
+            "value": 0.7263157895
+          },
+          "acc_bootstrap": {
+            "ci95": [
+              0.6315789474,
+              0.8105263158
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.7263157895
+          },
+          "by_stratum": {
+            "challenging": {
+              "acc": {
+                "ci95": [
+                  0.6291856618,
+                  0.8058544569
+                ],
+                "k": 69,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7263157895
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.0,
+                  0.03886485413
+                ],
+                "k": 0,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.0
+              },
+              "n": {
+                "point_estimate": true,
+                "value": 95
+              }
+            }
+          },
+          "cost_per_solved": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.0
+          },
+          "cost_per_task": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.0
+          },
+          "escalation_composition": {
+            "harmful": {
+              "count": {
+                "point_estimate": true,
+                "value": 0
+              },
+              "share_of_escalated": {
+                "k": 0,
+                "n": 0,
+                "point_estimate": true,
+                "undefined": true,
+                "value": null
+              }
+            },
+            "helpful": {
+              "count": {
+                "point_estimate": true,
+                "value": 0
+              },
+              "share_of_escalated": {
+                "k": 0,
+                "n": 0,
+                "point_estimate": true,
+                "undefined": true,
+                "value": null
+              }
+            },
+            "wasted": {
+              "count": {
+                "point_estimate": true,
+                "value": 0
+              },
+              "share_of_escalated": {
+                "k": 0,
+                "n": 0,
+                "point_estimate": true,
+                "undefined": true,
+                "value": null
+              }
+            }
+          },
+          "escalation_rate": {
+            "ci95": [
+              0.0,
+              0.03886485413
+            ],
+            "k": 0,
+            "method": "wilson",
+            "n": 95,
+            "value": 0.0
+          },
+          "headroom_captured": {
+            "ci95": [
+              null,
+              null
+            ],
+            "method": "bootstrap",
+            "n_undefined": 2000,
+            "value": null
+          },
+          "oracle_gap_pp": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.0
+          },
+          "small_tier_compute": {
+            "latency_ms_per_task": {
+              "point_estimate": true,
+              "value": 17167.23158
+            },
+            "note": "baseline run plus the signal's extra runs, mean over A",
+            "tokens_per_task": {
+              "point_estimate": true,
+              "value": 8323.821053
+            }
+          },
+          "test_vs_frontier_only": {
+            "b": {
+              "point_estimate": true,
+              "value": 3
+            },
+            "c": {
+              "point_estimate": true,
+              "value": 17
+            },
+            "p": {
+              "point_estimate": true,
+              "value": 0.002576828003
+            },
+            "test": "exact McNemar vs frontier-only"
+          },
+          "vs_frontier_only": {
+            "cps_ratio": {
+              "ci95": [
+                null,
+                null
+              ],
+              "flag": "cps_of_policy_is_zero",
+              "method": "bootstrap",
+              "n_undefined": 2000,
+              "value": "inf"
+            },
+            "delta_acc": {
+              "ci95": [
+                -0.2421052632,
+                -0.06315789474
+              ],
+              "method": "bootstrap",
+              "n_undefined": 0,
+              "value": -0.1473684211
+            }
+          }
+        }
+      },
+      "frontier_model": "opus-5-5",
+      "n": 95,
+      "operational": {
+        "frontier": {
+          "execution_error_rate": {
+            "ci95": [
+              0.0,
+              0.03735321264
+            ],
+            "k": 0,
+            "method": "wilson",
+            "n": 99,
+            "value": 0.0
+          },
+          "llm_latency_ms_per_task": {
+            "mean": {
+              "point_estimate": true,
+              "value": 6530.178947
+            },
+            "median": {
+              "point_estimate": true,
+              "value": 5969
+            },
+            "note": "sum of latency_ms (nominal) over the run's LLM calls; tool time is not recorded in the trace and is excluded"
+          },
+          "soft_f1_mean": {
+            "point_estimate": true,
+            "value": 0.914391912
+          },
+          "steps_per_task": {
+            "mean": {
+              "point_estimate": true,
+              "value": 2.042105263
+            },
+            "median": {
+              "point_estimate": true,
+              "value": 2
+            },
+            "p90": {
+              "point_estimate": true,
+              "value": 2.0
+            }
+          },
+          "timeout_rate": {
+            "ci95": [
+              0.0,
+              0.03735321264
+            ],
+            "k": 0,
+            "method": "wilson",
+            "n": 99,
+            "value": 0.0
+          },
+          "tool_validation_failure_rate": {
+            "ci95": [
+              0.0,
+              0.0194168548
+            ],
+            "k": 0,
+            "method": "wilson",
+            "n": 194,
+            "value": 0.0
+          }
+        },
+        "small": {
+          "execution_error_rate": {
+            "ci95": [
+              0.003392185458,
+              0.04389067695
+            ],
+            "k": 2,
+            "method": "wilson",
+            "n": 162,
+            "value": 0.01234567901
+          },
+          "llm_latency_ms_per_task": {
+            "mean": {
+              "point_estimate": true,
+              "value": 17167.23158
+            },
+            "median": {
+              "point_estimate": true,
+              "value": 14656
+            },
+            "note": "sum of latency_ms (nominal) over the run's LLM calls; tool time is not recorded in the trace and is excluded"
+          },
+          "soft_f1_mean": {
+            "point_estimate": true,
+            "value": 0.80771853
+          },
+          "steps_per_task": {
+            "mean": {
+              "point_estimate": true,
+              "value": 2.684210526
+            },
+            "median": {
+              "point_estimate": true,
+              "value": 2
+            },
+            "p90": {
+              "point_estimate": true,
+              "value": 4.0
+            }
+          },
+          "timeout_rate": {
+            "ci95": [
+              0.00109049008,
+              0.03413266172
+            ],
+            "k": 1,
+            "method": "wilson",
+            "n": 162,
+            "value": 0.006172839506
+          },
+          "tool_validation_failure_rate": {
+            "ci95": [
+              0.0,
+              0.01478385666
+            ],
+            "k": 0,
+            "method": "wilson",
+            "n": 256,
+            "value": 0.0
+          }
+        }
+      },
+      "oracle": {
+        "ceiling": {
+          "ci95": [
+            0.8296695625,
+            0.9493557662
+          ],
+          "k": 86,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.9052631579
+        },
+        "vertices": [
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7263157895
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.0
+            },
+            "k": 0
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7368421053
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.000372
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.0002741052632
+            },
+            "k": 1
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7473684211
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0007353239437
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.0005495578947
+            },
+            "k": 2
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7578947368
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.001155888889
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.0008760421053
+            },
+            "k": 3
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7684210526
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.001666684932
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.001280715789
+            },
+            "k": 4
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7789473684
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.002178594595
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.001697010526
+            },
+            "k": 5
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7894736842
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.002688213333
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.002122273684
+            },
+            "k": 6
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.003193842105
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.002555073684
+            },
+            "k": 7
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8105263158
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.003690753247
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.002991452632
+            },
+            "k": 8
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8210526316
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.004225128205
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.003469052632
+            },
+            "k": 9
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8315789474
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.004775898734
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.003971536842
+            },
+            "k": 10
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8421052632
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0053187
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.004478905263
+            },
+            "k": 11
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8526315789
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.005857777778
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.004994526316
+            },
+            "k": 12
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8631578947
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.006389219512
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.005514905263
+            },
+            "k": 13
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8736842105
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.007195662651
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.006286736842
+            },
+            "k": 14
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8842105263
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.007983904762
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.007059452632
+            },
+            "k": 15
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8947368421
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.008762023529
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.007839705263
+            },
+            "k": 16
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.9052631579
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.009773627907
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.008847705263
+            },
+            "k": 17
+          }
+        ]
+      },
+      "pair_level": {
+        "b": {
+          "point_estimate": true,
+          "value": 3
+        },
+        "c": {
+          "point_estimate": true,
+          "value": 17
+        },
+        "escalation_useful_rate": {
+          "ci95": [
+            0.1148357453,
+            0.268014319
+          ],
+          "k": 17,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.1789473684
+        },
+        "flip_rate": {
+          "frontier": {
+            "status": "not_measured"
+          },
+          "small": {
+            "rate": {
+              "ci95": [
+                0.1064125496,
+                0.2562030905
+              ],
+              "k": 16,
+              "method": "wilson",
+              "n": 95,
+              "value": 0.1684210526
+            },
+            "status": "ok"
+          }
+        },
+        "negative_transfer_given_small_solved": {
+          "ci95": [
+            0.01489590378,
+            0.1202120283
+          ],
+          "k": 3,
+          "method": "wilson",
+          "n": 69,
+          "value": 0.04347826087
+        },
+        "negative_transfer_rate": {
+          "ci95": [
+            0.01079713939,
+            0.08877098711
+          ],
+          "k": 3,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.03157894737
+        }
+      },
+      "random_reference": {
+        "note": "escalate e tasks uniformly at random, no signal paid",
+        "points": [
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7263157895
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.0
+            },
+            "e": 0
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7340720222
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.003463661887
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.002542577285
+            },
+            "e": 5
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7418282548
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.006854894698
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.005085154571
+            },
+            "e": 10
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.748033241
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.009517246038
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.007119216399
+            },
+            "e": 14
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7557894737
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.01278371031
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.009661793684
+            },
+            "e": 19
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7635457064
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.01598381193
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.01220437097
+            },
+            "e": 24
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7697506925
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0184974602
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.0142384328
+            },
+            "e": 28
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7775069252
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.02158310047
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.01678101008
+            },
+            "e": 33
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7852631579
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.02460778552
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.01932358737
+            },
+            "e": 38
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.7930193906
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0275733039
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.02186616465
+            },
+            "e": 43
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8007756233
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.03048137484
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.02440874194
+            },
+            "e": 48
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8069806094
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.03276758259
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.02644280377
+            },
+            "e": 52
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8147368421
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.03557637209
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.02898538105
+            },
+            "e": 57
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8224930748
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.03833218699
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.03152795834
+            },
+            "e": 62
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8286980609
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.04049969675
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.03356202017
+            },
+            "e": 66
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8364542936
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0431638617
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.03610459745
+            },
+            "e": 71
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8442105263
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.04577907232
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.03864717474
+            },
+            "e": 76
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.851966759
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.04834666563
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.04118975202
+            },
+            "e": 81
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8597229917
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.0508679304
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.04373232931
+            },
+            "e": 86
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8659279778
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.05285242226
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.04576639114
+            },
+            "e": 90
+          },
+          {
+            "acc": {
+              "point_estimate": true,
+              "value": 0.8736842105
+            },
+            "cost_per_solved": {
+              "point_estimate": true,
+              "value": 0.05529339759
+            },
+            "cost_per_task": {
+              "point_estimate": true,
+              "value": 0.04830896842
+            },
+            "e": 95
+          }
+        ]
+      },
+      "sensitivity_frontier_sample_1": {
+        "status": "not_measured"
+      },
+      "signals": {
+        "error": {
+          "auc": {
+            "ci95": [
+              0.5,
+              0.6875
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.5882352941
+          },
+          "auc_fail": {
+            "ci95": [
+              0.5,
+              0.6296497585
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.5576923077
+          },
+          "nondegenerate_points": [
+            {
+              "acc": {
+                "ci95": [
+                  0.6628317914,
+                  0.8329115996
+                ],
+                "k": 72,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7578947368
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6734210526,
+                  0.8421052632
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7578947368
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.6628317914,
+                      0.8329115996
+                    ],
+                    "k": 72,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7578947368
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.01079713939,
+                      0.08877098711
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.03157894737
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.005338659272
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.002319166667
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.004075831579
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.001757684211
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.5614970356
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.4385029644,
+                      1.0
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 1.0
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.5614970356
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.0
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.01079713939,
+                  0.08877098711
+                ],
+                "k": 3,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.03157894737
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.5,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 94,
+                "value": 0.6
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  4.210526316
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 2.105263158
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 17167.23158
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 8323.821053
+                }
+              },
+              "tau": 0.0,
+              "tau_exact": "0",
+              "test_vs_frontier_only": {
+                "b": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "c": {
+                  "point_estimate": true,
+                  "value": 14
+                },
+                "holm_family_size": 5,
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.01272583008
+                },
+                "p_holm": {
+                  "point_estimate": true,
+                  "value": 0.03817749024
+                },
+                "test": "exact McNemar vs frontier-only"
+              },
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    10.29424761,
+                    88.80618132
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 94,
+                  "value": 23.84192494
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2,
+                    -0.03157894737
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1157894737
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.07368421053
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.03157894737
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.25
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 3
+                  }
+                }
+              }
+            }
+          ],
+          "status": "ok",
+          "threshold_curve": [
+            {
+              "acc": {
+                "ci95": [
+                  0.7920785981,
+                  0.9262434583
+                ],
+                "k": 83,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.8736842105
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.8,
+                  0.9368421053
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8736842105
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.7920785981,
+                      0.9262434583
+                    ],
+                    "k": 83,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.8736842105
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.9611351459,
+                      1.0
+                    ],
+                    "k": 95,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 1.0
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.05000401023,
+                  0.061635494
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.05529339759
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.04523951789,
+                  0.05158982316
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.04830896842
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.01079713939,
+                      0.08877098711
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.03157894737
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 17
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.1148357453,
+                      0.268014319
+                    ],
+                    "k": 17,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.1789473684
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 75
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.697068523,
+                      0.8593781404
+                    ],
+                    "k": 75,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7894736842
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.9611351459,
+                  1.0
+                ],
+                "k": 95,
+                "method": "wilson",
+                "n": 95,
+                "value": 1.0
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.5294117647,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8235294118
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  7.368421053
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 3.157894737
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 17167.23158
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 8323.821053
+                }
+              },
+              "tau": "-inf",
+              "tau_exact": "-inf",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    1.0,
+                    1.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 1.0
+                },
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.06315789474,
+                    0.2421052632
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.1473684211
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.002576828003
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 17
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.6628317914,
+                  0.8329115996
+                ],
+                "k": 72,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7578947368
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6734210526,
+                  0.8421052632
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7578947368
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.6628317914,
+                      0.8329115996
+                    ],
+                    "k": 72,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7578947368
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.01079713939,
+                      0.08877098711
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.03157894737
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.005338659272
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.002319166667
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.004075831579
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.001757684211
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.5614970356
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.4385029644,
+                      1.0
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 1.0
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.5614970356
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.0
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.01079713939,
+                  0.08877098711
+                ],
+                "k": 3,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.03157894737
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.5,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 94,
+                "value": 0.6
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  4.210526316
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 2.105263158
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 17167.23158
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 8323.821053
+                }
+              },
+              "tau": 0.0,
+              "tau_exact": "0",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    10.29424761,
+                    88.80618132
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 94,
+                  "value": 23.84192494
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2,
+                    -0.03157894737
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1157894737
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.07368421053
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.03157894737
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.25
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 3
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.6291856618,
+                  0.8058544569
+                ],
+                "k": 69,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7263157895
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6315789474,
+                  0.8105263158
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7263157895
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.6291856618,
+                      0.8058544569
+                    ],
+                    "k": 69,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7263157895
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.0,
+                      0.03886485413
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.0
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.0,
+                  0.03886485413
+                ],
+                "k": 0,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.0
+              },
+              "headroom_captured": {
+                "ci95": [
+                  null,
+                  null
+                ],
+                "method": "bootstrap",
+                "n_undefined": 2000,
+                "value": null
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 17167.23158
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 8323.821053
+                }
+              },
+              "tau": 1.0,
+              "tau_exact": "1",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    null,
+                    null
+                  ],
+                  "flag": "cps_of_policy_is_zero",
+                  "method": "bootstrap",
+                  "n_undefined": 2000,
+                  "value": "inf"
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2421052632,
+                    -0.06315789474
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1473684211
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "self_consistency": {
+          "auc": {
+            "ci95": [
+              0.4649264706,
+              0.7304077712
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.5953996983
+          },
+          "auc_fail": {
+            "ci95": [
+              0.4685652877,
+              0.6769574757
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.5716276477
+          },
+          "nondegenerate_points": [
+            {
+              "acc": {
+                "ci95": [
+                  0.697068523,
+                  0.8593781404
+                ],
+                "k": 75,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7894736842
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.7052631579,
+                  0.8631578947
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7894736842
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.697068523,
+                      0.8593781404
+                    ],
+                    "k": 75,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7894736842
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.1406218596,
+                      0.302931477
+                    ],
+                    "k": 20,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.2105263158
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.008272091984,
+                  0.01954467356
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.01335408
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.006468524211,
+                  0.01517123579
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.01054269474
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.1611251602
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 20,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 6
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.145477244,
+                      0.5189728201
+                    ],
+                    "k": 6,
+                    "method": "wilson",
+                    "n": 20,
+                    "value": 0.3
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 14
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.4810271799,
+                      0.854522756
+                    ],
+                    "k": 14,
+                    "method": "wilson",
+                    "n": 20,
+                    "value": 0.7
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.1406218596,
+                  0.302931477
+                ],
+                "k": 20,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.2105263158
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.125,
+                  0.5882352941
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.3529411765
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  5.263157895,
+                  15.78947368
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 11.57894737
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": 0.0,
+              "tau_exact": "0",
+              "test_vs_frontier_only": {
+                "b": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "c": {
+                  "point_estimate": true,
+                  "value": 11
+                },
+                "holm_family_size": 5,
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.05737304688
+                },
+                "p_holm": {
+                  "point_estimate": true,
+                  "value": 0.1147460938
+                },
+                "test": "exact McNemar vs frontier-only"
+              },
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    2.845262697,
+                    6.609660703
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 4.140562105
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.1578947368,
+                    -0.01052631579
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.08421052632
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.02105263158,
+                    0.1157894737
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.06315789474
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.03125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 6
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.6515543862,
+                  0.8239545807
+                ],
+                "k": 71,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7473684211
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6526315789,
+                  0.8315789474
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7473684211
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.6515543862,
+                      0.8239545807
+                    ],
+                    "k": 71,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7473684211
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.01079713939,
+                      0.08877098711
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.03157894737
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.003573983703
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.001567098592
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.002715496842
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0011712
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.5614970356
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.2076595988,
+                      0.938508056
+                    ],
+                    "k": 2,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.6666666667
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.06149194402,
+                      0.7923404012
+                    ],
+                    "k": 1,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.3333333333
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.01079713939,
+                  0.08877098711
+                ],
+                "k": 3,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.03157894737
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.0,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 206,
+                "value": 0.6666666667
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  3.157894737
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 1.052631579
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": 0.3333333333,
+              "tau_exact": "1/3",
+              "test_vs_frontier_only": {
+                "b": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "c": {
+                  "point_estimate": true,
+                  "value": 15
+                },
+                "holm_family_size": 5,
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.007537841797
+                },
+                "p_holm": {
+                  "point_estimate": true,
+                  "value": 0.03015136719
+                },
+                "test": "exact McNemar vs frontier-only"
+              },
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    14.99061812,
+                    154.7579949
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 97,
+                  "value": 35.28393037
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2105263158,
+                    -0.04210526316
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1263157895
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.05263157895
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.02105263158
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.5
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 2
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.64033979,
+                  0.8149347528
+                ],
+                "k": 70,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7368421053
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6421052632,
+                  0.8210526316
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7368421053
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.64033979,
+                      0.8149347528
+                    ],
+                    "k": 70,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7368421053
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.001860576242,
+                      0.05723870201
+                    ],
+                    "k": 1,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.01052631579
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.002062363636
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0006481714286
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.0014328
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0004776
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.7934506882
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 1,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.2065493118,
+                      1.0
+                    ],
+                    "k": 1,
+                    "method": "wilson",
+                    "n": 1,
+                    "value": 1.0
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.7934506882
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 1,
+                    "value": 0.0
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.001860576242,
+                  0.05723870201
+                ],
+                "k": 1,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.01052631579
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.6666666667,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 722,
+                "value": 1.0
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  1.052631579
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": 0.6666666667,
+              "tau_exact": "2/3",
+              "test_vs_frontier_only": {
+                "b": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "c": {
+                  "point_estimate": true,
+                  "value": 16
+                },
+                "holm_family_size": 5,
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.004425048828
+                },
+                "p_holm": {
+                  "point_estimate": true,
+                  "value": 0.02212524414
+                },
+                "test": "exact McNemar vs frontier-only"
+              },
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    23.34059377,
+                    95.66628591
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 722,
+                  "value": 85.30674935
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2210526316,
+                    -0.05263157895
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1368421053
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.03157894737
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01052631579
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 1
+                  }
+                }
+              }
+            }
+          ],
+          "status": "ok",
+          "threshold_curve": [
+            {
+              "acc": {
+                "ci95": [
+                  0.7920785981,
+                  0.9262434583
+                ],
+                "k": 83,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.8736842105
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.8,
+                  0.9368421053
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8736842105
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.7920785981,
+                      0.9262434583
+                    ],
+                    "k": 83,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.8736842105
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.9611351459,
+                      1.0
+                    ],
+                    "k": 95,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 1.0
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.05000401023,
+                  0.061635494
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.05529339759
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.04523951789,
+                  0.05158982316
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.04830896842
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.01079713939,
+                      0.08877098711
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.03157894737
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 17
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.1148357453,
+                      0.268014319
+                    ],
+                    "k": 17,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.1789473684
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 75
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.697068523,
+                      0.8593781404
+                    ],
+                    "k": 75,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7894736842
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.9611351459,
+                  1.0
+                ],
+                "k": 95,
+                "method": "wilson",
+                "n": 95,
+                "value": 1.0
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.5294117647,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8235294118
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  7.368421053
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 3.157894737
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": "-inf",
+              "tau_exact": "-inf",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    1.0,
+                    1.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 1.0
+                },
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.06315789474,
+                    0.2421052632
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.1473684211
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.002576828003
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 17
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.697068523,
+                  0.8593781404
+                ],
+                "k": 75,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7894736842
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.7052631579,
+                  0.8631578947
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7894736842
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.697068523,
+                      0.8593781404
+                    ],
+                    "k": 75,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7894736842
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.1406218596,
+                      0.302931477
+                    ],
+                    "k": 20,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.2105263158
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.008272091984,
+                  0.01954467356
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.01335408
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.006468524211,
+                  0.01517123579
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.01054269474
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.1611251602
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 20,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 6
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.145477244,
+                      0.5189728201
+                    ],
+                    "k": 6,
+                    "method": "wilson",
+                    "n": 20,
+                    "value": 0.3
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 14
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.4810271799,
+                      0.854522756
+                    ],
+                    "k": 14,
+                    "method": "wilson",
+                    "n": 20,
+                    "value": 0.7
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.1406218596,
+                  0.302931477
+                ],
+                "k": 20,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.2105263158
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.125,
+                  0.5882352941
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.3529411765
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  5.263157895,
+                  15.78947368
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 11.57894737
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": 0.0,
+              "tau_exact": "0",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    2.845262697,
+                    6.609660703
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 4.140562105
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.1578947368,
+                    -0.01052631579
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.08421052632
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.02105263158,
+                    0.1157894737
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.06315789474
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.03125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 6
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.6515543862,
+                  0.8239545807
+                ],
+                "k": 71,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7473684211
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6526315789,
+                  0.8315789474
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7473684211
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.6515543862,
+                      0.8239545807
+                    ],
+                    "k": 71,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7473684211
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.01079713939,
+                      0.08877098711
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.03157894737
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.003573983703
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.001567098592
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.002715496842
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0011712
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.5614970356
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 2
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.2076595988,
+                      0.938508056
+                    ],
+                    "k": 2,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.6666666667
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.06149194402,
+                      0.7923404012
+                    ],
+                    "k": 1,
+                    "method": "wilson",
+                    "n": 3,
+                    "value": 0.3333333333
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.01079713939,
+                  0.08877098711
+                ],
+                "k": 3,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.03157894737
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.0,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 206,
+                "value": 0.6666666667
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  3.157894737
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 1.052631579
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": 0.3333333333,
+              "tau_exact": "1/3",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    14.99061812,
+                    154.7579949
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 97,
+                  "value": 35.28393037
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2105263158,
+                    -0.04210526316
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1263157895
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.05263157895
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.02105263158
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.5
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 2
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.64033979,
+                  0.8149347528
+                ],
+                "k": 70,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7368421053
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6421052632,
+                  0.8210526316
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7368421053
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.64033979,
+                      0.8149347528
+                    ],
+                    "k": 70,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7368421053
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.001860576242,
+                      0.05723870201
+                    ],
+                    "k": 1,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.01052631579
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.002062363636
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0006481714286
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.0014328
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0004776
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.7934506882
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 1,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 1
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.2065493118,
+                      1.0
+                    ],
+                    "k": 1,
+                    "method": "wilson",
+                    "n": 1,
+                    "value": 1.0
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.7934506882
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 1,
+                    "value": 0.0
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.001860576242,
+                  0.05723870201
+                ],
+                "k": 1,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.01052631579
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.6666666667,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 722,
+                "value": 1.0
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  1.052631579
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": 0.6666666667,
+              "tau_exact": "2/3",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    23.34059377,
+                    95.66628591
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 722,
+                  "value": 85.30674935
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2210526316,
+                    -0.05263157895
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1368421053
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.03157894737
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.01052631579
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 1
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.6291856618,
+                  0.8058544569
+                ],
+                "k": 69,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7263157895
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6315789474,
+                  0.8105263158
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7263157895
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.6291856618,
+                      0.8058544569
+                    ],
+                    "k": 69,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7263157895
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.0,
+                      0.03886485413
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.0
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.0,
+                  0.03886485413
+                ],
+                "k": 0,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.0
+              },
+              "headroom_captured": {
+                "ci95": [
+                  null,
+                  null
+                ],
+                "method": "bootstrap",
+                "n_undefined": 2000,
+                "value": null
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 71245.94737
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 32435.81053
+                }
+              },
+              "tau": 1.0,
+              "tau_exact": "1",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    null,
+                    null
+                  ],
+                  "flag": "cps_of_policy_is_zero",
+                  "method": "bootstrap",
+                  "n_undefined": 2000,
+                  "value": "inf"
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2421052632,
+                    -0.06315789474
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1473684211
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "verifier": {
+          "auc": {
+            "ci95": [
+              0.574327293,
+              0.8208898944
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.6968325792
+          },
+          "auc_fail": {
+            "ci95": [
+              0.5656532564,
+              0.7667264611
+            ],
+            "method": "bootstrap",
+            "n_undefined": 0,
+            "value": 0.6633221851
+          },
+          "nondegenerate_points": [
+            {
+              "acc": {
+                "ci95": [
+                  0.7202640335,
+                  0.8766514781
+                ],
+                "k": 77,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.8105263158
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.7263157895,
+                  0.8842105263
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8105263158
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.7202640335,
+                      0.8766514781
+                    ],
+                    "k": 77,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.8105263158
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.08986080618,
+                      0.2322859857
+                    ],
+                    "k": 14,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.1473684211
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.004335549756,
+                  0.01289627228
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.008209818182
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.003492227368,
+                  0.01040372211
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.006654273684
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.2153108054
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 14,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 8
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.3259064442,
+                      0.7861920122
+                    ],
+                    "k": 8,
+                    "method": "wilson",
+                    "n": 14,
+                    "value": 0.5714285714
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 6
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.2138079878,
+                      0.6740935558
+                    ],
+                    "k": 6,
+                    "method": "wilson",
+                    "n": 14,
+                    "value": 0.4285714286
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.08986080618,
+                  0.2322859857
+                ],
+                "k": 14,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.1473684211
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.3333333333,
+                  0.8
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.5714285714
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  3.157894737,
+                  9.473684211
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 6.315789474
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 33773.53684
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 16427.64211
+                }
+              },
+              "tau": 0.0,
+              "tau_exact": "0",
+              "test_vs_frontier_only": {
+                "b": {
+                  "point_estimate": true,
+                  "value": 3
+                },
+                "c": {
+                  "point_estimate": true,
+                  "value": 9
+                },
+                "holm_family_size": 5,
+                "p": {
+                  "point_estimate": true,
+                  "value": 0.1459960938
+                },
+                "p_holm": {
+                  "point_estimate": true,
+                  "value": 0.1459960938
+                },
+                "test": "exact McNemar vs frontier-only"
+              },
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    4.318612705,
+                    12.57944125
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 6.735033148
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.1368421053,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.06315789474
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.03157894737,
+                    0.1473684211
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.08421052632
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0078125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 8
+                  }
+                }
+              }
+            }
+          ],
+          "status": "ok",
+          "threshold_curve": [
+            {
+              "acc": {
+                "ci95": [
+                  0.7920785981,
+                  0.9262434583
+                ],
+                "k": 83,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.8736842105
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.8,
+                  0.9368421053
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8736842105
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.7920785981,
+                      0.9262434583
+                    ],
+                    "k": 83,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.8736842105
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.9611351459,
+                      1.0
+                    ],
+                    "k": 95,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 1.0
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.05000401023,
+                  0.061635494
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.05529339759
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.04523951789,
+                  0.05158982316
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.04830896842
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.01079713939,
+                      0.08877098711
+                    ],
+                    "k": 3,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.03157894737
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 17
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.1148357453,
+                      0.268014319
+                    ],
+                    "k": 17,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.1789473684
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 75
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.697068523,
+                      0.8593781404
+                    ],
+                    "k": 75,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7894736842
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.9611351459,
+                  1.0
+                ],
+                "k": 95,
+                "method": "wilson",
+                "n": 95,
+                "value": 1.0
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.5294117647,
+                  1.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8235294118
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  7.368421053
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 3.157894737
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 33773.53684
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 16427.64211
+                }
+              },
+              "tau": "-inf",
+              "tau_exact": "-inf",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    1.0,
+                    1.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 1.0
+                },
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.06315789474,
+                    0.2421052632
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.1473684211
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 3
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.002576828003
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 17
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.7202640335,
+                  0.8766514781
+                ],
+                "k": 77,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.8105263158
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.7263157895,
+                  0.8842105263
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.8105263158
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.7202640335,
+                      0.8766514781
+                    ],
+                    "k": 77,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.8105263158
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.08986080618,
+                      0.2322859857
+                    ],
+                    "k": 14,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.1473684211
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.004335549756,
+                  0.01289627228
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.008209818182
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.003492227368,
+                  0.01040372211
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.006654273684
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.0,
+                      0.2153108054
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 14,
+                    "value": 0.0
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 8
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.3259064442,
+                      0.7861920122
+                    ],
+                    "k": 8,
+                    "method": "wilson",
+                    "n": 14,
+                    "value": 0.5714285714
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 6
+                  },
+                  "share_of_escalated": {
+                    "ci95": [
+                      0.2138079878,
+                      0.6740935558
+                    ],
+                    "k": 6,
+                    "method": "wilson",
+                    "n": 14,
+                    "value": 0.4285714286
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.08986080618,
+                  0.2322859857
+                ],
+                "k": 14,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.1473684211
+              },
+              "headroom_captured": {
+                "ci95": [
+                  0.3333333333,
+                  0.8
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.5714285714
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  3.157894737,
+                  9.473684211
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 6.315789474
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 33773.53684
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 16427.64211
+                }
+              },
+              "tau": 0.0,
+              "tau_exact": "0",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    4.318612705,
+                    12.57944125
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 6.735033148
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.1368421053,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.06315789474
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.03157894737,
+                    0.1473684211
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.08421052632
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 0.0078125
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 8
+                  }
+                }
+              }
+            },
+            {
+              "acc": {
+                "ci95": [
+                  0.6291856618,
+                  0.8058544569
+                ],
+                "k": 69,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.7263157895
+              },
+              "acc_bootstrap": {
+                "ci95": [
+                  0.6315789474,
+                  0.8105263158
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.7263157895
+              },
+              "by_stratum": {
+                "challenging": {
+                  "acc": {
+                    "ci95": [
+                      0.6291856618,
+                      0.8058544569
+                    ],
+                    "k": 69,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.7263157895
+                  },
+                  "escalation_rate": {
+                    "ci95": [
+                      0.0,
+                      0.03886485413
+                    ],
+                    "k": 0,
+                    "method": "wilson",
+                    "n": 95,
+                    "value": 0.0
+                  },
+                  "n": {
+                    "point_estimate": true,
+                    "value": 95
+                  }
+                }
+              },
+              "cost_per_solved": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "cost_per_task": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "escalation_composition": {
+                "harmful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                },
+                "helpful": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                },
+                "wasted": {
+                  "count": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "share_of_escalated": {
+                    "k": 0,
+                    "n": 0,
+                    "point_estimate": true,
+                    "undefined": true,
+                    "value": null
+                  }
+                }
+              },
+              "escalation_rate": {
+                "ci95": [
+                  0.0,
+                  0.03886485413
+                ],
+                "k": 0,
+                "method": "wilson",
+                "n": 95,
+                "value": 0.0
+              },
+              "headroom_captured": {
+                "ci95": [
+                  null,
+                  null
+                ],
+                "method": "bootstrap",
+                "n_undefined": 2000,
+                "value": null
+              },
+              "oracle_gap_pp": {
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "method": "bootstrap",
+                "n_undefined": 0,
+                "value": 0.0
+              },
+              "small_tier_compute": {
+                "latency_ms_per_task": {
+                  "point_estimate": true,
+                  "value": 33773.53684
+                },
+                "note": "baseline run plus the signal's extra runs, mean over A",
+                "tokens_per_task": {
+                  "point_estimate": true,
+                  "value": 16427.64211
+                }
+              },
+              "tau": 1.0,
+              "tau_exact": "1",
+              "vs_frontier_only": {
+                "cps_ratio": {
+                  "ci95": [
+                    null,
+                    null
+                  ],
+                  "flag": "cps_of_policy_is_zero",
+                  "method": "bootstrap",
+                  "n_undefined": 2000,
+                  "value": "inf"
+                },
+                "delta_acc": {
+                  "ci95": [
+                    -0.2421052632,
+                    -0.06315789474
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": -0.1473684211
+                }
+              },
+              "vs_small_only": {
+                "delta_acc": {
+                  "ci95": [
+                    0.0,
+                    0.0
+                  ],
+                  "method": "bootstrap",
+                  "n_undefined": 0,
+                  "value": 0.0
+                },
+                "test": {
+                  "losses": {
+                    "point_estimate": true,
+                    "value": 0
+                  },
+                  "p": {
+                    "point_estimate": true,
+                    "value": 1.0
+                  },
+                  "test": "exact McNemar vs small-only; wins = policy right and small-only wrong, losses = the reverse",
+                  "wins": {
+                    "point_estimate": true,
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "schema_version": 2
+}

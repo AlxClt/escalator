@@ -123,5 +123,5 @@ Plan: all 95 challenging frame tasks, two frontier models (sonnet-5-5, opus-5-5)
 - [x] Task-set options for runner, collector and router; `router.json` `vs_small_only`; `scripts/prereg_31b_challenging.py`
 - [x] One pass per paid model verified: the overlapping tasks replay from the cache (Sonnet 39/39, Opus smoke 3/3, 31b 39/39); projected spend ≈ $1.15 (Sonnet, 56 new tasks) + ≈ $3.9 (Opus, 92)
 - [x] Owner decisions (16/10/2026): task 1011 ordered (shortest lap first), Opus price confirmed; pre-registration made binding before any run
-- [ ] Collection, each run triggered by the owner: 31b baseline, SC and verifier (local), then `make baselines PRESET=challenging PAID=1 MODELS=sonnet-5-5` and `MODELS=opus-5-5`
-- [ ] `make router` for both pairs, `scripts/prereg_31b_challenging.py`, write-up
+- [x] Collection (16/10/2026, all runs after the binding commit): 31b baseline, SC, verifier, Sonnet ($0.99), Opus ($4.38); no `provider_error`; overlapping tasks replayed from the cache with week-2 outcomes unchanged
+- [x] Analysis and write-up (`docs/study-31b-challenging.md`): both pre-registered tests significant — routed vs 31b alone +10.5 pp [+5.3, +17.9] with Sonnet (Holm p = 0.004) and +8.4 pp [+3.2, +14.7] with Opus (Holm p = 0.008), no escalation lost

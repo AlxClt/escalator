@@ -1,0 +1,359 @@
+{
+  "held_out": {
+    "opus": {
+      "delta_acc": {
+        "ci95": [
+          0.03571428571,
+          0.1964285714
+        ],
+        "method": "bootstrap",
+        "n_undefined": 0,
+        "value": 0.1071428571
+      },
+      "ex_policy": {
+        "ci95": [
+          0.7426407867,
+          0.925792115
+        ],
+        "k": 48,
+        "method": "wilson",
+        "n": 56,
+        "value": 0.8571428571
+      },
+      "ex_reference": {
+        "ci95": [
+          0.6230735775,
+          0.8448294537
+        ],
+        "k": 42,
+        "method": "wilson",
+        "n": 56,
+        "value": 0.75
+      },
+      "mcnemar": {
+        "losses": 0,
+        "p": 0.03125,
+        "wins": 6
+      },
+      "n": 56,
+      "task_ids": "tasks of the study not in data/manifest.json"
+    },
+    "sonnet": {
+      "delta_acc": {
+        "ci95": [
+          0.05357142857,
+          0.2142857143
+        ],
+        "method": "bootstrap",
+        "n_undefined": 0,
+        "value": 0.125
+      },
+      "ex_policy": {
+        "ci95": [
+          0.7637452334,
+          0.9381093134
+        ],
+        "k": 49,
+        "method": "wilson",
+        "n": 56,
+        "value": 0.875
+      },
+      "ex_reference": {
+        "ci95": [
+          0.6230735775,
+          0.8448294537
+        ],
+        "k": 42,
+        "method": "wilson",
+        "n": 56,
+        "value": 0.75
+      },
+      "mcnemar": {
+        "losses": 0,
+        "p": 0.015625,
+        "wins": 7
+      },
+      "n": 56,
+      "task_ids": "tasks of the study not in data/manifest.json"
+    }
+  },
+  "holm_family": [
+    "sonnet",
+    "opus"
+  ],
+  "policy": "escalate iff the verifier run disagrees (verifier tau = 0)",
+  "primary": {
+    "opus": {
+      "delta_acc": {
+        "ci95": [
+          0.03157894737,
+          0.1473684211
+        ],
+        "method": "bootstrap",
+        "n_undefined": 0,
+        "value": 0.08421052632
+      },
+      "escalated": 14,
+      "ex_policy": {
+        "ci95": [
+          0.7202640335,
+          0.8766514781
+        ],
+        "k": 77,
+        "method": "wilson",
+        "n": 95,
+        "value": 0.8105263158
+      },
+      "ex_reference": {
+        "ci95": [
+          0.6291856618,
+          0.8058544569
+        ],
+        "k": 69,
+        "method": "wilson",
+        "n": 95,
+        "value": 0.7263157895
+      },
+      "frontier_model": "opus-5-5",
+      "mcnemar": {
+        "losses": 0,
+        "p": 0.0078125,
+        "p_holm": 0.0078125,
+        "wins": 8
+      },
+      "n": 95
+    },
+    "sonnet": {
+      "delta_acc": {
+        "ci95": [
+          0.05263157895,
+          0.1789473684
+        ],
+        "method": "bootstrap",
+        "n_undefined": 0,
+        "value": 0.1052631579
+      },
+      "escalated": 14,
+      "ex_policy": {
+        "ci95": [
+          0.7437969095,
+          0.8935874504
+        ],
+        "k": 79,
+        "method": "wilson",
+        "n": 95,
+        "value": 0.8315789474
+      },
+      "ex_reference": {
+        "ci95": [
+          0.6291856618,
+          0.8058544569
+        ],
+        "k": 69,
+        "method": "wilson",
+        "n": 95,
+        "value": 0.7263157895
+      },
+      "frontier_model": "sonnet-5-5",
+      "mcnemar": {
+        "losses": 0,
+        "p": 0.001953125,
+        "p_holm": 0.00390625,
+        "wins": 10
+      },
+      "n": 95
+    }
+  },
+  "secondary": {
+    "opus": {
+      "frontier_only_vs_small": {
+        "delta_acc": {
+          "ci95": [
+            0.06315789474,
+            0.2421052632
+          ],
+          "method": "bootstrap",
+          "n_undefined": 0,
+          "value": 0.1473684211
+        },
+        "ex_policy": {
+          "ci95": [
+            0.7920785981,
+            0.9262434583
+          ],
+          "k": 83,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.8736842105
+        },
+        "ex_reference": {
+          "ci95": [
+            0.6291856618,
+            0.8058544569
+          ],
+          "k": 69,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.7263157895
+        },
+        "mcnemar": {
+          "losses": 3,
+          "p": 0.002576828003,
+          "wins": 17
+        },
+        "n": 95
+      },
+      "routed_vs_frontier_only": {
+        "delta_acc": {
+          "ci95": [
+            -0.1368421053,
+            0.0
+          ],
+          "method": "bootstrap",
+          "n_undefined": 0,
+          "value": -0.06315789474
+        },
+        "ex_policy": {
+          "ci95": [
+            0.7202640335,
+            0.8766514781
+          ],
+          "k": 77,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.8105263158
+        },
+        "ex_reference": {
+          "ci95": [
+            0.7920785981,
+            0.9262434583
+          ],
+          "k": 83,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.8736842105
+        },
+        "mcnemar": {
+          "losses": 9,
+          "p": 0.1459960938,
+          "wins": 3
+        },
+        "n": 95
+      }
+    },
+    "opus_vs_sonnet": {
+      "delta_acc": {
+        "ci95": [
+          -0.09473684211,
+          0.05263157895
+        ],
+        "method": "bootstrap",
+        "n_undefined": 0,
+        "value": -0.02105263158
+      },
+      "ex_policy": {
+        "ci95": [
+          0.7920785981,
+          0.9262434583
+        ],
+        "k": 83,
+        "method": "wilson",
+        "n": 95,
+        "value": 0.8736842105
+      },
+      "ex_reference": {
+        "ci95": [
+          0.8169794286,
+          0.941811476
+        ],
+        "k": 85,
+        "method": "wilson",
+        "n": 95,
+        "value": 0.8947368421
+      },
+      "mcnemar": {
+        "losses": 7,
+        "p": 0.7744140625,
+        "wins": 5
+      },
+      "n": 95
+    },
+    "sonnet": {
+      "frontier_only_vs_small": {
+        "delta_acc": {
+          "ci95": [
+            0.08421052632,
+            0.2526315789
+          ],
+          "method": "bootstrap",
+          "n_undefined": 0,
+          "value": 0.1684210526
+        },
+        "ex_policy": {
+          "ci95": [
+            0.8169794286,
+            0.941811476
+          ],
+          "k": 85,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.8947368421
+        },
+        "ex_reference": {
+          "ci95": [
+            0.6291856618,
+            0.8058544569
+          ],
+          "k": 69,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.7263157895
+        },
+        "mcnemar": {
+          "losses": 2,
+          "p": 0.0004024505615,
+          "wins": 18
+        },
+        "n": 95
+      },
+      "routed_vs_frontier_only": {
+        "delta_acc": {
+          "ci95": [
+            -0.1368421053,
+            0.0
+          ],
+          "method": "bootstrap",
+          "n_undefined": 0,
+          "value": -0.06315789474
+        },
+        "ex_policy": {
+          "ci95": [
+            0.7437969095,
+            0.8935874504
+          ],
+          "k": 79,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.8315789474
+        },
+        "ex_reference": {
+          "ci95": [
+            0.8169794286,
+            0.941811476
+          ],
+          "k": 85,
+          "method": "wilson",
+          "n": 95,
+          "value": 0.8947368421
+        },
+        "mcnemar": {
+          "losses": 8,
+          "p": 0.109375,
+          "wins": 2
+        },
+        "n": 95
+      }
+    }
+  },
+  "small_model": "gemma4-31b"
+}

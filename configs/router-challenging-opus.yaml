@@ -18,7 +18,8 @@ verifier:
 
 inventory:
   small:
-    gemma4-31b: {baseline: challenging-gemma4-31b-v1, self_consistency: null, verifier: null}
+    gemma4-31b: {baseline: challenging-gemma4-31b-v1, self_consistency: sc-challenging-gemma4-31b-v1,
+                 verifier: verifier-challenging-gemma4-31b-verifier_v1}
   frontier:
     model: opus-5-5
     baseline: challenging-opus-5-5-v1

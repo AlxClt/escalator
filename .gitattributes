@@ -7,6 +7,7 @@ traces/published/** -text
 results/router.json -text
 results/signals.json -text
 results/figures/** -text
+results/challenging/** -text
 
 # Prompt versions: kept byte for byte as committed (verifier_v1.yaml: LF).
 src/escalator/agent/prompts/*.yaml -text
