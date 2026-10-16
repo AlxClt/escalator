@@ -1,5 +1,6 @@
-Architecture of the escalator project
+# Architecture of the escalator project
 
+```text
 escalator/
 ├── src/escalator/
 │   ├── util/
@@ -63,8 +64,9 @@ escalator/
 ├── results/               # committed metrics JSON — the actual evidence
 ├── traces/                # gitignored except traces/published/ (runs behind published numbers)
 ├── tests/                 # tests/datasets/{unit,integration}; tests/infra/{llm,trace,env,integration}; tests/eval (scorer, gold side); tests/test_scorer.py (20 hand-made pairs); tests/test_server.py (MCP, needs data/raw); tests/agent (loop, tools, prompts, runner, replay over a real MCP server on tests/fixtures/agent_db.sql)
-├── Makefile               # make test | test-local | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | sc-samples | verifier-runs | frontier-repeat | sc-estimate | publish-traces | results
+├── Makefile               # make test | test-local | data | data-lock | data-verify | env-lock | manifest | smoke | baselines | sc-samples | verifier-runs | frontier-repeat | sc-estimate | publish-traces | router | plots | results
 └── README.md
+```
 
 Data flow: `data-lock` writes `sources.lock` → `data` fetches whatever is missing or invalid →
 `data-verify` checks it offline and writes `data/audit/` → `manifest` removes the exclusions pinned in
