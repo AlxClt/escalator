@@ -1,8 +1,8 @@
 # Pre-registration: gemma4-31b escalation on the challenging stratum
 
-**Status: draft.** It becomes binding at the commit that removes this line. That commit must come
-before any run of the study, and its hash is cited with the results. Nothing below may change once a
-run has started.
+**Status: binding** from the commit that introduced this line (`git log -- docs/prereg-31b-challenging.md`),
+made on 16/10/2026 before any run of the study. That commit's hash is cited with the results. Nothing
+below changes from here on.
 
 ## Question
 
@@ -22,8 +22,10 @@ pp for the routed policy and +10.3 pp for frontier-only (README template, Table 
 - 39 of the 95 are in the 200-task sample; their week-2 and week-3 runs are reused from the cache with
   identical requests. 56 are new.
 - **Scoring:** `eval/scorers.py`, unchanged. Output order is enforced only for the tasks in
-  `configs/scoring-challenging.yaml` (220; 1011 pending the owner's decision before this document
-  becomes binding). No tie blocks are needed: none exist at any `LIMIT` boundary.
+  `configs/scoring-challenging.yaml`: 220 (alphabetical) and 1011 (ranked by shortest lap time, by the
+  owner's decision). No tie blocks are needed: none exist at any `LIMIT` boundary.
+- **Prices:** `claude-opus-5-5` at $4.00 / $20.00 per Mtok, confirmed by the owner on 16/10/2026;
+  Sonnet as in `configs/prices.yaml` (retrieved 2026-10-14).
 
 ## Policy (fixed now)
 

@@ -6,8 +6,9 @@
 # to this study, 8 golds have a top-level ORDER BY (all with LIMIT). Ties at every LIMIT boundary and
 # inside the ordered results were checked by executing the golds: none.
 # - 220 "list top three elements ... in alphabetical order": ordered; 3 distinct values, no ties.
-# - 1011 "top 20 drivers, ranked by their shortest lap time": PENDING owner decision (ordered or not);
-#   no ties inside the top 20 or at rank 20/21 (69241 vs 69284 ms).
+# - 1011 "top 20 drivers, ranked by their shortest lap time": ordered, shortest lap first (owner's
+#   decision, 16/10/2026); no ties inside the top 20 or at rank 20/21 (69241 vs 69284 ms).
 # - 94, 115, 988, 1001, 1058, 1168: top-N selection only (1 row, or all qualifying rows for 988).
 ordered_tasks:
-  220: []
+  220: []    # "in alphabetical order"; 3 distinct elements
+  1011: []   # "ranked by their shortest lap time", ascending; no ties

@@ -122,6 +122,6 @@ Plan: all 95 challenging frame tasks, two frontier models (sonnet-5-5, opus-5-5)
 - [x] `data/manifest-challenging.json` (95 tasks; the 39 already in the sample keep identical entries); ordering and tie audit in `configs/scoring-challenging.yaml`
 - [x] Task-set options for runner, collector and router; `router.json` `vs_small_only`; `scripts/prereg_31b_challenging.py`
 - [x] One pass per paid model verified: the overlapping tasks replay from the cache (Sonnet 39/39, Opus smoke 3/3, 31b 39/39); projected spend ≈ $1.15 (Sonnet, 56 new tasks) + ≈ $3.9 (Opus, 92)
-- [ ] Owner: decide task 1011 (ordered or not), confirm the Opus price, then make the pre-registration binding (commit before any run)
+- [x] Owner decisions (16/10/2026): task 1011 ordered (shortest lap first), Opus price confirmed; pre-registration made binding before any run
 - [ ] Collection, each run triggered by the owner: 31b baseline, SC and verifier (local), then `make baselines PRESET=challenging PAID=1 MODELS=sonnet-5-5` and `MODELS=opus-5-5`
 - [ ] `make router` for both pairs, `scripts/prereg_31b_challenging.py`, write-up
