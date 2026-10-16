@@ -1,4 +1,6 @@
-# escalator (Work in progress)
+# Escalator
+
+>[Work in progress: geamma4-31b to sonnet-5.5 escalation on challenging task is being studied]
 
 Cost-aware escalation routing for a data-analysis agent.
 
@@ -39,5 +41,7 @@ Paired tests (McNemar) for the verifier signal:
 - self-consistency at τ=0: self-consistency is computed as the self agreement between k repeated runs at temperature t (here k=3, t=0.7). τ=0 means all runs should produce the same result, otherwise the signal is routed. It is the most restrictive setting for self-consistency.
 - Costs are API USD at prices retrieved on 2026-10-14; the local models are priced at $0, assuming the infrastructure that runs them exists, which can be discussed.
 
-*Limitation:* With gemma4-31b as the base model, the escalation gain is not significant (+2pp, McNemar not significant). There is very few settings where one could use gemma4-12b but not gemma4-31b as its base model and apply the escalation routine, so this makes the results presented here not very useful.
-We started studying the escalation gain from gemma4-31b to frontier model (sonnet + Opus) on the full `difficult` strata of Arcwise-Plat-Full, to see if such an escalation policy would bring value.
+*Limitations:*
+
+- With gemma4-31b as the base model, the escalation gain is not significant (+2pp, McNemar not significant). There is very few settings where one could use gemma4-12b but not gemma4-31b as its base model and apply the escalation routine, so this makes the results presented here not very useful. We started studying the escalation gain from gemma4-31b to frontier model (sonnet + Opus) on the full `difficult` strata of Arcwise-Plat-Full, to see if such an escalation policy would bring value.
+- All models see the same prompt, that is kept simple. Te goal was not to optimize the SQL accuracy of the agent, but to compare the models on the escalation routine. So the accuracy numbers are not benchmarks, and better results should be expected with a prompt optimized for each model.
