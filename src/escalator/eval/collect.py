@@ -395,8 +395,7 @@ def plan_jobs(kind: RunKind, args: argparse.Namespace, rcfg: RouterConfig, cfg: 
 def used_models(models_cfg: ModelsConfig, jobs: Sequence[Job]) -> ModelsConfig:
     """The pinned models a collection actually calls: the Ollama digest check covers these only, so
     resuming one model does not need every pinned tag pulled on the server."""
-    names = {j.spec.name for j in jobs}
-    return ModelsConfig(models_cfg.ollama_min_version, {n: s for n, s in models_cfg.models.items() if n in names})
+    return models_cfg.only(j.spec.name for j in jobs)
 
 
 def _smoke_task_ids(manifest: Path | None = None) -> set[str]:

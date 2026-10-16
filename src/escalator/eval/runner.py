@@ -400,7 +400,7 @@ def _main(args: argparse.Namespace) -> int:
     # Built, and the Ollama digests checked, only at the first cache miss: a cached rerun needs no
     # live provider, no OLLAMA_BASE_URL and no API key.
     lazy_ollama = LazyProvider("ollama", ollama.OllamaProvider, ollama.normalize,
-                               check=lambda p: check_ollama(models_cfg, p))
+                               check=lambda p: check_ollama(models_cfg.only(names), p))
     providers: dict[str, Provider] = {"ollama": lazy_ollama}
     if any(s.provider == "anthropic" for s in specs):
         from escalator.llm.providers import anthropic  # the SDK import is slow: only when needed
