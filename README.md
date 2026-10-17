@@ -59,7 +59,7 @@ Although the p value is still not significant for the challenging strata, the su
 Execution accuracy vs USD per solved task on the 95 tasks from the "challenging" strata:
 <br>
 
-![Execution accuracy vs USD per solved task](results\challenging\sonnet\figures\frontier-gemma4-31b-cps.png)
+![Execution accuracy vs USD per solved task](results/challenging/sonnet/figures/frontier-gemma4-31b-cps.png)
 
 <br>
 
