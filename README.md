@@ -73,4 +73,13 @@ Execution accuracy vs USD per solved task on the 95 tasks from the "challenging"
 
 *Limitations:*
 
-- All models are given the same prompt, that is kept very simple ([v1 prompt](src\escalator\agent\prompts\v1.yaml)). The goal was not to optimize the SQL accuracy of the agent, but to compare the models on the escalation routine. So the accuracy numbers are not benchmarks, and better results should be expected with a prompt optimized for each model.
+- All models are given the same prompt, that is kept very simple ([v1 prompt](src/escalator/agent/prompts/v1.yaml)). The goal was not to optimize the SQL accuracy of the agent, but to compare the models on the escalation routine. So the accuracy numbers are not benchmarks, and better results should be expected with a prompt optimized for each model.
+
+## Reproduce
+
+WIP
+
+## Documentation
+
+- Statistical protocol (WIP)
+- Architecture: [Architecture.md](docs/architecture.md)
