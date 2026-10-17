@@ -6,7 +6,7 @@ This repo builds a text to SQL agent that is evaluated on a task set, with sever
 
 The task the agent is evaluated on are drawn from **ReViSQL** — Zhu, Jin, Choi, Kang, arXiv:2603.20004, 2026. We are using their corrected version of Mini-BIRD-Dev, i.e. Arcwise-Plat-Full
 
-The goal is to study an escalation policy over different error signals, and compute the cost vs accuracy curve for different threshold of these error signals.
+The goal is to study an escalation policy over different error signals, and compute the cost vs accuracy curve for different thresholds of these error signals.
 
 ## Results
 
@@ -83,3 +83,11 @@ WIP
 
 - Statistical protocol (WIP)
 - Architecture: [Architecture.md](docs/architecture.md)
+
+## Related work
+
+- Jin et al. - [Pervasive Annotation Errors Break Text-to-SQL Benchmarks and
+Leaderboards](https://arxiv.org/pdf/2601.08778v3)
+- Li et al. — [Can LLM Already Serve as A Database Interface?
+A BIg Bench for Large-Scale Database Grounded
+Text-to-SQLs](https://arxiv.org/pdf/2305.03111)

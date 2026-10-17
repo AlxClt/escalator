@@ -228,4 +228,4 @@ traces/*
 !traces/published/
 useful.txt
 to_document.txt
-*_uncommited.md
+*_uncommited*
