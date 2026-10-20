@@ -12,15 +12,19 @@ The goal is to study an escalation policy over different error signals, and comp
 
 ### Escalation from gemma4-12b to sonnet-5.5
 
-Results with gemma4-12b as the baseline model and sonnet-5.5 as the frontier model (effort: medium)
+>*We present the main results with some context notes for understanding at the end of the section, for a complete overview of the protocol see [Methodology.md](docs/Methodology.md) and for more detailed results see [WIP](docs/results.md)*
 
-Two error signals are strong candidates for reducing costs: verifier (green) and self-consistency at τ=0 (orange). Signals are defined in the methodology (not added yet) but a short description is provided for context at the end of this paragraph in the notes.
+The following results use gemma4-12b as the baseline model and sonnet-5.5 as the frontier model (effort: medium)
+
+Two error signals are strong candidates for reducing costs: verifier (green) and self-consistency at τ=0 (orange). A short description of the signals is provided for context at the end of this section in the notes.
 
 <br>
 
-- The routed protocol with verifier signal reaches 84% accuracy vs 86% accuracy for the frontier model but **at a 2.4× lower cost per solved task**.
-- The routed protocol with self-consistency signal at τ=0 reaches 83% accuracy vs 86% accuracy for the frontier model but **at a 3× lower cost per solved task**.
-- An oracle router over the same recorded outcomes reaches **89.5%** at matched cost, so the realizable verifier signal captures 73% of the available routing gain, while self-consistency capture 68% of the realizable routing gain.
+> **Main outcomes:**
+>
+>- The routed protocol with verifier signal reaches 84% accuracy vs 86% accuracy for the frontier model but **at a 2.4× lower cost per solved task**.
+>- The routed protocol with self-consistency signal at τ=0 reaches 83% accuracy vs 86% accuracy for the frontier model but **at a 3× lower cost per solved task**.
+>- An oracle router over the same recorded outcomes reaches **89.5%** at matched cost, so the realizable verifier signal captures 73% of the available routing gain, while self-consistency capture 68% of the realizable routing gain.
 
 <br>
 Execution accuracy vs USD per solved task:
@@ -37,22 +41,15 @@ Paired tests (McNemar - with Holm correction for the routed signals) for the ver
 
 ### Escalation from gemma4-31b to sonnet-5.5
 
-Results with gemma4-31b as the baseline model and sonnet-5.5 as the frontier model (effort: medium)
+The following results use gemma4-31b as the baseline model and sonnet-5.5 as the frontier model (effort: medium)
 
-**On the 200 tasks draw from Arcwise-Plat-Full, there is no evidence that an escalation policy from gemma4-31b to sonnet-5.5 shows a significative increase in accuracy** The baseline gemma4-31b achieves 81.5% accuracy, and the frontier model 86%. The routed policy with the verifier signal achieves 83.5% accuracy, so a +2pp gain but not statistically significant as per McNemar's test.
+>**On the 200 tasks draw from Arcwise-Plat-Full, there is no evidence that an escalation policy from gemma4-31b to sonnet-5.5 shows a significative increase in accuracy** The baseline gemma4-31b achieves 81.5% accuracy, and the frontier model 86%. The routed policy with the verifier signal achieves 83.5% accuracy, so a +2pp gain but not statistically significant as per McNemar's test.
 
-**However when split per difficulty strata, the escalation policy seems to show higher gains with gemma4-31b on the "challenging" strata:**
+However when split per difficulty strata, the escalation policy seems to show higher gains with gemma4-31b on the "challenging" strata, see table XX in see [WIP](docs/results.md).
 
+So we ran the over all the 95 challenging tasks in Arcwise-PLat-Full:
 
-| Stratum | n | EX 31b alone % [CI] | `verifier` τ = 0: EX % [CI] / Δ pp / esc. / p (Holm) | frontier only: EX % [CI] / Δ pp / p (Holm) |
-|---|---|---|---|---|
-| simple | 61 | 91.8 [82.2, 96.4] | 90.2 [80.2, 95.4] / −1.6 / 0 / 1.00 (1.00) | 91.8 [82.2, 96.4] / +0.0 / 2 / 2 / 1.00 (1.00) |
-| moderate | 100 | 80.0 [71.1, 86.7] | 82.0 [73.3, 88.3] / +2.0 / 4 / 0.69 (1.00) | 85.0 [76.7, 90.7] / +5.0 / 8 / 13 / 0.38 (0.87) |
-| challenging | 39 | 69.2 [53.6, 81.4] | 76.9 [61.7, 87.4] / +7.7 / 3 / 0.25 (0.75) | 79.5 [64.5, 89.2] / +10.3 / 2 / 6 / 0.29 (0.87) |
-
-Although the p value is still not significant for the challenging strata, the support is very small. 
-
-**We ran the gemma4-31b to sonnet-5.5 escalation policy over all the 95 challenging tasks in Arcwise-PLat-Full, and found significant gains from the escalation policy: On the verifier signal, the escalation policy achieves +10.5pp in accuracy (p=0.002, holm=0.0039) at a 6.1× lower cost per solved task**
+>**Over all the 95 challenging tasks in Arcwise-PLat-Full, on the verifier signal, the escalation policy from gemma4-31b to sonnet-5.5 achieves +10.5pp in accuracy (p=0.002, holm=0.0039) at a 6.1× lower cost per solved task**
 
 
 <br>
@@ -68,7 +65,8 @@ Execution accuracy vs USD per solved task on the 95 tasks from the "challenging"
 *Notes:*
 
 - Verifier signal: The verifier signal tests the equality of the submitted query result between the model and the same model that is given a reformulated prompt. Failure to agree triggers the escalation. The signals tested are described in the methodology section.
-- self-consistency at τ=0: self-consistency is computed as the self agreement between k repeated runs at temperature t (here k=3, t=0.7). τ=0 means all runs should produce the same result, otherwise the signal is routed. It is the most restrictive setting for self-consistency.
+- `EX %` is the percentage of tasks for which the model submitted a query returning the same result as the gold query. This notation is carried from the original work from Li et al. (see Related Work)
+- self-consistency at τ=0: self-consistency is computed as the self agreement between k repeated runs at temperature t (here k=3, t=0.7). τ=0 means all runs should produce the same result, otherwise the signal is routed. It is the most restrictive setting for self-consistency, and the one that triggers the most escalations.
 - Costs are API USD at prices retrieved on 2026-10-14; the local models are priced at $0, assuming the infrastructure that runs them exists and ingoring electricity cost, which can be discussed.
 
 *Limitations:*
@@ -79,9 +77,10 @@ Execution accuracy vs USD per solved task on the 95 tasks from the "challenging"
 
 WIP
 
-## Documentation
+## Additional Documentation
 
-- Statistical protocol (WIP)
+- Data, Methodology and statistical protocol: [Methodology.md](docs/Methodology.md)
+- Detailed results: [WIP](docs/results.md)
 - Architecture: [Architecture.md](docs/architecture.md)
 
 ## Related work
