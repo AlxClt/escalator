@@ -12,7 +12,7 @@ The goal is to study an escalation policy over different error signals, and comp
 
 ### Escalation from gemma4-12b to sonnet-5.5
 
->*We present the main results with some context notes for understanding at the end of the section, for a complete overview of the protocol see [Methodology.md](docs/Methodology.md) and for more detailed results see [WIP](docs/results.md)*
+>*We present the main results with some context notes for understanding at the end of the section, for a complete overview of the protocol see [Methodology](docs/methodology.md) and for more detailed results see [Results](docs/results.md)*
 
 The following results use gemma4-12b as the baseline model and sonnet-5.5 as the frontier model (effort: medium)
 
@@ -45,7 +45,7 @@ The following results use gemma4-31b as the baseline model and sonnet-5.5 as the
 
 >**On the 200 tasks draw from Arcwise-Plat-Full, there is no evidence that an escalation policy from gemma4-31b to sonnet-5.5 shows a significative increase in accuracy** The baseline gemma4-31b achieves 81.5% accuracy, and the frontier model 86%. The routed policy with the verifier signal achieves 83.5% accuracy, so a +2pp gain but not statistically significant as per McNemar's test.
 
-However when split per difficulty strata, the escalation policy seems to show higher gains with gemma4-31b on the "challenging" strata, see table XX in see [WIP](docs/results.md).
+However when split per difficulty strata, the escalation policy seems to show higher gains with gemma4-31b on the "challenging" strata, see table 4 in see [Results](docs/results.md).
 
 So we ran the over all the 95 challenging tasks in Arcwise-PLat-Full:
 
@@ -79,8 +79,8 @@ WIP
 
 ## Additional Documentation
 
-- Data, Methodology and statistical protocol: [Methodology.md](docs/Methodology.md)
-- Detailed results: [WIP](docs/results.md)
+- Data, Methodology and statistical protocol: [Methodology](docs/methodology.md)
+- Detailed results: [Results](docs/results.md)
 - Architecture: [Architecture.md](docs/architecture.md)
 
 ## Related work
