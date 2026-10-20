@@ -1,19 +1,10 @@
 """python -m escalator.eval.collect {sc-samples,verifier-runs,frontier-repeat,estimate}
     [--smoke] [--models NAME ...] [--paid] [--overwrite]
 
-Collects the traces the week-3 signals need, beyond the week-2 baselines (settings: configs/router.yaml):
-
 - sc-samples: k samples per task at temperature T, sample j with seeds[j] (self_consistency signal);
 - verifier-runs: one fresh run per task with the verifier prompt, at the baseline's sampling;
-- frontier-repeat: one more frontier pass, sample_idx 1 (flip rate). Paid: defined, run by hand only;
+- frontier-repeat: one more frontier pass, sample_idx 1 (flip rate).
 - estimate: projected wall-clock of the full collection, from the smoke runs (--smoke).
-
-One run id per (kind, model) holds every sample: traces/<kind>-<model>-<prompt_version>/, records in
-(task_id, sample_idx, step) order. Before the first LLM call, each run's meta is compared with its
-model's baseline meta (eval.compat): any difference outside sampling, identity and timestamps aborts
-with a field-level diff. Paid models are refused without --paid (make ... PAID=1), with the projected
-cost printed. provider_error, resume through the cache (--overwrite) and exit codes are the runner's:
-1 provider_error, 2 refused, 3 spend cap, 4 provider setup failed or cache miss in readonly mode.
 """
 
 from __future__ import annotations

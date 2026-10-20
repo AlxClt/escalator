@@ -1,5 +1,3 @@
-"""`data/sources.lock` (what data) and `data/env.lock` (which engine): schema, load, validate, write."""
-
 from __future__ import annotations
 
 import json

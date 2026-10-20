@@ -1,15 +1,4 @@
 """python -m escalator.eval.runner {smoke,baselines} [--models NAME ...] [--paid] [--overwrite]
-
-Runs the agent loop over a preset of configs/agent.yaml: one MCP server subprocess per run, reused
-across tasks; tasks run sequentially in task-id order. Writes traces/<run_id>/{meta.json,steps.jsonl}
-per model and results/<preset>.json, scored with eval.tasks.
-
-Paid models (a non-zero price in configs/prices.yaml) are refused without --paid: frontier runs are
-only ever triggered by hand (`make baselines PAID=1`); with ESCALATOR_CACHE_MODE=readonly no provider
-can be reached, so they run from the cache. Providers are built, and Ollama's pinned digests checked,
-only at the first cache miss: a cached rerun needs no live provider. Tasks that end in provider_error are
-excluded from scoring and listed, and the runner exits 1; a re-run resumes through the cache.
-Exit codes: 2 refused, 3 spend cap, 4 provider setup failed or cache miss in readonly mode.
 """
 
 from __future__ import annotations

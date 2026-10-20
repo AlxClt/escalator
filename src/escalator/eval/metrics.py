@@ -1,13 +1,3 @@
-"""Statistics for the routing simulation (week-3 spec, "Statistical protocol"). Pure, stdlib only.
-
-- Wilson score interval for a single proportion (z = 1.959964).
-- Exact two-sided McNemar test on discordant pairs.
-- Holm-Bonferroni adjustment.
-- Mann-Whitney AUC, ties counting 1/2.
-- Percentile bootstrap: one B x n index matrix per invocation, shared by every statistic so that intervals
-  are jointly consistent; quantiles by numpy's default rule (linear, "type 7"), numpy not being locked.
-"""
-
 from __future__ import annotations
 
 import bisect

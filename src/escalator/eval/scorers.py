@@ -1,12 +1,4 @@
-"""Scoring a predicted result set against gold: execution accuracy (EX) and soft-F1. Pure, no I/O.
-
-EX rules:
-- columns are permutation-invariant: names are ignored, the column count must match;
-- rows are a multiset (order ignored, duplicate counts matter), unless the task asks for an output
-  order (the hand-checked list in configs/scoring.yaml), in which case rows are compared in order,
-  except inside tie blocks: runs of gold rows tied on the sort key, whose order is free;
-- numbers compare with a tolerance (`5 == 5.0`), NULL equals NULL, no text/number coercion;
-- two empty results match; one empty result never matches a non-empty one.
+"""Scoring a predicted result set against gold: execution accuracy (EX) and soft-F1. 
 """
 
 from __future__ import annotations

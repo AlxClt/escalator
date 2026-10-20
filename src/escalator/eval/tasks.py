@@ -1,10 +1,3 @@
-"""The pinned tasks and their gold: load data/manifest.json, re-execute gold through the sandbox, score.
-
-Gold is re-executed on every scoring call (decision P7) and checked against the manifest's
-`gold_result_hash`, so drift in the data, the engine or the sandbox fails loudly instead of
-silently moving the accuracy numbers.
-"""
-
 from __future__ import annotations
 
 import json

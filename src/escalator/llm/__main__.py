@@ -1,11 +1,3 @@
-"""python -m escalator.llm {pin,ping}
-
-pin   resolve each Ollama tag to its full digest via /api/tags and write it into configs/models.yaml
-      and configs/prices.yaml.
-ping  one fixed prompt through the adapter, twice; the second call must be a cache hit at $0.
-      Anthropic models need --paid: paid runs are only ever triggered by hand.
-"""
-
 from __future__ import annotations
 
 import argparse

@@ -1,5 +1,3 @@
-"""configs/models.yaml: pinned tiers, their exact model ids and request settings."""
-
 from __future__ import annotations
 
 from collections.abc import Iterable

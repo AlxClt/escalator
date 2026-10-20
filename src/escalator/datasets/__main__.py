@@ -1,4 +1,4 @@
-"""CLI: `python -m escalator.datasets {lock,fetch,verify,env,diagnose-gold,manifest}`."""
+"""`python -m escalator.datasets {lock,fetch,verify,env,diagnose-gold,manifest}`."""
 
 from __future__ import annotations
 

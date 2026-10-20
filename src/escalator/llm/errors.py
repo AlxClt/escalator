@@ -1,5 +1,3 @@
-"""Typed failures of the LLM layer. Nothing here falls back to a default silently."""
-
 from __future__ import annotations
 
 

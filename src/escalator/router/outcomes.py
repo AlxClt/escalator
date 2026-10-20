@@ -1,13 +1,3 @@
-"""Outcomes a(r) recomputed from traces through the existing scorer, and the integrity check against
-results/baselines.json (week-3 spec D1, "Integrity check").
-
-This is the only router module that reads gold: the signals never import it.
-
-a(r) = 1 iff end(r) = submitted and pred(r) executes and its result equals gold under eval.scorers;
-0 otherwise. Submitted SQL and gold go through the same cached executor (sandbox, row_cap=None); gold
-is checked against the manifest's gold_result_hash, as eval.tasks.gold_result does.
-"""
-
 from __future__ import annotations
 
 import json

@@ -1,5 +1,3 @@
-"""Load `configs/data.yaml` and the fixed layout of `data/raw`."""
-
 from __future__ import annotations
 
 from dataclasses import dataclass

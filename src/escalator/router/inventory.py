@@ -1,11 +1,3 @@
-"""The runs the simulation reads, exactly as listed in configs/router.yaml (no discovery by globbing),
-each validated against its declared role, grouped into per-task runs.
-
-A run r is the records of one (run_id, task_id, sample_idx). Small-tier and frontier-tier runs are
-loaded by separate functions: the signals only ever receive small-tier runs, and the no-label test
-patches `read_frontier_runs` to raise.
-"""
-
 from __future__ import annotations
 
 import hashlib

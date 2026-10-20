@@ -1,23 +1,3 @@
-"""python -m escalator.router.plots [--router results/router.json] [--out-dir results/figures]   (make plots)
-
-results/router.json -> per small model, two frontier figures (PNG + SVG):
-- frontier-<model>-cps: y = EX, x = USD per solved task (linear, from 0);
-- frontier-<model>-cost: y = EX, x = USD per task (the plane where the oracle gap is measured).
-
-The EX axis runs from the lowest plotted value minus 0.2 (floored at 0) up to 1.
-
-Points: small-only, frontier-only, and per signal escalate-all and every non-degenerate threshold point,
-joined in tau order (one marker and one colour per signal); 95% bootstrap intervals on both axes. The
-oracle frontier is dashed through its vertices, then flat at its ceiling to the right edge (no budget
-buys more than the ceiling); the random-escalation reference is dotted. Footer: n,
-prices retrieved_on, run ids.
-
-The headline figure is the frontier plot of configs/router.yaml `headline_small_tier`. That key has no
-default: while it is unset, the per-model figures are written and the command then fails (exit 2).
-
-Output is deterministic: fixed svg.hashsalt, no date metadata.
-"""
-
 from __future__ import annotations
 
 import argparse

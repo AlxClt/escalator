@@ -1,15 +1,3 @@
-"""ReAct-style agent loop over a hand-written MCP client session. No agent framework.
-
-One step = one LLM call. The loop builds the same request for both tiers (provider wire
-translation stays in llm/providers/), appends each assistant turn exactly as returned, executes
-tool calls through the MCP session after client-side validation, and returns one StepRecord per
-LLM call. Execution is sequential.
-
-Termination (`end`, set on the final record only), checked in this order after each call:
-provider_error (the call failed), context_overflow (an Ollama model filled num_ctx; the turn's calls
-are not executed), no_tool_call, submitted, validation_exhausted, max_steps.
-"""
-
 from __future__ import annotations
 
 from collections.abc import Mapping

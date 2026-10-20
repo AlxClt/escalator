@@ -1,5 +1,3 @@
-"""`complete(req, context=...)`: the only path to a model. Cache lookup, provider on miss, normalize, price."""
-
 from __future__ import annotations
 
 import random

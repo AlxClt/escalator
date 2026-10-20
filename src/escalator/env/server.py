@@ -1,7 +1,4 @@
 """Minimal MCP server over stdio
-
- Nothing but protocol frames reaches stdout: logging goes to stderr.
-
     uv run --locked python -m escalator.env.server --db-root data/raw/bird
 """
 

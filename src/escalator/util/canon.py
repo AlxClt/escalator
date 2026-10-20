@@ -1,4 +1,4 @@
-"""The one canonical JSON encoding: cache keys, result hashes and trace hashing all call it."""
+"""The one canonical JSON encoding: cache keys, result hashes and trace hashing"""
 
 from __future__ import annotations
 

@@ -1,5 +1,3 @@
-"""Read-only SQLite access, gold execution with a per-query deadline, and the gold-check cache."""
-
 from __future__ import annotations
 
 import hashlib

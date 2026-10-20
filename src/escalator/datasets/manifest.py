@@ -1,6 +1,4 @@
 """`make manifest`: exclusions, stratified sampling and pinning of the task subset in data/manifest.json.
-
-The manifest holds ids, labels and hashes only, never question, evidence or SQL text.
 """
 
 from __future__ import annotations

@@ -1,14 +1,5 @@
-"""Execution of submitted SQL for the simulation, through the sandbox (row_cap=None), with a persistent
+"""Execution of submitted SQL for the simulation, through the sandbox, with a persistent
 outcome cache.
-
-Execution is deterministic except for the 30 s wall-clock limit: a query close to it could time out in
-one invocation and not in the next, and `make router` must be byte-identical across invocations. So
-the first outcome of each (db, sql) is stored in .cache/exec.sqlite and reused. The key holds a salt:
-the sources.lock and SQLite versions and the sandbox timeout, so new data or a new engine never reuses
-an old outcome.
-
-Executing a submitted query reads no gold: the label-free signals use it (week-3 spec D3), and so does
-the integrity check, which then compares with gold in eval.scorers.
 """
 
 from __future__ import annotations

@@ -1,9 +1,3 @@
-"""Cost meter: normalized usage -> exact nominal USD, from configs/prices.yaml.
-
-`usd` is the nominal cost of a call, recomputed from stored usage on a cache hit.
-Actual spend in a run is the sum of usd over non-hits.
-"""
-
 from __future__ import annotations
 
 import datetime as dt

@@ -1,7 +1,4 @@
 """Offline verification gates and audits over `data/raw`.
-
-Every gate returns a `GateResult` holding ids, counts and file or column names only, never
-question, evidence, SQL or description text. The integration tests assert on the same functions.
 """
 
 from __future__ import annotations

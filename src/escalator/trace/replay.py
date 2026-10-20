@@ -1,8 +1,4 @@
-"""Deterministic re-run of a task from its trace: rebuild the run from meta.json, re-run the loop
-against a readonly cache and a live MCP server, and check that every request key reproduces.
-
-A readonly cache never calls a provider: a key that is not cached raises CacheMiss, which is
-reported as a mismatch at that step.
+"""Deterministic re-run of a task from its trace
 """
 
 from __future__ import annotations

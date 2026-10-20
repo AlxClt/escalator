@@ -1,6 +1,3 @@
-"""configs/router.yaml: self-consistency and verifier collection settings, the run inventory the
-simulation reads, and the bootstrap settings."""
-
 from __future__ import annotations
 
 from dataclasses import dataclass

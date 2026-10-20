@@ -1,13 +1,3 @@
-"""Routing policies simulated over recorded outcomes (week-3 spec D5-D7). Pure, no I/O.
-
-Everything works on per-task arrays over the analysis set A (sorted by task id) and on a sequence of
-row positions into them: range(n) for the point estimate, a bootstrap row for a resample (positions
-may repeat; each occurrence counts as a task).
-
-Costs are exact Decimal sums; comparisons between policies use totals over the same rows, so matching
-"at equal USD per task" never depends on a division.
-"""
-
 from __future__ import annotations
 
 from collections.abc import Sequence

@@ -1,6 +1,4 @@
-"""SQLite sandbox: execute(db_id, sql) -> Result | SqlError, deterministic and stateless.
-
-One fresh read-only, immutable connection per call. 
+"""SQLite sandbox: execute(db_id, sql) -> Result | SqlError.
 """
 
 from __future__ import annotations

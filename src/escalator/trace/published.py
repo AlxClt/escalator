@@ -1,11 +1,4 @@
-"""Published traces: traces/published/<run_id>/{meta.json, steps.jsonl.gz}, the runs behind published
-numbers, committed to the repo (traces/<run_id>/ stays gitignored).
-
-python -m escalator.trace.published RUN_ID [RUN_ID ...]
-
-Publishing copies meta.json byte for byte and gzips steps.jsonl deterministically (mtime 0, no file
-name), so republishing an unchanged run gives identical bytes. The original run directory is never
-modified. Readers look in published/ first, then in traces/<run_id>/.
+"""Published traces
 """
 
 from __future__ import annotations

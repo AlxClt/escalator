@@ -1,9 +1,4 @@
 """Response cache: SQLite keyed by a hash of the entire request plus its unsent context.
-
-Values are raw provider bodies, normalized on read, so a parser bug is fixed at $0.
-Successful completions only (including max_tokens and refusals); transport errors are never cached.
-Concurrency: WAL and INSERT OR IGNORE, first writer wins. Two concurrent misses on one key both
-call the provider and both pay; this is accepted.
 """
 
 from __future__ import annotations

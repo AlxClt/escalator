@@ -1,17 +1,3 @@
-"""Compatibility gate: a collection run (self-consistency, verifier, frontier repeat) must describe the
-same agent as the week-2 baseline run of its model, so that a signal speaks about the outcome a^S.
-
-Before the first LLM call, the new run's meta is compared with the baseline's meta.json. Every
-RunMeta field is in exactly one of two sets (a test enforces it, so a new field cannot slip through):
-
-- MUST_MATCH: anything that changes the agent, its tools, its data or its cache keys;
-- MAY_DIFFER: sampling parameters, identity and timestamps, and fields that describe the run without
-  changing it. `configs_sha256` differs by construction: configs/router.yaml is new in week 3.
-
-A verifier run must instead differ from the baseline in its prompt (version and sha256), and still
-match the tool manifest: its tool descriptions are the baseline prompt's.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass

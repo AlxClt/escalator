@@ -1,6 +1,4 @@
 """The description overlay: BIRD's `database_description/*.csv`, with Arcwise's files on top.
-
-`env/schema.py` imports `effective_descriptions`; nothing else may re-implement the rule.
 """
 
 from __future__ import annotations

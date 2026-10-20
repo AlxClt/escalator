@@ -1,15 +1,4 @@
 """python -m escalator.router [--config configs/router.yaml] [--out-dir results]   (make router)
-
-The config's optional `manifest`, `scoring` and `baselines` keys select another task set (e.g. the
-challenging-stratum study); without them, the pinned 200-task sample.
-
-Traces -> results/signals.json (one row per small model and task) and results/router.json (every
-metric). No LLM call, no network, $0: it reads the runs listed in configs/router.yaml and executes
-submitted SQL through the sandbox (outcomes cached in .cache/exec.sqlite).
-
-Before anything else, a_S and a_L are recomputed through the scorer and compared with
-results/baselines.json task by task (exit 2 on any mismatch, listing the task ids). Two invocations
-give byte-identical files.
 """
 
 from __future__ import annotations

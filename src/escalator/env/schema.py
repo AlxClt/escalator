@@ -1,7 +1,4 @@
-"""Schema card: the one rendering of a database's tables, shown in the prompt and by `get_schema`.
-
-Deterministic: tables sorted by name, columns in declaration order, descriptions from the effective
-BIRD/Arcwise overlay. Every lookup goes through `Sandbox.introspect`, never through agent SQL.
+"""Schema card: the one rendering of a database's tables, shown in the prompt and by `get_schema`..
 """
 
 from __future__ import annotations

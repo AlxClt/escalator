@@ -1,9 +1,3 @@
-"""Download, hash and extract locked sources.
-
-Every write goes to a temp file in the destination directory, is hashed while it is
-written, and is renamed into place only when the hash matches the lock.
-"""
-
 from __future__ import annotations
 
 import hashlib

@@ -1,11 +1,3 @@
-"""Client-side tool layer: canonical manifest, startup check, validation, result classification and
-model-facing rendering. The single validation site; pure functions, no state across calls.
-
-Argument structure is code-defined here (it must equal what the server lists); descriptions come
-from the active prompt version. The server never re-validates argument shape, so a server-side
-validation failure on a call validated here is a harness bug and raises.
-"""
-
 from __future__ import annotations
 
 import copy

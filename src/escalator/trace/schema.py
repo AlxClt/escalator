@@ -1,17 +1,3 @@
-"""Trace records: one StepRecord per LLM call in traces/<run_id>/steps.jsonl, one RunMeta in meta.json.
-
-Every metric, the routing simulation and the failure taxonomy read these files and nothing else.
-Nothing nondeterministic beyond latency_ms enters a record.
-
-Schema v2 (week 2): the per-call fields are lists in call order, so a response with several tool
-calls is described completely; `end` gained `validation_exhausted` and `context_overflow`, and
-`tool_status` gained `ignored` (a call the harness did not execute).
-
-RunMeta v3 (week 3): `run_kind`, per-sample seeds, the baseline a collection run was gated against,
-and the Ollama Modelfile parameters and OLLAMA_NUM_PARALLEL. v2 meta files read with the defaults
-(a week-2 run is a `baseline`). StepRecord is unchanged and stays v2.
-"""
-
 from __future__ import annotations
 
 import datetime as dt

@@ -1,12 +1,4 @@
-"""Rebuild a preset's results file (results/<preset>.json) from its recorded traces, without any model call.
-
-python scripts/rebuild_preset_results.py PRESET [--check-only]
-
-`make baselines PRESET=... MODELS=...` rewrites the preset's results file with the models of that invocation
-only, so a preset collected over several invocations ends up with the last one's runs. This script rescores
-every model of the preset from traces/<preset>-<model>-<prompt_version>/ through the runner's own code
-(eval.tasks.score_sql, runner.task_row, runner.summarize) and writes the full file. Runs already present in
-the existing file must come out identical (they validate the rebuild); otherwise nothing is written.
+"""Rebuild a preset's results file (results/<preset>.json) from its recorded traces.
 """
 
 from __future__ import annotations

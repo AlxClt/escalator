@@ -1,15 +1,3 @@
-"""results/router.json and results/signals.json (week-3 spec D5-D8, "Statistical protocol", "Outputs").
-
-Every number carries an interval or `point_estimate: true`:
-- single proportions (EX, escalation rate, NT, per-stratum rates, composition shares): Wilson 95%;
-- Cost, CPS, delta Acc vs frontier-only, the CPS ratio, oracle gap, headroom captured and AUC: percentile
-  bootstrap over one shared B x n index matrix (thresholds fixed, the oracle recomputed per resample);
-  a resample where a statistic is undefined is dropped for it and counted in `n_undefined`;
-- counts and descriptive curves: point estimates.
-
-Output is deterministic: floats to 10 significant digits, keys sorted, tau = -inf written "-inf".
-"""
-
 from __future__ import annotations
 
 import statistics

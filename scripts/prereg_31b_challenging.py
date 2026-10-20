@@ -1,17 +1,4 @@
-"""Pre-registered analysis of the challenging-stratum study (docs/prereg-31b-challenging.md).
-
-python scripts/prereg_31b_challenging.py [--sonnet results/challenging/sonnet] [--opus results/challenging/opus]
-    [--out results/challenging/prereg.json]
-
-Reads each pair's results/challenging/<frontier>/{signals.json, router.json} (written by `make router`) and
-writes the pre-registered tests. Pure post-processing: no model call, no execution, deterministic.
-
-- Primary, for each frontier: the routed policy (gemma4-31b, escalate iff the verifier disagrees, i.e.
-  verifier tau = 0) against gemma4-31b alone: delta EX with a 95% bootstrap CI, two-sided exact McNemar,
-  Holm-adjusted over the two frontiers.
-- Secondary (descriptive): frontier-only vs gemma4-31b alone; routed vs frontier-only; Opus vs Sonnet;
-  the held-out subset (tasks not in data/manifest.json, i.e. not used to choose the policy).
-The bootstrap uses the router config's B and seed, over the analysis set sorted by task id.
+"""Pre-registered analysis of the challenging-stratum study.
 """
 
 from __future__ import annotations

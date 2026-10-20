@@ -1,19 +1,3 @@
-"""The three escalation signals (week-3 spec D3, D4): pure functions of small-tier runs plus label-free
-execution of their submitted SQL. Larger s means "more likely to need escalation".
-
-No label access: this module reads no gold SQL, no gold result and no frontier-tier trace. It imports
-nothing from eval.tasks (the gold side) and receives only SmallRunSets; a test runs it with the gold
-loader and the frontier reader patched to raise. eval.scorers.execution_match is a pure comparison of
-two row lists, used here with row order always ignored.
-
-- ans(r): the result rows of pred(r) when end(r) = submitted and its execution succeeds, else ⊥ (None).
-- eq(u, v): both non-⊥ and equal under the scorer's normalisation (NULLs, float tolerance, column
-  permutation), row order ignored. ⊥ equals nothing, itself included.
-- error: 1 iff end ∈ FAILED_ENDS, or submitted and pred fails to execute (error or timeout).
-- self_consistency: m = max_j Σ_j' eq(ans_j, ans_j'), s = 1 - m/k (k samples at T = 0.7).
-- verifier: 0 iff eq(ans(baseline), ans(verifier)), else 1.
-"""
-
 from __future__ import annotations
 
 from collections.abc import Sequence

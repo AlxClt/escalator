@@ -1,9 +1,3 @@
-"""Provider-neutral request, response and usage records.
-
-Every parameter sent to a provider is a field of `Request`, so the cache key (a hash of the whole
-request) covers everything that changes the output by construction.
-"""
-
 from __future__ import annotations
 
 from decimal import Decimal
