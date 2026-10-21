@@ -58,7 +58,7 @@ Frontier-only USD/solved is 0.0222 [0.0204, 0.0242] for every pair.
 | `self_consistency` | haiku-5-5 ³ | 0.616 [0.510, 0.723] | 0.500 [0.419, 0.642] | 3 | 10.7 | 0.0040 | 29 [4, 50] (τ = 0) |
 | `verifier` | haiku-5-5 | 0.741 [0.636, 0.850] | 0.557 [0.421, 0.741] | 1 | 3.5 | 0.0014 | 48 [20, 72] (τ = 0) |
 
-See [Methodology](docs/methodology.md) for the signals definitions
+See [Methodology](methodology.md) for the signals definitions
 
 ## Table 4: By difficulty stratum
 
@@ -88,7 +88,7 @@ Baseline runs of each tier (n = 200)
 
 ## Table 6: Soft F1
 
-The soft F1 is more tolerant than EX and takes into account how "close" a result is from the gold query result. It is reported as a secondary metric. See [Methodology](docs/methodology.md) for soft F& definition.
+The soft F1 is more tolerant than EX and takes into account how "close" a result is from the gold query result. It is reported as a secondary metric. See [Methodology](methodology.md) for soft F& definition.
 
 | Metric | gemma4-e4b | gemma4-12b | gemma4-31b | haiku-5-5 | sonnet-5-5 | routed (12b, `verifier` τ = 0) |
 |---|---|---|---|---|---|---|
