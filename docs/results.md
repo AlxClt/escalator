@@ -1,7 +1,8 @@
 # Results
 
-## Table 1 — All Policies 
+## Table 1: All Policies
 
+### Table 1a: gemma4:12b to claude-sonnet5-5 routing
 
 | Policy | Config | EX % [CI] | Δ vs frontier (pp) [CI] | McNemar b / c / p | Escalation rate % | USD/task (API) | LLM latency s/task | USD/solved (API) [CI] | Steps/task |
 |---|---|---|---|---|---|---|---|---|---|
@@ -16,7 +17,7 @@
 | **oracle, budget-matched** (at the best τ's USD/task) | 12b → frontier | 89.5 [84.5, 93.0] | +3.5 | n/a | 20.5 | 0.0046 | 11.1 | 0.0052 | 3.69 |
 | **oracle, unconstrained** | 12b → frontier | 89.5 [84.5, 93.0] | +3.5 | n/a | 20.5 | 0.0046 | 11.1 | 0.0052 | 3.69 |
 
-### Table 1b — Summary across small models
+### Table 1b: Summary across small models
 
 | Small model | Local only EX % [CI] | Frontier only EX % [CI] | Best routed point *(in-sample)*: EX % [CI], USD/solved | Oracle ceiling % [CI] |
 |---|---|---|---|---|
@@ -27,7 +28,7 @@
 
 Frontier-only USD/solved is 0.0222 [0.0204, 0.0242] for every pair.
 
-## Table 2 — Escalation gain decomposition
+## Table 2: Escalation gain decomposition
 
 `δ_i = a_i^L − a_i^S ∈ {−1, 0, +1}` (see [Methodology](docs/methodology.md)), frontier = claude-sonnet-5-5, n = 200.
 
@@ -40,7 +41,7 @@ Frontier-only USD/solved is 0.0222 [0.0204, 0.0242] for every pair.
 
 `P(δ = −1)` is negative transfer — the small model right, the frontier model wrong.
 
-## Table 3 — Signal quality
+## Table 3: Signal quality
 
 | Signal | Small tier | AUC vs 1[δ=+1] [CI] | AUC vs 1[δ=−1] [CI] | Extra small-tier runs/task | Extra LLM latency s/task | Extra USD/task | Oracle gain captured at the signal's τ* % [CI] |
 |---|---|---|---|---|---|---|---|
@@ -59,7 +60,7 @@ Frontier-only USD/solved is 0.0222 [0.0204, 0.0242] for every pair.
 
 See [Methodology](docs/methodology.md) for the signals definitions
 
-## Table 4 — By difficulty stratum
+## Table 4: By difficulty stratum
 
 Labels are from the original Mini BIRD benchmark questions, they have not been updated according to Arcwise Plat Full corrections
 
@@ -71,7 +72,7 @@ Labels are from the original Mini BIRD benchmark questions, they have not been u
 
 τ* for 12b is `verifier`, τ = 0.
 
-## Table 5 — Operational
+## Table 5: Operational
 
 Baseline runs of each tier (n = 200)
 
@@ -84,5 +85,44 @@ Baseline runs of each tier (n = 200)
 | statement-timeout % [CI] | 0.57 [0.16, 2.05] | 0.00 [0.00, 0.78] | 0.00 [0.00, 1.33] | 0.00 [0.00, 1.88] | 0.00 [0.00, 3.00] | 0.00 [0.00, 0.32] |
 | LLM latency s/task (mean, p95) | 5.7, 19.5 | 10.2, 24.7 | 13.6, 25.2 | 3.3, 5.9 | 3.5, 6.5 | 24.4, 53.4 |
 | MCP round-trip overhead, ms/call (median / p95) | 1.88 / 2.53 | 1.88 / 2.53 | 1.88 / 2.53 | 1.88 / 2.53 | 1.88 / 2.53 | 1.88 / 2.53 |
+
+## Table 6: Soft F1
+
+The soft F1 is more tolerant than EX and takes into account how "close" a result is from the gold query result. It is reported as a secondary metric. See [Methodology](docs/methodology.md) for soft F& definition.
+
+| Metric | gemma4-e4b | gemma4-12b | gemma4-31b | haiku-5-5 | sonnet-5-5 | routed (12b, `verifier` τ = 0) |
+|---|---|---|---|---|---|---|
 | soft-F1 (secondary) | 0.125 | 0.762 | 0.882 | 0.876 | 0.902 | 0.890 |
 | EX − soft-F1 gap (pp) | −2.0 | −7.2 | −6.7 | −8.1 | −4.2 | −5.0 |
+
+## Table 7: challenging stratum study
+
+For the challenging stratulm study, we added the escalation to claude-sonnet-opus5.5 but it did not perform better that claude-sonnet-5.5. 
+
+### Table 7a: Primary result
+
+Routed policy vs gemma4-31b alone, paired on the 95 tasks. The same statistical protocol is used: Wilson intervals for EX, bootstrap intervals for the mean EX difference (B = 2000, seed 20261015). McNemar test for paired comparison, with holm correctionon.
+
+| Frontier | Escalated | EX routed % [CI] | EX 31b alone % [CI] | **Means EX diff (pp) [95% CI]** | Wins / losses | p | Holm p |
+|---|---|---|---|---|---|---|---|
+| claude-sonnet-5-5 | 14 / 95 | 83.2 [74.4, 89.4] | 72.6 [62.9, 80.6] | **+10.5 [+5.3, +17.9]** | 10 / 0 | 0.0020 | **0.0039** |
+| claude-opus-5-5 | 14 / 95 | 81.1 [72.0, 87.7] | 72.6 [62.9, 80.6] | **+8.4 [+3.2, +14.7]** | 8 / 0 | 0.0078 | **0.0078** |
+
+Both tests reject "no difference" at the family-wise 5% level. On these 95 tasks, escalating gemma4-31b's verifier disagreements to either frontier model raises EX by about 8–11 points.
+
+### Table 7b: Secondary results
+
+| Comparison | EX % [CI] vs reference % [CI] | Means EX diff (pp) [95% CI] | Wins / losses | p |
+|---|---|---|---|---|
+| Sonnet only vs 31b alone | 89.5 [81.7, 94.2] vs 72.6 [62.9, 80.6] | +16.8 [+8.4, +25.3] | 18 / 2 | 0.0004 |
+| Opus only vs 31b alone | 87.4 [79.2, 92.6] vs 72.6 [62.9, 80.6] | +14.7 [+6.3, +24.2] | 17 / 3 | 0.0026 |
+| routed (Sonnet) vs Sonnet only | 83.2 vs 89.5 | −6.3 [−13.7, +0.0] | 2 / 8 | 0.11 |
+| routed (Opus) vs Opus only | 81.1 vs 87.4 | −6.3 [−13.7, +0.0] | 3 / 9 | 0.15 |
+| Opus only vs Sonnet only | 87.4 vs 89.5 | −2.1 [−9.5, +5.3] | 5 / 7 | 0.77 |
+
+**Cost** (API USD):
+
+| Pair | Routed USD/task | Routed USD/solved [CI] | Frontier-only USD/solved | Cost-per-solved ratio [CI] |
+|---|---|---|---|---|
+| 31b → Sonnet | 0.0029 | 0.0035 [0.0017, 0.0056] | 0.0211 | 6.1× [3.9, 12.2] |
+| 31b → Opus | 0.0067 | 0.0082 [0.0043, 0.0129] | 0.0553 | 6.7× [4.3, 12.6] |

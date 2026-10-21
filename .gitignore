@@ -229,3 +229,6 @@ traces/*
 useful.txt
 to_document.txt
 *_uncommited*
+changelog.md
+project_status.md
+project_specs.md

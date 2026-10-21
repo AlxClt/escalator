@@ -7,7 +7,7 @@ The databases used are 11 SQLite databases from the BIRD Mini-Dev benchmark (Jin
 
 The tasks the the Agent sees and is evaluated on come from Arcwise-Plat-Full, a corrected version of the original BIRD Mini-Dev benchmark tasks (Jin et al., 2026, arXiv:2601.08778): [https://github.com/uiuc-kang-lab/text_to_sql_benchmarks](https://github.com/uiuc-kang-lab/text_to_sql_benchmarks)
 
-Example of a task:
+Example of a task, with the gold reference query under the "SQL" key:
 
 ```
   {
@@ -20,6 +20,22 @@ Example of a task:
 ```
 
 ## Method
+
+### Models
+
+We study the task escalation from small tier models (S) to frontier paid models (L).
+
+Small tier models tested:
+
+- gemma4:e4b
+- gemma4:12b
+- gemma4:31b
+- claude-haiku-5-5
+
+frontier models tested:
+
+- claude-sonnet-5.5
+- claude-opus-5.5 (only in the complementary study on the challenging tasks strata)
 
 ### Agent loop
 
@@ -88,28 +104,57 @@ Signal quality is computed as AUC of `s_i` against `1[δ_i = +1]`, i.e. against 
 
 ## Statistical protocol
 
-**Tasks:**
+### Metrics
+
+**EX (%):**
+
+EX (%) is the accuracy of an agent over the SQL tasks. This notation is taken from the original BIRD benchmark.
+
+For a Task `T_i`, the model generates a query `Q_i` which returns a result `R_i` when executed over the sandbox.
+Each task `T_i` has a corresponding gold query `Q_g,i` returning a gold result `R_g,i`.
+
+For a task `T_i`, `EX(T_i)=1` when `R_i=R_g,i`. Column and row order in the result is ignored unless the question in the task explicitely requires it (example: "Give the sales volume per region for 2026 ordered by decreasing order")
+
+EX (%) is tha average of all `EX(T_i)` expressed as a percentage.
+
+**Soft F1:**
+
+We report the soft F1 as a secondary metric in Table 6 in [results.md](docs/results.md)
+
+Let:
+
+- `tp` (true positives) the number of concordant rows between the predicted result and the glod result
+- `fp` (false positives) the number of predicted rows absent from the gold result
+- `fn` (true positives) the number of gold result rows absent from the predicted result
+
+The soft F1 is computed like the F1 score with the above devinitions of tp, fp and fn:
+
+- Precision: `p = tp/(tp+fp)`
+- Recall: `r = tp/(tp+fn)`
+- Soft F1: `F1 = 2 / (1/r + 1/p)`
+
+### Tasks
 
 n = 200 tasks, fixed in advance, stratified by dificulty stratum.
 
-**Policies comparison:**
+### Policies comparison
 
 Policies comparisons are paired: two policies are compared using exact McNemar test on the discordant pairs of those two policies. The null hypothesis is that both policies are equally accurate.
 
 Mc Nemar test statistic is  `X² = (b - c)²/(b+c)` where `b` is the number of tasks where only the routed policy is right, and `c` the nulber of tasks where only the frontier is right. Under the null hypothesis, the test statistic follow a chi-squared distribution with one degree of freedom.
 
-**Single proportion measures:**
+### Single proportion measures
 
 For EX, escalation rate and P(δ) we use the Wilson score interval
 
-**Bootstrap intervals**
+### Bootstrap intervals
 
 For paired differences (Δ vs frontier, Δ vs the small model), USD/solved task, the cost ratio, oracle gap and AUC, we use a single shared bootstrap over tasks with 2000 resamples.
 
-**Multiplicity:**
+### Multiplicity
 
 The search for the best escalation routine covers every signal/threshold/model combination.
 
-To countreact the problem of multiple comparison, we apply the Holm–Bonferroni correction to control the family wise error rate. Considering the different signal and thresholds tested, there are 16 non degenerate policy/thresholds combinations after dropping the ones escalating either all or zero tasks. We use m = 16 for the correction.
+To counteract the problem of multiple comparison, we apply the Holm–Bonferroni correction to control the family wise error rate. Considering the different signal and thresholds tested, there are 16 non degenerate policy/thresholds combinations after dropping the ones escalating either all or zero tasks. We use m = 16 for the correction.
 
 ---

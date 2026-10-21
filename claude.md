@@ -49,7 +49,7 @@ Commit only through the `update-docs-and-commit` skill; never run `git commit` d
 
 ## Documentation
 
-- [Project Spec](project_spec.md) - Full requirements, tech stack specs and details
+- [Project Spec](project_spec.md) - Full requirements, tech stack specs and details 
 - [Architecture](docs/architecture.md) - System design
 - [Changelog](docs/changelog.md) - Version history
 - [Project Status](docs/project_status.md) - Current progress

@@ -8,11 +8,11 @@ The task the agent is evaluated on are drawn from **ReViSQL** — Zhu, Jin, Choi
 
 The goal is to study an escalation policy over different error signals, and compute the cost vs accuracy curve for different thresholds of these error signals.
 
+>*We present the main results with some context notes for understanding at the end of the section. For a complete overview of the protocol it is recommended to read [Methodology](docs/methodology.md), and for more detailed results see [Full Results](docs/results.md)*
+
 ## Results
 
 ### Escalation from gemma4-12b to sonnet-5.5
-
->*We present the main results with some context notes for understanding at the end of the section, for a complete overview of the protocol see [Methodology](docs/methodology.md) and for more detailed results see [Results](docs/results.md)*
 
 The following results use gemma4-12b as the baseline model and sonnet-5.5 as the frontier model (effort: medium)
 
@@ -72,10 +72,7 @@ Execution accuracy vs USD per solved task on the 95 tasks from the "challenging"
 *Limitations:*
 
 - All models are given the same prompt, that is kept very simple ([v1 prompt](src/escalator/agent/prompts/v1.yaml)). The goal was not to optimize the SQL accuracy of the agent, but to compare the models on the escalation routine. So the accuracy numbers are not benchmarks, and better results should be expected with a prompt optimized for each model.
-
-## Reproduce
-
-WIP
+- The study runs on 200 tasks only, noise on a few tasks could significantly impact the results
 
 ## Additional Documentation
 
