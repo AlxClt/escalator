@@ -30,7 +30,7 @@ Frontier-only USD/solved is 0.0222 [0.0204, 0.0242] for every pair.
 
 ## Table 2: Escalation gain decomposition
 
-`δ_i = a_i^L − a_i^S ∈ {−1, 0, +1}` (see [Methodology](docs/methodology.md)), frontier = claude-sonnet-5-5, n = 200.
+`δ_i = a_i^L − a_i^S ∈ {−1, 0, +1}` (see [Methodology](methodology.md)), frontier = claude-sonnet-5-5, n = 200.
 
 | Small tier | P(δ = +1) % [CI] | P(δ = 0, both right) % | P(δ = 0, both wrong) % | **P(δ = −1)** % [CI] | Oracle EX ceiling % [CI] |
 |---|---|---|---|---|---|
