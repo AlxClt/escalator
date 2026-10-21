@@ -119,7 +119,7 @@ EX (%) is tha average of all `EX(T_i)` expressed as a percentage.
 
 **Soft F1:**
 
-We report the soft F1 as a secondary metric in Table 6 in [results.md](docs/results.md)
+We report the soft F1 as a secondary metric in Table 6 in [results.md](results.md)
 
 Let:
 
