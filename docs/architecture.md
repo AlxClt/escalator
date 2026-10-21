@@ -81,13 +81,13 @@ prompt (`agent/prompts/`), calls the model through `llm/adapter.py` (cache first
 call client-side and executes it on the server → one `StepRecord` per LLM call in
 `traces/<run_id>/steps.jsonl` → the submitted SQL is scored by `eval/tasks.py` → `results/<preset>.json`.
 
-Collection flow (week 3): `eval/collect.py` plans one run per (kind, model) from `configs/router.yaml`
+Collection flow: `eval/collect.py` plans one run per (kind, model) from `configs/router.yaml`
 → starts the MCP server → builds each run's `RunMeta` and compares it with the baseline's
 (`eval/compat.py`), all before the first LLM call → runs every task × sample through `agent/loop.py`
 exactly as the runner does → `traces/<kind>-<model>-<prompt_version>/`. `make publish-traces` copies
 runs into `traces/published/`, which the simulation reads through the inventory.
 
-Routing flow (week 3, $0): `make router` loads the inventory's runs (`router/inventory.py`) → recomputes
+Routing flow: `make router` loads the inventory's runs (`router/inventory.py`) → recomputes
 a_S and a_L with `eval.scorers` and checks them against `results/baselines.json` (`router/outcomes.py`) →
 computes the signals from small-tier runs (`router/signals.py`, submitted SQL executed through
 `router/execcache.py`) → simulates every policy (`router/policy.py`) → `results/signals.json` and
