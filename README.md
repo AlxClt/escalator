@@ -20,11 +20,11 @@ Two error signals are strong candidates for reducing costs: verifier (green) and
 
 <br>
 
-> **Main outcomes:**
->
->- The routed protocol with verifier signal reaches 84% accuracy vs 86% accuracy for the frontier model but **at a 2.4× lower cost per solved task**.
->- The routed protocol with self-consistency signal at τ=0 reaches 83% accuracy vs 86% accuracy for the frontier model but **at a 3× lower cost per solved task**.
->- An oracle router over the same recorded outcomes reaches **89.5%** at matched cost, so the realizable verifier signal captures 73% of the available routing gain, while self-consistency capture 68% of the realizable routing gain.
+ **Main outcomes:**
+
+- The routed protocol with verifier signal reaches 84% accuracy vs 86% accuracy for the frontier model but **at a 2.4× lower cost per solved task**.
+- The routed protocol with self-consistency signal at τ=0 reaches 83% accuracy vs 86% accuracy for the frontier model but **at a 3× lower cost per solved task**.
+- An oracle router over the same recorded outcomes reaches **89.5%** at matched cost, so the realizable verifier signal captures 73% of the available routing gain, while self-consistency capture 68% of the realizable routing gain.
 
 <br>
 Execution accuracy vs USD per solved task:
@@ -43,13 +43,13 @@ Paired tests (McNemar - with Holm correction for the routed signals) for the ver
 
 The following results use gemma4-31b as the baseline model and sonnet-5.5 as the frontier model (effort: medium)
 
->**On the 200 tasks draw from Arcwise-Plat-Full, there is no evidence that an escalation policy from gemma4-31b to sonnet-5.5 shows a significative increase in accuracy** The baseline gemma4-31b achieves 81.5% accuracy, and the frontier model 86%. The routed policy with the verifier signal achieves 83.5% accuracy, so a +2pp gain but not statistically significant as per McNemar's test.
+**On the 200 tasks draw from Arcwise-Plat-Full, there is no evidence that an escalation policy from gemma4-31b to sonnet-5.5 shows a significative increase in accuracy** The baseline gemma4-31b achieves 81.5% accuracy, and the frontier model 86%. The routed policy with the verifier signal achieves 83.5% accuracy, so a +2pp gain but not statistically significant as per McNemar's test.
 
 However when split per difficulty strata, the escalation policy seems to show higher gains with gemma4-31b on the "challenging" strata, see table 4 in see [Results](docs/results.md).
 
 So we ran the over all the 95 challenging tasks in Arcwise-PLat-Full:
 
->**Over all the 95 challenging tasks in Arcwise-PLat-Full, on the verifier signal, the escalation policy from gemma4-31b to sonnet-5.5 achieves +10.5pp in accuracy (p=0.002, holm=0.0039) at a 6.1× lower cost per solved task**
+**Over all the 95 challenging tasks in Arcwise-PLat-Full, on the verifier signal, the escalation policy from gemma4-31b to sonnet-5.5 achieves +10.5pp in accuracy (p=0.002, holm=0.0039) at a 6.1× lower cost per solved task**
 
 
 <br>
