@@ -1,4 +1,4 @@
-# Escalator
+# Escalator - Data analyst Agent with cost-aware escalation routine
 
 Cost-aware escalation routing for a data-analysis agent.
 
